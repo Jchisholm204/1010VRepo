@@ -63,41 +63,6 @@ void Tray::opTray(void){
     */
 }
 int startPOS = stacky.get_position();
-void Tray::stack(int trayTarget, int timeout) {
-  float stackKP = 0.8; //was .7
-  float stackKD = 1.2;  //was .02
-  //same PID Logic as turnValue
-  int motorPower;
-  int startTime = millis();
-  int currentValue = 0;
-  int err = 0;
-  int derr = 0;
-  int err_last = 0;
-  int err_sum = 0;
-  float KI = 0;
-  float p;
-  float i = 0;
-  float d;
-
-  //stacky.tare_position();
-  while(millis() - startTime < timeout){
-    currentValue = stacky.get_position();
-    err = stackTarget - currentValue;
-    err_last = err;
-    derr = (err - err_last);
-    p = (stackKP * err);
-    //err_sum += err;
-    d = (stackKD * derr);
-
-    motorPower = p+i+d;
-
-    if(motorPower > 90){motorPower = 90;}
-    if(motorPower < -100){motorPower = -100;}
-  //  motorPower = (motorPower > 1 ? 1 : motorPower < -1 ? -1 : motorPower);
-    stacky.move(motorPower);
-    delay(20);
-  }
-}
 void Tray::pid(int target, int timeout, float kP, float kI, float kD){
 	int error, sumError, diffError, errorLast, output;
 	int startTime = millis();
@@ -108,63 +73,4 @@ void Tray::pid(int target, int timeout, float kP, float kI, float kD){
 		stacky.move((error * kP) + (sumError * kI) + (diffError * kD));
 		errorLast = error;
 	}
-}
-void STACK_Task_fn(void*parameter){
-		float stackKP = 0.8; //was .7
-		float stackKD = 1.2;  //was .02
-    //same PID Logic as turnValue
-    int motorPower;
-    int startTime = millis();
-    int currentValue = 0;
-    int err = 0;
-    int derr = 0;
-    int err_last = 0;
-    int err_sum = 0;
-    float KI = 0;
-    float p;
-    float i = 0;
-    float d;
-
-    //stacky.tare_position();
-    while(true){
-      currentValue = stacky.get_position();
-      err = stackTarget - currentValue;
-      err_last = err;
-      derr = (err - err_last);
-      p = (stackKP * err);
-      //err_sum += err;
-      d = stackKD * derr;
-
-      motorPower = p+i+d;
-
-      if(motorPower > MAXUP){motorPower = MAXUP;}
-      if(motorPower < MAXDOWN){motorPower = MAXDOWN;}
-    //  motorPower = (motorPower > 1 ? 1 : motorPower < -1 ? -1 : motorPower);
-      stacky.move(motorPower);
-      delay(20);
-    }
-}
-void Tray::zero_ft(int timeout){
-  int starttime = pros::millis();
-  /*
-  while(millis() - starttime < timeout){
-    if(downis.get_new_press()){
-      boi = 1;
-      Zero = false;
-    }
-    else if(Zero == true){
-      boi = 0;
-    }
-    else if(boi == 1){
-      stacky.move_velocity(0);
-    }
-    else if(boi == 0){
-    stacky.move_velocity(-80);
-    };
-  }
-*/
-  do {
-     stacky.move_velocity(-40);
-  } while(!downis.get_value() && ((millis() - starttime) < timeout));
-
 }
