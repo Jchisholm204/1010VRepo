@@ -10,6 +10,10 @@ void expand(){
   //pros::delay(750); //five*5 hour energy
   arm.proLift(0, 100);
 }
+void oneCube(){
+  driveF.MoveSlow(DIRECTION_BACK, 300, 40, 4000);
+  driveF.MoveSlow(DIRECTION_FORWARD, 200, 40, 4000);
+}
 void cubestackBLUE(){
   intake.intake(200);
   driveF.MoveDistance(DIRECTION_FORWARD, 850, 90, 2000);
