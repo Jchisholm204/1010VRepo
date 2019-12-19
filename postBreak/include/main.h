@@ -35,6 +35,7 @@
 #define PROS_USE_LITERALS
 
 #include "api.h"
+#include "Intakes.h"
 
 /**
  * You should add more #includes here
@@ -50,9 +51,40 @@
  * concurrently! The okapi namespace will export all symbols inside the pros
  * namespace.
  */
-// using namespace pros;
+using namespace pros;
 // using namespace pros::literals;
 // using namespace okapi;
+extern intakeClass intakes;
+extern Controller master;
+extern Controller partner;
+///Motor Definitions
+extern Motor driveRF;
+extern Motor driveRB;
+
+extern Motor driveLF;
+extern Motor driveLB;
+
+extern Motor TrayMotor;
+extern Motor ArmMotor;
+///////////////////Intakes
+extern Motor RightIntake;
+extern Motor LeftIntake;
+///////////////////////Global Variables
+extern int intakeState;
+extern int liftState;
+extern bool autoRunning;
+///////////////DriveTrain Definitions
+#define DIRECTION_FORWARD 1
+#define DIRECTION_BACK -1
+#define DIRECTION_LEFT 1
+#define DIRECTION_RIGHT -1
+#define R 1
+#define L 2
+/////////////Arm Presets
+#define armDown 0
+#define armLow 1
+#define armHigh 2
+#define armDeScore 3
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure
