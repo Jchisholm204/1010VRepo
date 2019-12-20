@@ -12,5 +12,6 @@ class intakeClass{
 public:
     void opintake(void);
     void suck(int velocity);
+    void swap(int intakeState);
 };
 #endif

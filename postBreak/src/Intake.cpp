@@ -48,3 +48,31 @@ void intakeClass::suck(int velocity){
   RightIntake.move_velocity(velocity);
   LeftIntake.move_velocity(velocity);
 }
+void intakeClass::swap(int intakeSwitch){
+  switch(intakeState){
+    case MoveIntake:
+      RightIntake.move_velocity(200);
+      LeftIntake.move_velocity(200);
+      break;
+    case MoveOuttake:
+      RightIntake.move_velocity(-200);
+      LeftIntake.move_velocity(-200);
+      break;
+    case MoveSlowIn:
+      RightIntake.move_velocity(80);
+      LeftIntake.move_velocity(80);
+      break;
+    case MoveSlowOut:
+      RightIntake.move_velocity(-100);
+      LeftIntake.move_velocity(-100);
+      break;
+    case MoveStop:
+      RightIntake.move_velocity(0);
+      LeftIntake.move_velocity(0);
+      break;
+    case MoveTower:
+      RightIntake.move_velocity(200);
+      LeftIntake.move_velocity(200);
+      break;
+  };
+}
