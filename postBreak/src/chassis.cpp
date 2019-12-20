@@ -115,31 +115,12 @@ void Chassis::TurnDistance(int direction, int targetValue, int speed, int timeou
 			if(motorPower > 50){motorPower = 50;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
 			if(motorPower < -50){motorPower = -50;}//if the motor power is less than -127 (the minimum it can go), set it to -127
 
-
-
-				/*
-
-					* Move motors the motorpower value times the direction.
-
-					* Here, the Front Left motor and the Back Left motor are moving backwards if direction == 1
-
-					* and the Back Right and Front Right motors are moving forwards if direction ==1
-
-					* this is the setup that allows the base to turn
-
-					*/
-
-
 				driveRF.move(direction*motorPower);
 				driveLB.move((-direction*motorPower));
 				driveRB.move((direction*motorPower));
 				driveLF.move(-direction*motorPower);
-
-
 			delay(20);
-
 		}
-
 }
 
 void Chassis::MoveDistance(int direction, int targetValue, int speed, int timeout){
@@ -172,32 +153,13 @@ void Chassis::MoveDistance(int direction, int targetValue, int speed, int timeou
 		if(motorPower > 85){motorPower = 85;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
 		if(motorPower < -85){motorPower = -85;}//if the motor power is less than -127 (the minimum it can go), set it to -127
 
-
-
-			/*
-
-				* Move motors the motorpower value times the direction.
-
-				* Here, the Front Left motor and the Back Left motor are moving backwards if direction == 1
-
-				* and the Back Right and Front Right motors are moving forwards if direction ==1
-
-				* this is the setup that allows the base to turn
-
-				*/
-
-
 			driveRF.move(direction*motorPower);
       driveLB.move((direction*motorPower));
       driveRB.move((direction*motorPower));
       driveLF.move(direction*motorPower);
-
-
 		delay(20);
-
 	}
-
-  }
+}
 	void Chassis::MoveSlow(int direction, int targetValue, int speed, int timeout){
 		float driveKP = 1.2;
 		float driveKD = 0.8;
@@ -228,32 +190,13 @@ void Chassis::MoveDistance(int direction, int targetValue, int speed, int timeou
 			if(motorPower > 70){motorPower = 70;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
 			if(motorPower < -70){motorPower = -70;}//if the motor power is less than -127 (the minimum it can go), set it to -127
 
-
-
-				/*
-
-					* Move motors the motorpower value times the direction.
-
-					* Here, the Front Left motor and the Back Left motor are moving backwards if direction == 1
-
-					* and the Back Right and Front Right motors are moving forwards if direction ==1
-
-					* this is the setup that allows the base to turn
-
-					*/
-
-
 				driveRF.move(direction*motorPower);
 	      driveLB.move((direction*motorPower));
 	      driveRB.move((direction*motorPower));
 	      driveLF.move(direction*motorPower);
-
-
 			delay(20);
-
 		}
-
-	  }
+	}
 ADIGyro gyro ('d');
 void Chassis::TurnGyro(int direction, int targetValue, int timeout){
 	float driveKP = 1.2;
@@ -287,31 +230,12 @@ void Chassis::TurnGyro(int direction, int targetValue, int timeout){
 		if(motorPower > 90){motorPower = 90;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
 		if(motorPower < -90){motorPower = -90;}//if the motor power is less than -127 (the minimum it can go), set it to -127
 
-
-
-			/*
-
-				* Move motors the motorpower value times the direction.
-
-				* Here, the Front Left motor and the Back Left motor are moving backwards if direction == 1
-
-				* and the Back Right and Front Right motors are moving forwards if direction ==1
-
-				* this is the setup that allows the base to turn
-
-				*/
-
-
 			driveRF.move(-direction*motorPower);
       driveLB.move((direction*motorPower));
       driveRB.move((-direction*motorPower));
       driveLF.move(direction*motorPower);
-
-
 		delay(20);
-
 	}
-
 }
 void switchDrive(int Mode, int direction, int targetValue, int timeout, float KP, float KD){
   //combination of driveValue, turnValue and strafeValue with a conditional called 'Mode' to switch between them
@@ -358,7 +282,6 @@ void switchDrive(int Mode, int direction, int targetValue, int timeout, float KP
           driveLB.move((direction*motorPower));
           driveRB.move(-direction*motorPower);
         }
-
         delay(20);
     }
 }
