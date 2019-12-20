@@ -44,3 +44,7 @@ void intakeClass::opintake(void){
       break;
   };
 }
+void intakeClass::suck(int velocity){
+  RightIntake.move_velocity(velocity);
+  LeftIntake.move_velocity(velocity);
+}
