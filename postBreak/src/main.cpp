@@ -1,6 +1,5 @@
 #include "main.h"
 #include "Intakes.h"
-///#include "autons.h"
 #include "autons.h"
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
@@ -36,7 +35,7 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
-
+	oneCubeAuto();
 }
 
 void opcontrol() {
