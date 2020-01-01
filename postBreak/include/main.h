@@ -70,6 +70,9 @@ extern Motor ArmMotor;
 ///////////////////Intakes
 extern Motor RightIntake;
 extern Motor LeftIntake;
+///////////////////Sensors
+extern ADIDigitalIn TrayDownLimit;
+extern ADIDigitalIn TrayUpLimit;
 ///////////////////////Global Variables
 extern int intakeState;
 extern int liftState;
@@ -86,6 +89,9 @@ extern bool autoRunning;
 #define armLow 1
 #define armHigh 2
 #define armDeScore 3
+/////////////Tray
+extern int TrayAutoTarget;
+extern ADIAnalogIn TrayPos;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure
