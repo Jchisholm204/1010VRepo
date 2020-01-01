@@ -1,6 +1,7 @@
 #include "main.h"
 #include "Intakes.h"
 #include "autons.h"
+#include "tray.h"
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
 
@@ -18,6 +19,8 @@ Motor RightIntake(16, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_ROTATIONS);
 
 intakeClass intakes;
 
+ADIDigitalIn TrayDownLimit('a');
+ADIDigitalIn TrayUpLimit('b');
 void initialize() {
 	TrayMotor.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	ArmMotor.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
@@ -32,7 +35,11 @@ void initialize() {
 
 void disabled() {}
 
-void competition_initialize() {}
+void competition_initialize() {
+	Task Tray_Task (trayPreset_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
+	 			TASK_STACK_DEPTH_DEFAULT,	"Tray Task");
+
+}
 
 void autonomous() {
 	oneCubeAuto();
