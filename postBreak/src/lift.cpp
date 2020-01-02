@@ -31,6 +31,10 @@ void ArmLift_fn(void*param){
         targetValue = 150;
         break;
 
+      default:
+        liftState = 0;
+        break;
+
     };
 
     currentValue = ArmMotor.get_position();
