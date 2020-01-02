@@ -32,9 +32,9 @@ void trayPreset_fn(void*param){
      while(TrayDownLimit.get_value() == false){
        TrayMotor.move_velocity(-80);
      }
-     TrayPos.calibrate();
      TrayMotor.move_velocity(0);
      TrayMotor.tare_position();
+     TrayPos.calibrate();
    }
    else{
 
