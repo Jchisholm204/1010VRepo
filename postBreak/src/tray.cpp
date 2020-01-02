@@ -19,6 +19,7 @@ void trayPreset_fn(void*param){
  int cap;
  int derr;
  int trayTarget;
+ bool TrayZero;
 
  while(true){
 
@@ -26,6 +27,12 @@ void trayPreset_fn(void*param){
 
    if(competition::is_autonomous()){
      targetValue = TrayAutoTarget; //autonomous control is a variable changed in autonomous.cpp
+   }
+   else if(TrayZero == true){
+     while(TrayDownLimit.get_value() == false){
+       TrayMotor.move_velocity(-80);
+     }
+     TrayMotor.move_velocity(0);
    }
    else{
 

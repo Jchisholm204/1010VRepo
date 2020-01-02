@@ -92,6 +92,7 @@ extern bool autoRunning;
 /////////////Tray
 extern int TrayAutoTarget;
 extern ADIAnalogIn TrayPos;
+extern bool TrayZero;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure
