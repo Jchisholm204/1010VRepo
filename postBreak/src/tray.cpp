@@ -23,7 +23,7 @@ void trayPreset_fn(void*param){
 
  while(true){
 
-   currentValue = abs(TrayPos.get_value());  //get value from trayPent --- changed from tray motor encoder for improved accuracy
+   currentValue = abs(TrayPos.get_value_calibrated());  //get value from trayPent --- changed from tray motor encoder for improved accuracy
 
    if(competition::is_autonomous()){
      targetValue = TrayAutoTarget; //autonomous control is a variable changed in autonomous.cpp
@@ -32,7 +32,9 @@ void trayPreset_fn(void*param){
      while(TrayDownLimit.get_value() == false){
        TrayMotor.move_velocity(-80);
      }
+     TrayPos.calibrate();
      TrayMotor.move_velocity(0);
+     TrayMotor.tare_position();
    }
    else{
 
