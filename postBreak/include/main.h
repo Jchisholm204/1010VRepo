@@ -84,11 +84,6 @@ extern bool autoRunning;
 #define DIRECTION_RIGHT -1
 #define R 1
 #define L 2
-/////////////Arm Presets
-#define armDown 0
-#define armLow 1
-#define armHigh 2
-#define armDeScore 3
 /////////////Tray
 extern int TrayAutoTarget;
 extern ADIAnalogIn TrayPos;
