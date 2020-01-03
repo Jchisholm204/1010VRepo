@@ -41,7 +41,7 @@ void ArmLift_fn(void*param){
     err = targetValue - currentValue; //error is delta of target and current positions
     err_last = err; //store last error
     derr = err - err_last; //difference of errors over iterations
-    motorPower = (0.7 * err) + (1.35 * derr); //PD constants plus our variables
+    motorPower = (0.9 * err) + (1.6 * derr); //PD constants plus our variables
     motorPower = motorPower > 127 ? 127 : motorPower < -127 ? -127 : motorPower; //caps output at +127, -127
  //motorPower > cap ?  cap :
 

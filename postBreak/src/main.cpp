@@ -52,12 +52,12 @@ void autonomous() {
 void opcontrol() {
 	while(true){
 		intakes.opintake(); //run intake op
-
+		drivef.OP_Chassis();
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R1)){
-			intakeState += 1;
+			liftState += 1;
 		}
 		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R2)){
-			intakeState = 0;
+			liftState = 0;
 		}
 	}
 }
