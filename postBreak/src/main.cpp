@@ -1,7 +1,9 @@
 #include "main.h"
+#include "chassis.h"
 #include "Intakes.h"
 #include "autons.h"
 #include "tray.h"
+#include "lift.h"
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
 
@@ -18,6 +20,7 @@ Motor LeftIntake(17, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_ROTATIONS);
 Motor RightIntake(16, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_ROTATIONS);
 
 intakeClass intakes;
+Chassis drivef;
 
 ADIDigitalIn TrayDownLimit('a');
 ADIDigitalIn TrayUpLimit('b');
@@ -38,7 +41,8 @@ void disabled() {}
 void competition_initialize() {
 	Task Tray_Task (trayPreset_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
 	 			TASK_STACK_DEPTH_DEFAULT,	"Tray Task");
-
+	Task Lift_Task (ArmLift_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
+				TASK_STACK_DEPTH_DEFAULT, "Lift Task");
 }
 
 void autonomous() {
@@ -47,6 +51,13 @@ void autonomous() {
 
 void opcontrol() {
 	while(true){
-		intakes.opintake();
+		intakes.opintake(); //run intake op
+
+		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R1)){
+			intakeState += 1;
+		}
+		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R2)){
+			intakeState = 0;
+		}
 	}
 }
