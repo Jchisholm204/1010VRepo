@@ -37,6 +37,7 @@
 #include "api.h"
 #include "Intakes.h"
 #include "autons.h"
+#include "chassis.h"
 
 /**
  * You should add more #includes here
@@ -56,6 +57,8 @@ using namespace pros;
 // using namespace pros::literals;
 // using namespace okapi;
 extern intakeClass intakes;
+extern Chassis drivef;
+
 extern Controller master;
 extern Controller partner;
 ///Motor Definitions
