@@ -40,7 +40,7 @@ void ArmLift_fn(void*param){
           break;
 
       };
-
+//hi
       currentValue = ArmMotor.get_position();
       err = targetValue - currentValue; //error is delta of target and current positions
       err_last = err; //store last error
