@@ -28,6 +28,7 @@ ADIDigitalIn TrayUpLimit('b');
 ADIAnalogIn trayPos('c');
 //////////Int Variables
 int liftState;
+int autoCase;
 //////////////////////////void int
 void initialize() {
 	TrayMotor.set_brake_mode(E_MOTOR_BRAKE_HOLD);
@@ -38,9 +39,10 @@ void initialize() {
 	driveLB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveRF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveRB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
-
+//////////////start Tray Task
 	Task Tray_Task (trayPreset_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
 				TASK_STACK_DEPTH_DEFAULT,	"Tray Task");
+//////////////start Lift Task
 	Task Lift_Task (ArmLift_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
 				TASK_STACK_DEPTH_DEFAULT, "Lift Task");
 
@@ -51,18 +53,40 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
-	oneCubeAuto();
+	flipOut();
+
+	autoCase = 1; //select auto with switch case
+	
+	switch(autoCase){
+		case 1:
+			oneCubeAuto();
+			break;
+		case 2:
+			redUnprotected();
+			break;
+		case 3:
+			blueUnprotected();
+			break;
+		case 4:
+			redThreePnt();
+			break;
+		case 5:
+			blueThreePnt();
+			break;
+		default:
+			printf("AutoCase Error");
+	}
 }
 
 void opcontrol() {
 	while(true){
 		intakes.opintake(); //run intake op
-		drivef.OP_Chassis();
+		drivef.OP_Chassis(); //run drive code
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R1)){
-			liftState += 1;
+			liftState += 1; //increases lift state variable by 1 and moves list to next higher position
 		}
 		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R2)){
-			liftState = 0;
+			liftState = 0; //resets lift state variable / moves lift all the way down
 		}
 	}
 }
