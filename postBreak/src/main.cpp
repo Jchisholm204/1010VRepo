@@ -19,16 +19,16 @@ Motor TrayMotor(13, E_MOTOR_GEARSET_36, false, E_MOTOR_ENCODER_DEGREES);
 Motor LeftIntake(17, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_ROTATIONS);
 Motor RightIntake(16, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_ROTATIONS);
 
+////////////////Classes
 intakeClass intakes;
 Chassis drivef;
-
+//////////////////ADI
 ADIDigitalIn TrayDownLimit('a');
 ADIDigitalIn TrayUpLimit('b');
 ADIAnalogIn trayPos('c');
-
+//////////Int Variables
 int liftState;
-
-
+//////////////////////////void int
 void initialize() {
 	TrayMotor.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	ArmMotor.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
@@ -38,17 +38,17 @@ void initialize() {
 	driveLB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveRF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveRB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
-	pros::lcd::initialize();
+
+	Task Tray_Task (trayPreset_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
+				TASK_STACK_DEPTH_DEFAULT,	"Tray Task");
+	Task Lift_Task (ArmLift_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
+				TASK_STACK_DEPTH_DEFAULT, "Lift Task");
+
 }
 
 void disabled() {}
 
-void competition_initialize() {
-	Task Tray_Task (trayPreset_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
-	 			TASK_STACK_DEPTH_DEFAULT,	"Tray Task");
-	Task Lift_Task (ArmLift_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
-				TASK_STACK_DEPTH_DEFAULT, "Lift Task");
-}
+void competition_initialize() {}
 
 void autonomous() {
 	oneCubeAuto();
