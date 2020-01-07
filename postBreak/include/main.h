@@ -38,6 +38,8 @@
 #include "Intakes.h"
 #include "autons.h"
 #include "chassis.h"
+#include "lift.h"
+#include "tray.h"
 
 /**
  * You should add more #includes here
@@ -76,6 +78,7 @@ extern Motor LeftIntake;
 ///////////////////Sensors
 extern ADIDigitalIn TrayDownLimit;
 extern ADIDigitalIn TrayUpLimit;
+extern ADIAnalogIn trayPos;
 ///////////////////////Global Variables
 extern int intakeState;
 extern int liftState;

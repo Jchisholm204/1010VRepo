@@ -19,6 +19,7 @@ void trayPreset_fn(void*param){
  int cap;
  int derr;
  int trayTarget;
+ int TrayAutoTarget;
  bool TrayZero = false;
  bool TrayOP;
 
@@ -26,7 +27,7 @@ void trayPreset_fn(void*param){
    if(competition::is_autonomous()){TrayOP = false;}
    else{TrayOP = true;}
 
-   currentValue = abs(TrayPos.get_value_calibrated());  //get value from trayPent --- changed from tray motor encoder for improved accuracy
+   currentValue = abs(trayPos.get_value_calibrated());  //get value from trayPent --- changed from tray motor encoder for improved accuracy
 
    if(TrayZero == true){
      while(TrayDownLimit.get_value() == false){
@@ -34,22 +35,22 @@ void trayPreset_fn(void*param){
      }
      TrayMotor.move_velocity(0);
      TrayMotor.tare_position();
-     TrayPos.calibrate();
+     trayPos.calibrate();
    }
    else if (TrayOP == true){
 
-     int LIFTEXP = expo(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y), 1.5 /*DriveExp*/, 8 /*JoyDead*/, 15 /*MotorMin*/); //tray expo
+     int LIFTEXP = expo(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y), 1.5 /*DSiveExp*/, 8 /*JoyDead*/, 15 /*MotorMin*/); //tray expo
 
      if(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) > 0 &&! TrayUpLimit.get_value()){ //if the joystick is above 0 (moving up); watch to see that the up limit isnt toggled
         TrayMotor.move_velocity(LIFTEXP); //move the tray motor with the expo output
-        trayTarget = abs(TrayPos.get_value_calibrated());
+        trayTarget = abs(trayPos.get_value_calibrated());
       }
       else if(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) < 0 &&! TrayDownLimit.get_value()){ //if the joystick is in the down position; stop the action if the down switch it toggled
         TrayMotor.move_velocity(LIFTEXP); //move the tray motor with the expo output
-        trayTarget = abs(TrayPos.get_value_calibrated());
+        trayTarget = abs(trayPos.get_value_calibrated());
       }
       else{
-        trayTarget = abs(TrayPos.get_value_calibrated());
+        trayTarget = abs(trayPos.get_value_calibrated());
       }
    }
    else if(competition::is_autonomous()){

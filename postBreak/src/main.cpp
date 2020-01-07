@@ -24,6 +24,7 @@ Chassis drivef;
 
 ADIDigitalIn TrayDownLimit('a');
 ADIDigitalIn TrayUpLimit('b');
+ADIAnalogIn trayPos('c');
 void initialize() {
 	TrayMotor.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	ArmMotor.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
