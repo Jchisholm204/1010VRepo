@@ -49,7 +49,7 @@ void intakeClass::suck(int velocity){
   LeftIntake.move_velocity(velocity);
 }
 void intakeClass::swap(int intakeSwitch){
-  switch(intakeState){
+  switch(intakeSwitch){
     case MoveIntake:
       RightIntake.move_velocity(200);
       LeftIntake.move_velocity(200);
