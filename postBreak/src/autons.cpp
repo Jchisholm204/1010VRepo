@@ -5,3 +5,6 @@
 void oneCubeAuto(void){
   intakes.suck(100);
 }
+void flipOut(void){
+
+}
