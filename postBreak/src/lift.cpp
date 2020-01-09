@@ -14,7 +14,7 @@ void ArmLift_fn(void*param){
 
   while(true){
     if(partner.get_digital(E_CONTROLLER_DIGITAL_L2)){
-      ArmMotor.move_velocity(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y));
+      ArmMotor.move_velocity(partner.get_analog(E_CONTROLLER_ANALOG_LEFT_Y));
       if(partner.get_digital(E_CONTROLLER_DIGITAL_L1)){ArmMotor.tare_position();}
     }
     else{
@@ -24,15 +24,15 @@ void ArmLift_fn(void*param){
           break;
 
         case armLow:
-          targetValue = 200;
+          targetValue = 500;
           break;
 
         case armHigh:
-          targetValue = 300;
+          targetValue = 650;
           break;
 
         case armDeScore:
-          targetValue = 150;
+          targetValue = 410;
           break;
 
         default:

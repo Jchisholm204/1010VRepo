@@ -2,10 +2,10 @@
 #include "main.h"
 int intakeState;
 void intakeClass::opintake(void){
-  if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
+  if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
     intakeState = MoveIntake;
   }
-  else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)){
+  else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
     intakeState = MoveOuttake;
   }
   else if(master.get_digital(E_CONTROLLER_DIGITAL_B)){

@@ -56,7 +56,7 @@ void autonomous() {
 	flipOut();
 
 	autoCase = 1; //select auto with switch case
-	
+
 	switch(autoCase){
 		case 1:
 			oneCubeAuto();
@@ -82,10 +82,10 @@ void opcontrol() {
 	while(true){
 		intakes.opintake(); //run intake op
 		drivef.OP_Chassis(); //run drive code
-		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R1)){
+		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
 			liftState += 1; //increases lift state variable by 1 and moves list to next higher position
 		}
-		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R2)){
+		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
 			liftState = 0; //resets lift state variable / moves lift all the way down
 		}
 	}

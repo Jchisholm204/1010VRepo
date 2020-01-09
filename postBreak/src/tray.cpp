@@ -27,8 +27,8 @@ void trayPreset_fn(void*param){
    if(competition::is_autonomous()){TrayOP = false;}
    else{TrayOP = true;}
 
-   currentValue = abs(trayPos.get_value_calibrated());  //get value from trayPent --- changed from tray motor encoder for improved accuracy
-
+   currentValue = TrayMotor.get_position();  //get value from trayPent --- changed from tray motor encoder for improved accuracy
+/*
    if(TrayZero == true){
      while(TrayDownLimit.get_value() == false){
        TrayMotor.move_velocity(-80);
@@ -36,21 +36,19 @@ void trayPreset_fn(void*param){
      TrayMotor.move_velocity(0);
      TrayMotor.tare_position();
      trayPos.calibrate();
-   }
-   else if (TrayOP == true){
+   }*/
+   if (TrayOP == true){
 
      int LIFTEXP = expo(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y), 1.5 /*DSiveExp*/, 8 /*JoyDead*/, 15 /*MotorMin*/); //tray expo
 
      if(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) > 0 &&! TrayUpLimit.get_value()){ //if the joystick is above 0 (moving up); watch to see that the up limit isnt toggled
         TrayMotor.move_velocity(LIFTEXP); //move the tray motor with the expo output
-        trayTarget = abs(trayPos.get_value_calibrated());
       }
       else if(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) < 0 &&! TrayDownLimit.get_value()){ //if the joystick is in the down position; stop the action if the down switch it toggled
         TrayMotor.move_velocity(LIFTEXP); //move the tray motor with the expo output
-        trayTarget = abs(trayPos.get_value_calibrated());
       }
       else{
-        trayTarget = abs(trayPos.get_value_calibrated());
+        TrayMotor.move_velocity(0);
       }
    }
    else if(competition::is_autonomous()){
