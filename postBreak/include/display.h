@@ -1,6 +1,5 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
-#include "main.h"
 #include <stdio.h>
 #include <errno.h>
 
@@ -11,6 +10,7 @@
 #define AUTO_UNPROTEC_BLUE 1
 #define AUTO_UNPROTEC_RED 2
 #define AUTO_SKILLS 3
+#define AUTO_ONEPNT 4
 class Display{
 public:
   void setActiveTab(int tab);

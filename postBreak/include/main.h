@@ -40,6 +40,7 @@
 #include "chassis.h"
 #include "lift.h"
 #include "tray.h"
+#include "display.h"
 
 /**
  * You should add more #includes here
@@ -81,6 +82,7 @@ extern ADIDigitalIn TrayUpLimit;
 extern ADIAnalogIn trayPos;
 extern ADILineSensor bottom;
 extern ADILineSensor top;
+extern ADIGyro gyro;
 ///////////////////////Global Variables
 extern int intakeState;
 extern int liftState;
@@ -96,6 +98,49 @@ extern bool autoRunning;
 extern int TrayAutoTarget;
 extern ADIAnalogIn TrayPos;
 extern bool TrayZero;
+
+//screen
+extern Display screen;
+extern Motor SystemMotors[8];
+//Screen tabs
+#define TAB_DISPLAY 0
+#define TAB_INFO 1
+#define TAB_TEST 2
+//Autonomous Routines, From Selector
+#define NO_AUTO_SELECTED 0
+#define RED_FRONT 1
+#define BLUE_FRONT 2
+#define RED_BACK 3
+#define BLUE_BACK 4
+#define SKILLS_AUTO 5
+
+//Variables Modified in Display
+extern int autoCase;
+extern int currentTestMotor;
+
+//Screen Objects
+extern lv_obj_t*tabs;
+extern lv_obj_t*auto_op_tab;
+extern lv_obj_t*disabled_tab;
+extern lv_obj_t*motor_test_tab;
+extern lv_obj_t*frontLED;
+extern lv_obj_t*backLED;
+extern lv_obj_t*lftLED;
+extern lv_obj_t*fnlLED;
+extern lv_obj_t*motorBar1;
+extern lv_obj_t*motorLabel1;
+extern lv_obj_t*motorBar2;
+extern lv_obj_t*motorLabel2;
+extern lv_obj_t*sys_battery_meter;
+extern lv_obj_t*bat_meter_label;
+extern lv_obj_t*symbol_label;
+extern lv_obj_t*gyroGauge;
+extern lv_obj_t * autoSelector;
+extern lv_obj_t*motorSelect;
+extern lv_obj_t*OnOffSwitch;
+extern lv_obj_t*directionSwitch;
+extern lv_obj_t *visionObjectLabel;
+extern lv_obj_t*gyroLabel;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

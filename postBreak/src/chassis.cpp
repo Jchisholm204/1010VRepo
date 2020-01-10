@@ -197,7 +197,7 @@ void Chassis::MoveDistance(int direction, int targetValue, int speed, int timeou
 			delay(20);
 		}
 	}
-ADIGyro gyro ('d');
+
 void Chassis::TurnGyro(int direction, int targetValue, int timeout){
 	float driveKP = 1.2;
 	float driveKD = 0.8;

@@ -2,7 +2,7 @@
 #include "display.h"
 #include <string.h>
 
-extern const lv_img_t logo;
+//extern const _lv_img_t logo;
 
 extern lv_obj_t*tabs;
 extern lv_obj_t*auto_op_tab;
@@ -25,7 +25,7 @@ lv_res_t dropDown_action(lv_obj_t * list){
 }
 
 lv_res_t autoSelect_action(lv_obj_t * selector){
-  currentAuto = lv_roller_get_selected(selector); /*Changes the current auto to be the list option index*/
+  autoCase = lv_roller_get_selected(selector); /*Changes the current auto to be the list option index*/
 
   return LV_RES_OK; //return OK for complete execution
 }
@@ -72,7 +72,7 @@ lv_obj_t * directionSwitch; //Delcare our Forward/Backward switch for motor test
 lv_obj_t * motorSelect; //Declares our dropdown list for selecting which motor to test
 lv_obj_t * gyroLabel;
 lv_obj_t * visionObjectLabel;
-
+/*
 void Display::create1010Image(void)
 {
   LV_IMG_DECLARE(logoNew);//declare from our C file
@@ -81,7 +81,7 @@ void Display::create1010Image(void)
   lv_obj_align(img2, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 0); //align the image
 //  lv_obj_set_size(img2, 130, 170);
 }
-
+*/
 void Display::createOpLEDs(void)
 {
     frontLED = lv_led_create(auto_op_tab, NULL); //Declare an LED for the Front Light Sensor
@@ -109,10 +109,10 @@ void Display::createOpLEDs(void)
   	lv_obj_align(fwLabel, lftLED, LV_ALIGN_CENTER, 0, 0); //Align our fwLabel to the fwLED with an X adjustment of 60 units
   	lv_obj_align(fnlLabel, fnlLED, LV_ALIGN_CENTER, 0, 0);
 
-  	lv_label_set_text(backLabel, "BTR"); //Set text of frontLabel to 'BLS', meaning Back Light Sensor
+  	lv_label_set_text(backLabel, "LGT"); //Set text of frontLabel to 'BLS', meaning Back Light Sensor
   	lv_label_set_text(fwLabel, "LFT"); //Set text of frontLabel to 'FW', meaning Flywheel
-  	lv_label_set_text(frontLabel, "BTN"); //Set text of frontLabel to 'FLS', meaning Front Light Sensor
-  	lv_label_set_text(fnlLabel, "VSN");
+  	lv_label_set_text(frontLabel, "TDN"); //Set text of frontLabel to 'FLS', meaning Front Light Sensor
+  	lv_label_set_text(fnlLabel, "DRK");
 }
 
 void Display::createTitle(void){
@@ -228,38 +228,24 @@ void Display::refresh(void) //refreshes values sent to the screen
 
     case TAB_DISPLAY: //Main Tab for Displaying Match info and Logo
 
-      if(button.get_value() == HIGH){lv_led_on(frontLED);} //If the front light sensor reading is less than 2700, turn on the LED
+      if(TrayDownLimit.get_value() == HIGH){lv_led_on(frontLED);} //If the front light sensor reading is less than 2700, turn on the LED
       else{lv_led_off(frontLED);} //Otherwise it is off
 
-      if(rightUlt.get_value() > 20){lv_led_on(fnlLED);}
+      if(top.get_value() > 2000){lv_led_on(fnlLED);}
       else{lv_led_off(fnlLED);}
 
-      if((abs(LiftR.get_position())) > 250){lv_led_on(lftLED);} //If the actualy flywheel velocity is greater than 550, turn on the LED
-      else{lv_led_off(lftLED);} //Otherwise it is off
+      //if((abs(LiftR.get_position())) > 250){lv_led_on(lftLED);} //If the actualy flywheel velocity is greater than 550, turn on the LED
+      //else{lv_led_off(lftLED);} //Otherwise it is off
 
-      if(rightUlt.get_value() < 100){lv_led_on(backLED);} //If the back light sensor reading is less than 2700, turn on the LED
+      if(top.get_value() < 1000){lv_led_on(backLED);} //If the back light sensor reading is less than 2700, turn on the LED
       else{lv_led_off(backLED);} //Otherwise it is off
 
     case TAB_INFO: //Information Tab with battery levels and other Information
 
-      vision_object_s_t biggestObject = visionSensor.get_by_size(0);
+      //vision_object_s_t biggestObject = visionSensor.get_by_size(0);
 
-    //  std::string colourMod = "#ffffff";
-    if(biggestObject.signature == 1){
-        lv_label_set_text(visionObjectLabel, ("#06d606 ""Green X:" + std::to_string(camera.getObjectXVal(biggestObject.signature))+" #" ).c_str()); //display colour and X Value of largest vision object
-    }
-    else if(biggestObject.signature == 2){
-      lv_label_set_text(visionObjectLabel, ("#9705ff ""Purple X:" + std::to_string(camera.getObjectXVal(biggestObject.signature))+" #" ).c_str()); //display colour and X Value of largest vision object
-    }
-    else if(biggestObject.signature == 3){
-        lv_label_set_text(visionObjectLabel, ("#fc5e03 ""Orange X:" + std::to_string(camera.getObjectXVal(biggestObject.signature))+" #" ).c_str()); //display colour and X Value of largest vision object
-    }
-    else{
-      lv_label_set_text(visionObjectLabel, std::to_string(TrayPot.get_value()).c_str());
-    }
-
-      int baseOutput = abs(trayPos.get_value_calibrated());
-      int liftOutput = abs(ArmMotor.get_position());
+      int baseOutput = TrayMotor.get_position();
+      int liftOutput = ArmMotor.get_position();
 
       lv_bar_set_value(motorBar1, baseOutput);
       lv_bar_set_value(motorBar2, liftOutput);
@@ -305,7 +291,7 @@ void Display::createScreen(void)
 
     //Call our functions
     createTitle();
-    create1010Image();
+    //create1010Image();
     createBatteryMeter();
     createOpLEDs();
     createGauge();
