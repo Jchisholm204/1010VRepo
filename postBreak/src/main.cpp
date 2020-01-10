@@ -26,6 +26,8 @@ Chassis drivef;
 ADIDigitalIn TrayDownLimit('a');
 ADIDigitalIn TrayUpLimit('b');
 ADIAnalogIn trayPos('c');
+ADILineSensor top('d');
+ADILineSensor bottom('e');
 //////////Int Variables
 int liftState;
 int autoCase;
@@ -79,14 +81,34 @@ void autonomous() {
 }
 
 void opcontrol() {
+	int armLift = 0;
 	while(true){
 		intakes.opintake(); //run intake op
 		drivef.OP_Chassis(); //run drive code
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
-			liftState += 1; //increases lift state variable by 1 and moves list to next higher position
+			armLift += 1; //increases lift state variable by 1 and moves list to next higher position
 		}
 		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
-			liftState = 0; //resets lift state variable / moves lift all the way down
+			armLift = 0; //resets lift state variable / moves lift all the way down
+		}
+		else if(armLift > 3){
+			armLift = 0;
+		}
+
+		if(armLift > 0){
+
+			if(top.get_value() > 2000){
+				while(bottom.get_value() < 2000){
+					intakes.suck(-70);
+				}
+				liftState = armLift;
+				pros::delay(800);
+				intakes.suck(0);
+
+			}
+			else if(bottom.get_value() > 2000){
+				intakes.suck(200);
 		}
 	}
+}
 }

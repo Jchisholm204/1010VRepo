@@ -79,6 +79,8 @@ extern Motor LeftIntake;
 extern ADIDigitalIn TrayDownLimit;
 extern ADIDigitalIn TrayUpLimit;
 extern ADIAnalogIn trayPos;
+extern ADILineSensor bottom;
+extern ADILineSensor top;
 ///////////////////////Global Variables
 extern int intakeState;
 extern int liftState;
