@@ -63,7 +63,7 @@ void autonomous() {
 	screen.refresh();
 	flipOut();
 
-	autoCase = 1; //select auto with switch case
+	//autoCase = 1; //select auto with switch case
 
 	switch(autoCase){
 		case 1:
