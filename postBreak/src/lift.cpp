@@ -51,5 +51,6 @@ void ArmLift_fn(void*param){
 
       ArmMotor.move(motorPower); //move the lift equal to motorPower
     }
+    delay(20);
   }
 }

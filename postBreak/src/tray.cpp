@@ -74,6 +74,7 @@ void trayPreset_fn(void*param){
        TrayMotor.move(motorPower); //move the lift equal to motorPower
      }
  }
+ delay(10);
 }
 }
 

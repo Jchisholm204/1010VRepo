@@ -110,5 +110,6 @@ void opcontrol() {
 				intakes.suck(200);
 		}
 	}
+	delay(15);
 }
 }
