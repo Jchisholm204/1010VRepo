@@ -22,7 +22,6 @@ Motor RightIntake(16, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_ROTATIONS);
 ////////////////Classes
 intakeClass intakes;
 Chassis drivef;
-Display screen;
 //////////////////ADI
 ADIDigitalIn TrayDownLimit('a');
 ADIDigitalIn TrayUpLimit('b');
