@@ -4,7 +4,6 @@
 #include "autons.h"
 #include "tray.h"
 #include "lift.h"
-#include "display.h"
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
 
@@ -51,7 +50,6 @@ void initialize() {
 //////////////start Lift Task
 	Task Lift_Task (ArmLift_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
 				TASK_STACK_DEPTH_DEFAULT, "Lift Task");
-	screen.createScreen();
 }
 
 void disabled() {}
@@ -59,8 +57,6 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
-	screen.setActiveTab(TAB_DISPLAY);
-	screen.refresh();
 	flipOut();
 
 	//autoCase = 1; //select auto with switch case
@@ -88,9 +84,7 @@ void autonomous() {
 
 void opcontrol() {
 	int armLift = 0;
-	screen.setActiveTab(TAB_INFO);
 	while(true){
-		screen.refresh();
 		intakes.opintake(); //run intake op
 		drivef.OP_Chassis(); //run drive code
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
