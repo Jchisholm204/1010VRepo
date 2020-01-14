@@ -22,6 +22,7 @@ Motor RightIntake(16, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_ROTATIONS);
 ////////////////Classes
 intakeClass intakes;
 Chassis drivef;
+Screen touchie;
 //////////////////ADI
 ADIDigitalIn TrayDownLimit('a');
 ADIDigitalIn TrayUpLimit('b');
@@ -49,6 +50,9 @@ void initialize() {
 //////////////start Lift Task
 	Task Lift_Task (ArmLift_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
 				TASK_STACK_DEPTH_DEFAULT, "Lift Task");
+	touchie.createScreen();
+	touchie.refresh();
+	touchie.setActiveTab(TAB_DISPLAY);
 }
 
 void disabled() {}
@@ -84,6 +88,7 @@ void autonomous() {
 void opcontrol() {
 	int armLift = 0;
 	while(true){
+		touchie.refresh();
 		intakes.opintake(); //run intake op
 		drivef.OP_Chassis(); //run drive code
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){

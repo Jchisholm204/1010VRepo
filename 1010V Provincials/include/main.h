@@ -39,6 +39,7 @@
 #include "chassis.h"
 #include "lift.h"
 #include "tray.h"
+#include "touchscreen.h"
 
 /**
  * You should add more #includes here
@@ -59,6 +60,7 @@ using namespace pros;
 // using namespace okapi;
 extern intakeClass intakes;
 extern Chassis drivef;
+extern Screen touchie;
 
 extern Controller master;
 extern Controller partner;
@@ -96,7 +98,24 @@ extern bool autoRunning;
 extern int TrayAutoTarget;
 extern ADIAnalogIn TrayPos;
 extern bool TrayZero;
+
+//display
 extern int autoCase;
+//Screen tabs
+#define TAB_DISPLAY 0
+#define TAB_INFO 1
+#define TAB_TEST 2
+//screen objects
+extern lv_obj_t*tabs;
+extern lv_obj_t*working_tab;
+extern lv_obj_t*battery_meter;
+extern lv_obj_t*battery_meter_label;
+extern lv_obj_t * autoSelector;
+extern lv_obj_t*tryLmtLED;
+extern lv_obj_t*tryDwnLED;
+extern lv_obj_t*tryUpLED;
+
+
 /**
  * Prototypes for the competition control tasks are redefined here to ensure
  * that they can be called from user code (i.e. calling autonomous from a
