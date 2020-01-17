@@ -2,11 +2,11 @@
 #include "touchscreen.h"
 #include <string.h>
 extern lv_obj_t*tabs;
-extern lv_obj_t*working_tab;
-extern lv_obj_t*disabled_tab;
+extern lv_obj_t*enabled_tab;
+extern lv_obj_t*info_tab;
 lv_obj_t * tabs = lv_tabview_create(lv_scr_act(), NULL); //Declare tabview on default tab
-lv_obj_t * working_tab = lv_tabview_add_tab(tabs, "Enabled"); //Declare a tab
-lv_obj_t * disabled_tab = lv_tabview_add_tab(tabs, "Info"); //Declare a tab
+lv_obj_t * enabled_tab = lv_tabview_add_tab(tabs, "Enabled"); //Declare a tab
+lv_obj_t * info_tab = lv_tabview_add_tab(tabs, "Info"); //Declare a tab
 
 lv_obj_t*battery_meter;
 lv_obj_t*battery_meter_label;
@@ -26,41 +26,41 @@ lv_res_t autoSelect_action(lv_obj_t * selector){
 
 void Screen::createOpLEDs(void){
   //declare leds
-  tryLmtLED = lv_led_create(working_tab, NULL);
-  tryDwnLED = lv_led_create(working_tab, NULL);
-  tryUpLED = lv_led_create(working_tab, NULL);
+  tryLmtLED = lv_led_create(enabled_tab, NULL);
+  tryDwnLED = lv_led_create(enabled_tab, NULL);
+  tryUpLED = lv_led_create(enabled_tab, NULL);
   //set lv object positions
-  lv_obj_align(tryLmtLED, NULL, LV_ALIGN_IN_TOP_RIGHT, -20, 40);
-  lv_obj_align(tryUpLED, tryLmtLED, LV_ALIGN_CENTER, 0, 45);
-  lv_obj_align(tryLmtLED, tryLmtLED, LV_ALIGN_CENTER, 0, 90);
+  lv_obj_align(tryLmtLED, NULL, LV_ALIGN_IN_TOP_LEFT, 0, 20);
+  lv_obj_align(tryUpLED, NULL, LV_ALIGN_CENTER, -200, 0);
+  lv_obj_align(tryDwnLED, NULL, LV_ALIGN_IN_BOTTOM_LEFT, 0, -20);
   //set object lv size
   lv_obj_set_size(tryLmtLED, 50, 35);
   lv_obj_set_size(tryDwnLED, 50, 35);
   lv_obj_set_size(tryUpLED, 50, 35);
 
   //set lv object labels
-  lv_obj_t * tryLmtLabel = lv_label_create(working_tab, NULL);
-  lv_obj_t * tryDWNLabel = lv_label_create(working_tab, NULL);
-  lv_obj_t * tryUpLabel = lv_label_create(working_tab, NULL);
+  lv_obj_t * tryLmtLabel = lv_label_create(enabled_tab, NULL);
+  lv_obj_t * tryDWNLabel = lv_label_create(enabled_tab, NULL);
+  lv_obj_t * tryUpLabel = lv_label_create(enabled_tab, NULL);
   //set label positions
   lv_obj_align(tryLmtLabel, tryLmtLED, LV_ALIGN_CENTER, 0, 0);
   lv_obj_align(tryDWNLabel, tryDwnLED, LV_ALIGN_CENTER, 0, 0);
   lv_obj_align(tryUpLabel, tryUpLED, LV_ALIGN_CENTER, 0, 0);
   //make label text
-  lv_label_set_text(tryLmtLabel, "TryLmt");
+  lv_label_set_text(tryLmtLabel, "Lmt");
   lv_label_set_text(tryDWNLabel, "Lower");
   lv_label_set_text(tryUpLabel, "Upper");
 }
 
 void Screen::createTitle(void){
-  lv_obj_t * Title = lv_label_create(working_tab, NULL);
-  lv_obj_set_size(Title, 100, 70);
+  lv_obj_t * Title = lv_label_create(info_tab, NULL);
+  lv_obj_set_size(Title, 1000, 700);
   lv_label_set_text(Title, "1010V");
-  lv_obj_align(Title, NULL, LV_ALIGN_IN_TOP_MID, 0, 0);
+  lv_obj_align(Title, NULL, LV_ALIGN_CENTER, 0, 0);
 }
 
 void Screen::createAutoSelector(void){
-  autoSelector = lv_roller_create(working_tab, NULL); //create auto selector
+  autoSelector = lv_roller_create(enabled_tab, NULL); //create auto selector
   lv_roller_set_options(autoSelector, "None\nUPBlue\nUPRed\nSkills\nOther\nMore"); //sets options to our character array
   lv_obj_set_width(autoSelector, 80); //sets the widtho of our list
   lv_roller_set_visible_row_count(autoSelector, 4);
@@ -69,7 +69,7 @@ void Screen::createAutoSelector(void){
 
 }
 void Screen::createBatteryMeter(void){
-  battery_meter = lv_lmeter_create(working_tab, NULL);
+  battery_meter = lv_lmeter_create(enabled_tab, NULL);
   battery_meter_label = lv_label_create(battery_meter, NULL);
   symbol_label =  lv_label_create(battery_meter, NULL);
   lv_lmeter_set_range(battery_meter, 0, 100);
@@ -88,10 +88,10 @@ void Screen::refresh(void) //refreshes values sent to the screen
     if(TrayDownLimit.get_value() == HIGH){lv_led_on(tryLmtLED);} //If the front light sensor reading is less than 2700, turn on the LED
     else{lv_led_off(tryLmtLED);} //Otherwise it is off
 
-    if(top.get_value() > 2000){lv_led_on(tryUpLED);}
+    if(top.get_value() < 1500){lv_led_on(tryUpLED);}
     else{lv_led_off(tryUpLED);}
 
-    if(top.get_value() < 2000){lv_led_on(tryDwnLED);} //If the back light sensor reading is less than 2700, turn on the LED
+    if(bottom.get_value() < 1500){lv_led_on(tryDwnLED);} //If the back light sensor reading is less than 2700, turn on the LED
     else{lv_led_off(tryDwnLED);} //Otherwise it is off
 
     int level = pros::battery::get_capacity();
