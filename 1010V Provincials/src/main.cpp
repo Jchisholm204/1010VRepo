@@ -92,30 +92,11 @@ void opcontrol() {
 		intakes.opintake(); //run intake op
 		drivef.OP_Chassis(); //run drive code
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
-			armLift += 1; //increases lift state variable by 1 and moves list to next higher position
+			liftState += 1; //increases lift state variable by 1 and moves list to next higher position
 		}
 		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
-			armLift = 0; //resets lift state variable / moves lift all the way down
+			liftState = 0; //resets lift state variable / moves lift all the way down
 		}
-		else if(armLift > 3){
-			armLift = 0;
-		}
-
-		if(armLift > 0){
-
-			if(top.get_value() > 2000){
-				while(bottom.get_value() < 2000){
-					intakes.suck(-70);
-				}
-				liftState = armLift;
-				pros::delay(800);
-				intakes.suck(0);
-
-			}
-			else if(bottom.get_value() > 2000){
-				intakes.suck(200);
-		}
+		delay(15);
 	}
-	delay(15);
-}
 }
