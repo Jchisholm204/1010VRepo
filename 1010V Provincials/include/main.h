@@ -97,9 +97,17 @@ extern int TrayAutoTarget;
 extern ADIAnalogIn TrayPos;
 extern bool TrayZero;
 
-//display
+// //////////////////////////display
 extern int autoCase;
-
+//////screen objects
+//cube sensors
+extern lv_obj_t * HighCube;
+extern lv_obj_t * LowCube;
+//limit switches
+extern lv_obj_t * tryLmt;
+extern lv_obj_t * armLmt;
+//battery persentage
+extern lv_obj_t * battery;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure
