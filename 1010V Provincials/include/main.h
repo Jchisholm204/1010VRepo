@@ -39,7 +39,7 @@
 #include "chassis.h"
 #include "lift.h"
 #include "tray.h"
-#include "display.h"
+//#include "display.h"
 
 /**
  * You should add more #includes here
@@ -60,7 +60,7 @@ using namespace pros;
 // using namespace okapi;
 extern intakeClass intakes;
 extern Chassis drivef;
-extern Display cinema;
+//extern Display cinema;
 
 
 extern Controller master;
