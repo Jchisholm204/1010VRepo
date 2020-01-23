@@ -41,7 +41,7 @@ void trayPreset_fn(void*param){
 
      int LIFTEXP = expo(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y), 1.5 /*DSiveExp*/, 8 /*JoyDead*/, 15 /*MotorMin*/); //tray expo
 
-     if(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) > 0 &&! TrayUpLimit.get_value()){ //if the joystick is above 0 (moving up); watch to see that the up limit isnt toggled
+     if(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) > 0){ //if the joystick is above 0 (moving up); watch to see that the up limit isnt toggled
         TrayMotor.move_velocity(LIFTEXP); //move the tray motor with the expo output
       }
       else if(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y) < 0 &&! TrayDownLimit.get_value()){ //if the joystick is in the down position; stop the action if the down switch it toggled
@@ -67,12 +67,12 @@ void trayPreset_fn(void*param){
      motorPower = (0.7 * err) + (1.35 * derr); //PD constants plus our variables
      motorPower = motorPower > cap ?  cap : motorPower < -127 ? -127 : motorPower; //caps output at +cap, -127
 
-     if((TrayUpLimit.get_value() == HIGH)){  //if our active stop variable is true
-       TrayMotor.move(0); //stop movement, to prevent the motor from overheating
-     }
-     else{
+     //if((TrayUpLimit.get_value() == HIGH)){  //if our active stop variable is true
+       //TrayMotor.move(0); //stop movement, to prevent the motor from overheating
+    // }
+     //else{
        TrayMotor.move(motorPower); //move the lift equal to motorPower
-     }
+     //}
  }
  delay(10);
 }
