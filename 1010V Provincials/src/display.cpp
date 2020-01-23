@@ -21,10 +21,10 @@ void Display::createLEDs(void){
   armLmt = lv_led_create(lv_scr_act(), NULL);
 
 ////position the virtual LEDs on the screen
-  lv_obj_align(HighCube, NULL, LV_ALIGN_IN_LEFT_MID, 0, 0);
-  lv_obj_align(LowCube, HighCube, LV_ALIGN_CENTER, 0, 50);
-  lv_obj_align(tryLmt, HighCube, LV_ALIGN_CENTER, 0, -80);
-  lv_obj_align(armLmt, tryLmt, LV_ALIGN_CENTER, 0, -50);
+  lv_obj_align(HighCube, NULL, LV_ALIGN_IN_TOP_MID, 0, 0);
+  lv_obj_align(LowCube, HighCube, LV_ALIGN_CENTER, 50, 0);
+  lv_obj_align(tryLmt, HighCube, LV_ALIGN_CENTER, -80, 0);
+  lv_obj_align(armLmt, tryLmt, LV_ALIGN_CENTER, -50, 0);
 
   //set the sizes of the objects
   lv_obj_set_size(HighCube, 50, 35);
@@ -44,7 +44,7 @@ void Display::createLEDs(void){
   lv_obj_align(LowCubeLabel, LowCube, LV_ALIGN_CENTER, 0, 0);
   lv_obj_align(tryLmtLabel, tryLmt, LV_ALIGN_CENTER, 0, 0);
   lv_obj_align(armLmtLabel, armLmt, LV_ALIGN_CENTER, 0, 0);
-  lv_obj_align(endstopLabel, HighCube, LV_ALIGN_CENTER, 0, -30);
+  lv_obj_align(endstopLabel, HighCube, LV_ALIGN_CENTER, -30, -20);
   //set the text for the labels
   lv_label_set_text(HighCubeLabel, "HighCube");
   lv_label_set_text(LowCubeLabel, "LowCube");
@@ -61,10 +61,14 @@ void Display::createTitle(void){
   lv_label_set_text(victors, "TEN TON ROBOTICS");
 }
 
+/*Here is where we define all of our batetry objects*/
+lv_obj_t * batteryMeter;
+lv_obj_t * batteryMeterLabel;
+lv_obj_t * symbolLabel;
 void Display::createBatteryMeter(void){
-  lv_obj_t * batteryMeter = lv_lmeter_create(lv_scr_act(), NULL);
-  lv_obj_t * batteryMeterLabel = lv_label_create(batteryMeter, NULL);
-  lv_obj_t * symbolLabel = lv_label_create(batteryMeter, NULL);
+  batteryMeter = lv_lmeter_create(lv_scr_act(), NULL);
+  batteryMeterLabel = lv_label_create(batteryMeter, NULL);
+  symbolLabel = lv_label_create(batteryMeter, NULL);
   lv_lmeter_set_range(batteryMeter, 0, 100);                   /*Set the range*/
   lv_lmeter_set_value(batteryMeter, 75);                       /*Set the current value*/
   lv_lmeter_set_scale(batteryMeter, 240, 31);                  /*Set the angle and number of lines*/
@@ -76,10 +80,45 @@ void Display::createBatteryMeter(void){
 }
 
 void Display::createDisplay(void){
-
-  lv_theme_t *theme = lv_theme
-  createTitle();
+  lv_theme_t *th = lv_theme_zen_init(40/*theme color*/, NULL); //change default theme to (zen) theme
+  //call to all of the functions that create objects
+  //createTitle(); //
   createLEDs();
   createBatteryMeter();
+
+}
+
+void Display::refresh(void) //refreshes values sent to the screen
+{
+
+    if(TrayDownLimit.get_value() == HIGH){ //if the tray is in the zero position (very bottom) turn on the tray led
+      lv_led_on(tryLmt);
+    }
+    else{lv_led_off(tryLmt);}
+
+    if(top.get_value() > 2000){ //if the top cube sensor is triggered, turn on the led
+      lv_led_on(HighCube);
+    }
+    else{
+      lv_led_off(HighCube); //turn the led off if it isnt triggered
+    }
+
+    if(bottom.get_value() < 2000){ //if the bottom cube sensor is triggered, activate the led
+      lv_led_on(LowCube);
+    }
+    else{
+      lv_led_off(LowCube); //turn the led off if it isnt triggered
+    }
+
+    if(armLimit.get_value() == HIGH){ //if the arm limit switch sensor is triggered, activate the led
+      lv_led_on(armLmt);
+    }
+    else{
+      lv_led_off(armLmt); //turn the led off if it isnt triggered
+    }
+
+    int level = pros::battery::get_capacity(); //get the capacity of the battery
+    lv_lmeter_set_value(batteryMeter, level); //set the meter to display the level of the battery
+    lv_label_set_text(batteryMeterLabel, (std::to_string(level)+"%").c_str()); //display the battery %
 
 }

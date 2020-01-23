@@ -24,7 +24,7 @@ intakeClass intakes;
 Chassis drivef;
 //////////////////ADI
 ADIDigitalIn TrayDownLimit('a');
-ADIDigitalIn TrayUpLimit('b');
+ADIDigitalIn armLimit('b');
 ADIAnalogIn trayPos('c');
 ADILineSensor top('d');
 ADILineSensor bottom('e');

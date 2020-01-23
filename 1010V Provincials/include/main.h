@@ -76,7 +76,8 @@ extern Motor RightIntake;
 extern Motor LeftIntake;
 ///////////////////Sensors
 extern ADIDigitalIn TrayDownLimit;
-extern ADIDigitalIn TrayUpLimit;
+//extern ADIDigitalIn TrayUpLimit;
+extern ADIDigitalIn armLimit;
 extern ADIAnalogIn trayPos;
 extern ADILineSensor bottom;
 extern ADILineSensor top;
