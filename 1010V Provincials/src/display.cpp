@@ -10,20 +10,20 @@ lv_obj_t * LowCube;
 lv_obj_t * tryLmt;
 lv_obj_t * armLmt;
 //battery persentage
-lv_obj_t * battery;
+//lv_obj_t * battery;
 
 
-void Display::createLEDs(){
+void Display::createLEDs(void){
   ///////create the digital LEDs
-  HighCube = lv_led_create(NULL, NULL);
-  LowCube = lv_led_create(NULL, NULL);
-  tryLmt  = lv_led_create(NULL, NULL);
-  armLmt = lv_led_create(NULL, NULL);
+  HighCube = lv_led_create(lv_scr_act(), NULL);
+  LowCube = lv_led_create(lv_scr_act(), NULL);
+  tryLmt  = lv_led_create(lv_scr_act(), NULL);
+  armLmt = lv_led_create(lv_scr_act(), NULL);
 
 ////position the virtual LEDs on the screen
   lv_obj_align(HighCube, NULL, LV_ALIGN_IN_LEFT_MID, 0, 0);
   lv_obj_align(LowCube, HighCube, LV_ALIGN_CENTER, 0, 50);
-  lv_obj_align(tryLmt, HighCube, LV_ALIGN_CENTER, 0, -50);
+  lv_obj_align(tryLmt, HighCube, LV_ALIGN_CENTER, 0, -80);
   lv_obj_align(armLmt, tryLmt, LV_ALIGN_CENTER, 0, -50);
 
   //set the sizes of the objects
@@ -32,8 +32,54 @@ void Display::createLEDs(){
   lv_obj_set_size(tryLmt, 50, 35);
   lv_obj_set_size(armLmt, 50, 35);
 
-  //make labels for the virtual LEDs
-  lv_obj_t * HighCubeLabel = lv_label_create(NULL, NULL);
-  lv_obj_t * LowCubeLabel = lv_label_create(NULL, NULL);
-  lv_obj_t * 
+///////create labels for the virtual LEDs
+  lv_obj_t * HighCubeLabel = lv_label_create(lv_scr_act(), NULL);
+  lv_obj_t * LowCubeLabel = lv_label_create(lv_scr_act(), NULL);
+  lv_obj_t * tryLmtLabel = lv_label_create(lv_scr_act(), NULL);
+  lv_obj_t * armLmtLabel = lv_label_create(lv_scr_act(), NULL);
+  lv_obj_t * endstopLabel = lv_label_create(lv_scr_act(), NULL);
+
+  //position the labels on the screen
+  lv_obj_align(HighCubeLabel, HighCube, LV_ALIGN_CENTER, 0, 0);
+  lv_obj_align(LowCubeLabel, LowCube, LV_ALIGN_CENTER, 0, 0);
+  lv_obj_align(tryLmtLabel, tryLmt, LV_ALIGN_CENTER, 0, 0);
+  lv_obj_align(armLmtLabel, armLmt, LV_ALIGN_CENTER, 0, 0);
+  lv_obj_align(endstopLabel, HighCube, LV_ALIGN_CENTER, 0, -30);
+  //set the text for the labels
+  lv_label_set_text(HighCubeLabel, "HighCube");
+  lv_label_set_text(LowCubeLabel, "LowCube");
+  lv_label_set_text(tryLmtLabel, "Tray");
+  lv_label_set_text(armLmtLabel, "Arm");
+  lv_label_set_text(endstopLabel, "Endstops:");
+
+}
+
+void Display::createTitle(void){
+  lv_obj_t * victors = lv_label_create(lv_scr_act(), NULL);
+  lv_obj_set_size(victors, 100, 70);
+  lv_obj_align(victors, NULL, LV_ALIGN_CENTER, 0, 0);
+  lv_label_set_text(victors, "TEN TON ROBOTICS");
+}
+
+void Display::createBatteryMeter(void){
+  lv_obj_t * batteryMeter = lv_lmeter_create(lv_scr_act(), NULL);
+  lv_obj_t * batteryMeterLabel = lv_label_create(batteryMeter, NULL);
+  lv_obj_t * symbolLabel = lv_label_create(batteryMeter, NULL);
+  lv_lmeter_set_range(batteryMeter, 0, 100);                   /*Set the range*/
+  lv_lmeter_set_value(batteryMeter, 75);                       /*Set the current value*/
+  lv_lmeter_set_scale(batteryMeter, 240, 31);                  /*Set the angle and number of lines*/
+  lv_obj_set_size(batteryMeter, 150, 150);                     /*Set the size of the meter*/
+  lv_obj_align(batteryMeter, NULL, LV_ALIGN_CENTER, 0, 0);    /*align the meter*/
+  lv_obj_align(batteryMeterLabel, batteryMeter, LV_ALIGN_CENTER, 0, 0);
+  lv_obj_align(symbolLabel, batteryMeterLabel, LV_ALIGN_CENTER, 0, 0);
+  lv_label_set_text(symbolLabel, "Battery");
+}
+
+void Display::createDisplay(void){
+
+  lv_theme_t *theme = lv_theme
+  createTitle();
+  createLEDs();
+  createBatteryMeter();
+
 }

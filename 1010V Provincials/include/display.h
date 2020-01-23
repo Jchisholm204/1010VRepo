@@ -17,6 +17,7 @@ public:
   void createDisplay(void);
   void createLEDs(void);
   void createTitle(void);
+  void createBatteryMeter(void);
 ////use these function to manipulate those objects
   void refresh(void);
 
