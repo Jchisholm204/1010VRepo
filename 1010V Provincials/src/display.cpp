@@ -54,7 +54,7 @@ void Display::createLEDs(void){
 
 }
 
-void Display::createTitle(void){
+void Display::createTitle(void){//this function creates a title on out screen, but we dont use it because it doesent look good
   lv_obj_t * victors = lv_label_create(lv_scr_act(), NULL);
   lv_obj_set_size(victors, 100, 70);
   lv_obj_align(victors, NULL, LV_ALIGN_CENTER, 0, 0);
@@ -74,8 +74,8 @@ void Display::createBatteryMeter(void){
   lv_lmeter_set_scale(batteryMeter, 240, 31);                  /*Set the angle and number of lines*/
   lv_obj_set_size(batteryMeter, 150, 150);                     /*Set the size of the meter*/
   lv_obj_align(batteryMeter, NULL, LV_ALIGN_CENTER, 0, 0);    /*align the meter*/
-  lv_obj_align(batteryMeterLabel, batteryMeter, LV_ALIGN_CENTER, 0, 0);
-  lv_obj_align(symbolLabel, batteryMeterLabel, LV_ALIGN_CENTER, 0, 0);
+  lv_obj_align(batteryMeterLabel, batteryMeter, LV_ALIGN_CENTER, 8, -10);
+  lv_obj_align(symbolLabel, batteryMeterLabel, LV_ALIGN_CENTER, -10, 20);
   lv_label_set_text(symbolLabel, "Battery");
 }
 
