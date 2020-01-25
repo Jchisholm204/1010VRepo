@@ -4,7 +4,7 @@
 #include "autons.h"
 #include "tray.h"
 #include "lift.h"
-#include "display.h"
+//#include "display.h"
 //define controllers
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
