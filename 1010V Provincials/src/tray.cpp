@@ -60,7 +60,7 @@ void trayPreset_fn(void*param){
      else{
        cap = 127; //otherwise move normally
      };
-
+     currentValue = TrayMotor.get_position();
      err = targetValue - currentValue; //error is delta of target and current positions
      err_last = err; //store last error
      derr = err - err_last; //difference of errors over iterations
