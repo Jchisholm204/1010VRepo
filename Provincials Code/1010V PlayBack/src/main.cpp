@@ -1,7 +1,6 @@
 #include "main.h"
 #include "chassis.h"
 #include "Intakes.h"
-#include "autons.h"
 #include "tray.h"
 #include "lift.h"
 //#include "display.h"
@@ -62,33 +61,13 @@ void initialize() {
 void disabled() {}
 
 void competition_initialize() {}
+void flipOut(){
 
+}
 void autonomous() {
 /////run flipout code no matter the auto
 	flipOut();
 
-	//autoCase = 1; //select auto with switch case
-
-//////switch the autocase by pressing the buttons on the display
-	switch(autoCase){
-		case 1:
-			oneCubeAuto();
-			break;
-		case 2:
-			redUnprotected();
-			break;
-		case 3:
-			blueUnprotected();
-			break;
-		case 4:
-			redThreePnt();
-			break;
-		case 5:
-			blueThreePnt();
-			break;
-		default:
-			printf("AutoCase Error");
-	}
 }
 
 void opcontrol() {
