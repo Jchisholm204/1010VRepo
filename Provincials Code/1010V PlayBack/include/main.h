@@ -39,7 +39,13 @@
 #include "lift.h"
 #include "tray.h"
 //#include "display.h"
-
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <iostream>
+#include <fstream>
+#include <time.h>
 /**
  * You should add more #includes here
  */
