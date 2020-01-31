@@ -2,7 +2,7 @@
 #include "run.h"
 
 void autoRun(void){
-
+//
   FILE *fp; //create file header fp
   /*
 The fopen statement here is used to open the autonomous file previously recorded to the SD card.
