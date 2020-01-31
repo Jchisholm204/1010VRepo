@@ -21,17 +21,17 @@ Would run the unprotected blue recording
     if(feof(fp)){  //if end of file reached
     /////////stop all of the motors
       //drive motors
-        driveRB.move_voltage(m1);
-        driveRF.move_voltage(m2);
-        driveLB.move_voltage(m3);
-        driveLF.move_voltage(m4);
+        driveRB.move_voltage(0);
+        driveRF.move_voltage(0);
+        driveLB.move_voltage(0);
+        driveLF.move_voltage(0);
         //tray motor
-        TrayMotor.move_voltage(m5);
+        TrayMotor.move_voltage(0);
         //intakes
-        LeftIntake.move_voltage(m6);
-        RightIntake.move_voltage(m7);
+        LeftIntake.move_voltage(0);
+        RightIntake.move_voltage(0);
       //arm motor
-        ArmMotor.move_voltage(m8);
+        ArmMotor.move_voltage(0);
     ///////close the file
         fclose(fp);
         delay(100);
