@@ -64,50 +64,49 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
-/////run flipout code no matter the auto
-	flipOut();
+	int timer; //timer ensures we dont go over 14.5 seconds
+	FILE* file = fopen("/usd/UpRED.txt", "w");
+	/*
+	The fopen statement here is used to write an autonomous file to the SD card.
+	I typicaly record my files acording to the format "UpRED" for unprotected red, or "pBLUE" for protected blue
+	In PROS, files are accessed through /usd/filename.txt
+	EX:
+	FILE * file = fopen("/usd/UpBLUE.txt", "w");
+	Would create a recording for unprotected blue
+	*/
+		while(timer < 14500){
+	/////////////////////////DATA COLECTION
+			//////drive
+			  fprintf(file, "%d\n", driveRB.get_voltage());
+			  fprintf(file, "%d\n", driveRF.get_voltage());
+			  fprintf(file, "%d\n", driveLB.get_voltage());
+			  fprintf(file, "%d\n", driveLF.get_voltage());
+			////tray
+			  fprintf(file, "%d\n", TrayMotor.get_voltage());
+			///inatkes
+			  fprintf(file, "%d\n", LeftIntake.get_voltage());
+			  fprintf(file, "%d\n", RightIntake.get_voltage());
+			////arm
+			  fprintf(file, "%d\n", ArmMotor.get_voltage());
 
-	//autoCase = 1; //select auto with switch case
+	///////////////////////////REGULAR OPCONTROL//////////////////////
 
-//////switch the autocase by pressing the buttons on the display
-	switch(autoCase){
-		case 1:
-			oneCubeAuto();
-			break;
-		case 2:
-			redUnprotected();
-			break;
-		case 3:
-			blueUnprotected();
-			break;
-		case 4:
-			redThreePnt();
-			break;
-		case 5:
-			blueThreePnt();
-			break;
-		default:
-			printf("AutoCase Error");
-	}
+	///////call to drive and intake functions
+			intakes.opintake(); //run intake op
+			drivef.OP_Chassis(); //run drive code
+			//cinema.refresh(); //refresh the screen
+
+	//////arm control
+			if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
+				liftState += 1; //increases lift state variable by 1 and moves list to next higher position
+			}
+			else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
+				liftState = 0; //resets lift state variable / moves lift all the way down
+			}
+			timer += 10;
+			delay(15);  //delay the loop so that it doesent use too many reasources
+		}
+		fclose(file);
 }
 
-void opcontrol() {
-	//int armLift = 0;
-
-	while(true){
-///////call to drive and intake functions
-		intakes.opintake(); //run intake op
-		drivef.OP_Chassis(); //run drive code
-		//cinema.refresh(); //refresh the screen
-
-//////arm control
-		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
-			liftState += 1; //increases lift state variable by 1 and moves list to next higher position
-		}
-		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
-			liftState = 0; //resets lift state variable / moves lift all the way down
-		}
-
-		delay(15);  //delay the loop so that it doesent use too many reasources
-	}
-}
+void opcontrol() {}
