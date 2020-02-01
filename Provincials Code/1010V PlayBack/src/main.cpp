@@ -3,6 +3,7 @@
 #include "Intakes.h"
 #include "tray.h"
 #include "lift.h"
+#include "run.h"
 //#include "display.h"
 //define controllers
 Controller master(E_CONTROLLER_MASTER);
@@ -66,8 +67,8 @@ void flipOut(){
 }
 void autonomous() {
 /////run flipout code no matter the auto
-	flipOut();
-
+	//flipOut();
+	autoRun();
 }
 
 void opcontrol() {

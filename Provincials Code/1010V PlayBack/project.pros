@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "PlayBack",
+        "project_name": "PlayBack EX",
         "target": "v5",
         "templates": {
             "kernel": {

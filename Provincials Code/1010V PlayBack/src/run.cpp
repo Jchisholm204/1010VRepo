@@ -12,7 +12,7 @@ EX:
 fp = fopen("/usd/UpBLUE.txt", "r");
 Would run the unprotected blue recording
   */
-  fp = fopen("/usd/UpBLUE.txt", "r"); //opens the file with the auton in it
+  fp = fopen("/usd/example.txt", "r"); //opens the file with the auton in it
 
   static float m1, m2, m3, m4, m5, m6, m7, m8; //these are placeholders for motor volatges
 
@@ -41,6 +41,7 @@ Would run the unprotected blue recording
 
 //moving motors using array values
 //drive motors
+  printf("%f\n", m1);
   driveRB.move_voltage(m1);
   driveRF.move_voltage(m2);
   driveLB.move_voltage(m3);

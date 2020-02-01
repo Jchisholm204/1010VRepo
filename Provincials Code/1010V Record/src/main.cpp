@@ -68,8 +68,8 @@ void autonomous() {
 }
 
 void opcontrol() {
-	int timer; //timer ensures we dont go over 14.5 seconds
-	FILE* file = fopen("/usd/UpRED.txt", "w");
+	int timer = 0; //timer ensures we dont go over 14.5 seconds
+	FILE* file = fopen("/usd/example.txt", "w");
 	/*
 	The fopen statement here is used to write an autonomous file to the SD card.
 	I typicaly record my files acording to the format "UpRED" for unprotected red, or "pBLUE" for protected blue
@@ -85,6 +85,7 @@ void opcontrol() {
 				fprintf(file, "%d\n", driveRF.get_voltage());
 				fprintf(file, "%d\n", driveLB.get_voltage());
 				fprintf(file, "%d\n", driveLF.get_voltage());
+				printf("%d\n", driveRB.get_voltage());
 			////tray
 				fprintf(file, "%d\n", TrayMotor.get_voltage());
 			///inatkes
@@ -92,7 +93,6 @@ void opcontrol() {
 				fprintf(file, "%d\n", RightIntake.get_voltage());
 			////arm
 				fprintf(file, "%d\n", ArmMotor.get_voltage());
-
 	///////////////////////////REGULAR OPCONTROL//////////////////////
 
 	///////call to drive and intake functions
@@ -107,8 +107,19 @@ void opcontrol() {
 			else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
 				liftState = 0; //resets lift state variable / moves lift all the way down
 			}
-			timer += 15;
+
 			delay(15);  //delay the loop so that it doesent use too many reasources
+			timer += 15;
+			if(timer > 14500){ //stop all motors
+				driveLB.move(0);
+				driveLF.move(0);
+				driveRB.move(0);
+				driveRF.move(0);
+				TrayMotor.move(0);
+				ArmMotor.move(0);
+				RightIntake.move(0);
+				LeftIntake.move(0);
+			}
 		}
 		fclose(file);
 }
