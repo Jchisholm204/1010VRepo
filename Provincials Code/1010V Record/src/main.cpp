@@ -64,6 +64,10 @@ void disabled() {}
 void competition_initialize() {}
 
 void autonomous() {
+
+}
+
+void opcontrol() {
 	int timer; //timer ensures we dont go over 14.5 seconds
 	FILE* file = fopen("/usd/UpRED.txt", "w");
 	/*
@@ -77,17 +81,17 @@ void autonomous() {
 		while(timer < 14500){
 	/////////////////////////DATA COLECTION
 			//////drive
-			  fprintf(file, "%d\n", driveRB.get_voltage());
-			  fprintf(file, "%d\n", driveRF.get_voltage());
-			  fprintf(file, "%d\n", driveLB.get_voltage());
-			  fprintf(file, "%d\n", driveLF.get_voltage());
+				fprintf(file, "%d\n", driveRB.get_voltage());
+				fprintf(file, "%d\n", driveRF.get_voltage());
+				fprintf(file, "%d\n", driveLB.get_voltage());
+				fprintf(file, "%d\n", driveLF.get_voltage());
 			////tray
-			  fprintf(file, "%d\n", TrayMotor.get_voltage());
+				fprintf(file, "%d\n", TrayMotor.get_voltage());
 			///inatkes
-			  fprintf(file, "%d\n", LeftIntake.get_voltage());
-			  fprintf(file, "%d\n", RightIntake.get_voltage());
+				fprintf(file, "%d\n", LeftIntake.get_voltage());
+				fprintf(file, "%d\n", RightIntake.get_voltage());
 			////arm
-			  fprintf(file, "%d\n", ArmMotor.get_voltage());
+				fprintf(file, "%d\n", ArmMotor.get_voltage());
 
 	///////////////////////////REGULAR OPCONTROL//////////////////////
 
@@ -103,10 +107,8 @@ void autonomous() {
 			else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
 				liftState = 0; //resets lift state variable / moves lift all the way down
 			}
-			timer += 10;
+			timer += 15;
 			delay(15);  //delay the loop so that it doesent use too many reasources
 		}
 		fclose(file);
 }
-
-void opcontrol() {}
