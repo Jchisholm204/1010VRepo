@@ -69,7 +69,7 @@ void autonomous() {
 
 void opcontrol() {
 	int timer = 0; //timer ensures we dont go over 14.5 seconds
-	FILE* mvfile = fopen("/usd/example.txt", "w");
+	FILE* mvfile = fopen("/usd/mvstorage.txt", "w");
 	FILE* armf = fopen("/usd/armfile.txt", "w");
 	FILE* intakef = fopen("/usd/intake.txt", "w");
 	FILE* typefile = fopen("/usd/namefile.txt", "w");
