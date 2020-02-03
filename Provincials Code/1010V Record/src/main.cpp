@@ -69,7 +69,14 @@ void autonomous() {
 
 void opcontrol() {
 	int timer = 0; //timer ensures we dont go over 14.5 seconds
-	FILE* file = fopen("/usd/example.txt", "w");
+	FILE* mvfile = fopen("/usd/example.txt", "w");
+	FILE* armf = fopen("/usd/armfile.txt", "w");
+	FILE* intakef = fopen("/usd/intake.txt", "w");
+	FILE* typefile = fopen("/usd/namefile.txt", "w");
+	fprintf(typefile, "UNNAMED AUTO FILE\n");
+	fprintf(typefile,
+		"This file is used for a discription of the auto, PLEASE DELETE THIS LINE AFTER USE!\n"
+	);
 	/*
 	The fopen statement here is used to write an autonomous file to the SD card.
 	I typicaly record my files acording to the format "UpRED" for unprotected red, or "pBLUE" for protected blue
@@ -81,18 +88,20 @@ void opcontrol() {
 		while(timer < 14500){
 	/////////////////////////DATA COLECTION
 			//////drive
-				fprintf(file, "%d\n", driveRB.get_voltage());
-				fprintf(file, "%d\n", driveRF.get_voltage());
-				fprintf(file, "%d\n", driveLB.get_voltage());
-				fprintf(file, "%d\n", driveLF.get_voltage());
+				fprintf(intakef, "%d\n", intakeState);
+				fprintf(armf, "%d\n", liftState);
+				fprintf(mvfile, "%d\n", driveRB.get_voltage());
+				fprintf(mvfile, "%d\n", driveRF.get_voltage());
+				fprintf(mvfile, "%d\n", driveLB.get_voltage());
+				fprintf(mvfile, "%d\n", driveLF.get_voltage());
 				printf("%d\n", driveRB.get_voltage());
 			////tray
-				fprintf(file, "%d\n", TrayMotor.get_voltage());
+				fprintf(mvfile, "%d\n", TrayMotor.get_voltage());
 			///inatkes
-				fprintf(file, "%d\n", LeftIntake.get_voltage());
-				fprintf(file, "%d\n", RightIntake.get_voltage());
+				fprintf(mvfile, "%d\n", LeftIntake.get_voltage());
+				fprintf(mvfile, "%d\n", RightIntake.get_voltage());
 			////arm
-				fprintf(file, "%d\n", ArmMotor.get_voltage());
+				fprintf(mvfile, "%d\n", ArmMotor.get_voltage());
 	///////////////////////////REGULAR OPCONTROL//////////////////////
 
 	///////call to drive and intake functions
@@ -119,7 +128,10 @@ void opcontrol() {
 				ArmMotor.move(0);
 				RightIntake.move(0);
 				LeftIntake.move(0);
+				//close the files
+				fclose(mvfile);
+				fclose(armf);
+				fclose(intakef);
 			}
 		}
-		fclose(file);
 }
