@@ -78,12 +78,10 @@ void opcontrol() {
 		"This file is used for a discription of the auto, PLEASE DELETE THIS LINE AFTER USE!\n"
 	);
 	/*
-	The fopen statement here is used to write an autonomous file to the SD card.
-	I typicaly record my files acording to the format "UpRED" for unprotected red, or "pBLUE" for protected blue
-	In PROS, files are accessed through /usd/filename.txt
-	EX:
-	FILE * file = fopen("/usd/UpBLUE.txt", "w");
-	Would create a recording for unprotected blue
+	none of these files need to be changed, it is recomended that you use multiple SD cards,
+	however, you could also just swap the files on and off of the SD.
+	If you know what you are doing you could also reconfigure these files into one
+	I chose not to do this so that I could modify the arm file to work with my PID
 	*/
 		while(timer < 14500){
 	/////////////////////////DATA COLECTION
