@@ -69,7 +69,7 @@ void autonomous() {
 
 void opcontrol() {
 	int timer = 0; //timer ensures we dont go over 14.5 seconds
-	FILE* file = fopen("/usd/example.txt", "w");
+	FILE* file = fopen("/usd/record.txt", "w");
 	/*
 	The fopen statement here is used to write an autonomous file to the SD card.
 	I typicaly record my files acording to the format "UpRED" for unprotected red, or "pBLUE" for protected blue
