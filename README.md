@@ -6,4 +6,3 @@ Code written in C++ and compiled for the Vex V5 microcontroller for use with a m
 # Members
 ## Main Builder --- Mathias Stiasny
 ## Main Programer --- Jacob Chisholm
-## Secondary --- Jack Moscovitch
