@@ -1,4 +1,4 @@
-#include "main.h"
+#include "include\\main.h"
 #include "chassis.h"
 
 int exponential (int joystickVal, float driveExp, int joyDead, int motorMin) { //exponential incrementation of joystick values
