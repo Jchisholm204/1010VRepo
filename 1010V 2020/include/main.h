@@ -54,13 +54,25 @@
 // using namespace pros::literals;
 // using namespace okapi;
 
+
+//controller: only one for now
 extern Controller master;
 
+//drive motors
 extern Motor driveRB;
 extern Motor driveRF;
 extern Motor driveLB;
 extern Motor driveLF;
 
+//low intakes that grab balls
+extern Motor intakeL;
+extern Motor intakeR;
+
+//inner rollers and flywheel
+extern Motor roller;
+extern Motor flyWheel;
+
+//vision stuff
 extern Vision visionL;
 extern Vision visionR;
 
