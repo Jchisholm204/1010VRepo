@@ -1,12 +1,13 @@
 #include "main.h"
 #include "drive.h"
 #include "display.h"
+#include "vision.h"
 
 Controller master(E_CONTROLLER_MASTER);
-Motor driveRB(1, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
-Motor driveRF(2, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
-Motor driveLB(9, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
-Motor driveLF(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor driveRB(11, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor driveRF(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor driveLB(12, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor driveLF(1, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 
 Chassis drivef;
 Display display;
@@ -19,6 +20,7 @@ void initialize() {
 
 	display.createScreen();
 	display.refresh();
+	//visionINT();
 }
 
 void disabled() {}
@@ -29,9 +31,13 @@ void competition_initialize() {}
 void autonomous() {}
 
 void opcontrol() {
+	//display.setActiveTab(op_tab);
 	while (true) {
+		printf("%d\n",SelectedAuto );
+		lv_led_off(intakeLED);
 		drivef.operator_Chassis();
 		pros::delay(20);
 		display.refresh();
+		//visionLoop();
 	}
 }

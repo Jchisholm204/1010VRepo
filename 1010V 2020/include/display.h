@@ -7,6 +7,8 @@
 #define NO_AUTO_SELECTED 0
 extern int SelectedAuto;
 
+
+
 class Display{
 public:
   void createTabs(void);

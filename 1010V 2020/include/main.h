@@ -61,8 +61,7 @@ extern Motor driveRF;
 extern Motor driveLB;
 extern Motor driveLF;
 
-extern Vision visionL;
-extern Vision visionR;
+extern Vision vision;
 
 /*
 *There are two vision sensors defined in vision.cpp
@@ -75,7 +74,10 @@ extern Vision visionR;
  * that they can be called from user code (i.e. calling autonomous from a
  * button press in opcontrol() for testing purposes).
  */
-
+ extern lv_obj_t * op_tab;
+ extern lv_obj_t * sys_battery_meter;
+ extern lv_obj_t * bat_meter_label;
+ extern lv_obj_t * intakeLED;
 
 #ifdef __cplusplus
 extern "C" {

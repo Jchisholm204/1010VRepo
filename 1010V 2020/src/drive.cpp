@@ -16,10 +16,10 @@ void Chassis::operator_Chassis(void){
   int Yval = exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y), 1.5 /*DriveExp*/, 8 /*JoyDead*/, 15 /*MotorMin*/);
   int Xval = exponential(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X), 1.5, 8, 15);
 
-  driveLB.move_velocity(Yval + Xval);
-  driveLF.move_velocity(Yval + Xval);
-  driveRB.move_velocity(Yval - Xval);
-  driveRF.move_velocity(Yval - Xval);
+  driveLB.move(Yval + Xval);
+  driveLF.move(Yval + Xval);
+  driveRB.move(Yval - Xval);
+  driveRF.move(Yval - Xval);
 }
 void Chassis::timeDrive(int time, int vel){
   driveLB.move_velocity(vel);
