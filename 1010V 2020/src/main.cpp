@@ -2,6 +2,7 @@
 #include "drive.h"
 #include "display.h"
 #include "vision.h"
+#include "run.h"
 
 Controller master(E_CONTROLLER_MASTER);
 Motor driveRB(11, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
@@ -34,16 +35,17 @@ void disabled() {}
 void competition_initialize() {}
 
 
-void autonomous() {}
+void autonomous() {
+	autoRun();
+}
 
 void opcontrol() {
 	//display.setActiveTab(op_tab);
 	while (true) {
 		printf("%d\n",SelectedAuto );
-		lv_led_off(intakeLED);
 		drivef.operator_Chassis();
-		pros::delay(20);
 		display.refresh();
+		pros::delay(20);
 		//visionLoop();
 	}
 }
