@@ -1,3 +1,11 @@
+/*
+Thanks to Caden H. and 1010A for this display code.
+All of the code here is baised off of his and much of what is here would not be possible without him.
+Please see:
+https://github.com/cadenhewlett/CHPersonal/tree/master/ScreenStuff
+*/
+
+
 #include "main.h"
 #include "display.h"
 #include <string.h>
@@ -50,18 +58,28 @@ void Display::createBatteryMeter(void){
 }
 void Display::createAutoSelector(void){
   lv_obj_t * autoSelector = lv_roller_create(disabled_tab, NULL); //create auto selector
-  lv_roller_set_options(autoSelector, "Red\nBlue\nSkills"); //sets options to our character array
-  lv_obj_set_width(autoSelector, 80); //sets the widtho of our list
+  lv_roller_set_options(autoSelector, "Red\nBlue\nSkills\nNoAuto"); //set options for the array
+  /*
+  * Some Notes about the auto selector:
+  * The auto selector works by setting a numeral value to the variable "SelectedAuto"
+  * The first value is zero, and the values increase by 1 every time
+  * This value then controls a switch case in the autoRun function.
+  * To add new autos, they must be added in three places;
+  * First here, after the last auto, but they must go before NoAuto
+  * Then, there also needs to be a new case added to the autoselector in the autoRun function
+  * Finaly, a text file with the name you gave it within the switch case needs to be set up on the SD card
+  */
+  lv_obj_set_width(autoSelector, 80);
   lv_roller_set_visible_row_count(autoSelector, 4);
-  lv_roller_set_action(autoSelector, autoSelect_action); //Sets the action to our previously defined function
-  lv_obj_align(autoSelector, NULL , LV_ALIGN_CENTER, 100, 0); //Align object
+  lv_roller_set_action(autoSelector, autoSelect_action);
+  lv_obj_align(autoSelector, NULL , LV_ALIGN_CENTER, 100, 0);
 }
 void Display::refresh(void)
 {
   int level = pros::battery::get_capacity();
   lv_lmeter_set_value(sys_battery_meter, level);
 
-  lv_label_set_text(bat_meter_label, (std::to_string(level)+"%").c_str()); //convert level(int) to string to a const char
+  lv_label_set_text(bat_meter_label, (std::to_string(level)+"%").c_str()); //Thanks to Caden H for coming up with this fix
 //lv_lmeter_set_value(bat_meter_label, level);
   delay(20);
 }
