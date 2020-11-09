@@ -11,18 +11,18 @@ EX:
 mvfile = fopen("/usd/UpBLUE.txt", "r");
 Would run the unprotected blue recording
   */
-  FILE* fp;
+
+
+//  FILE* fp =fopen("/usd/red.txt", "r");
+  FILE*fp;
   switch (SelectedAuto) { //get the auto selected on the display and open the corisponding file
-    case 1:
+    case 0:
       fp = fopen("/usd/red.txt", "r");
       break;
-    case 2:
+    case 1:
       fp = fopen("/usd/blue.txt", "r");
       break;
-    case 3:
-      fp = fopen("/usd/redfront.txt", "r");
-      break;
-    case 4:
+    case 2:
       fp = fopen("/usd/skills.txt", "r");
       break;
     default: //if there is not auto selected, open up a blank text file and do nothing
