@@ -39,7 +39,7 @@ void Display::createBatteryMeter(void){
 }
 void Display::createAutoSelector(void){
   lv_obj_t * autoSelector = lv_roller_create(disabled_tab, NULL); //create auto selector
-  lv_roller_set_options(autoSelector, "Red\nBlue\nSkills\nNoAuto"); //set options for the array
+  lv_roller_set_options(autoSelector, "\nRed\nBlue\nSkills\nTest"); //set options for the array
   /*
   * Some Notes about the auto selector:
   * The auto selector works by setting a numeral value to the variable "SelectedAuto"

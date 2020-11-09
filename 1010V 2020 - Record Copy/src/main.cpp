@@ -46,7 +46,21 @@ double getVelocity(Motor motor){
 }
 void opcontrol() {
 	int timer = 0;
-	FILE* file = fopen("/usd/record.txt", "w");
+	FILE*file;
+	switch (SelectedAuto) { //get the auto selected on the display and open the corisponding file
+		case 1:
+			file = fopen("/usd/red.txt", "w");
+			break;
+		case 2:
+			file = fopen("/usd/blue.txt", "w");
+			break;
+		case 3:
+			file = fopen("/usd/skills.txt", "w");
+			break;
+		default: //if there is not auto file selected, record to the test file
+			file = fopen("/usd/record.txt", "w");
+			break;
+	}
 	while (timer < 14500) {
 		display.refresh();
 		/////////////////////////DATA COLECTION
