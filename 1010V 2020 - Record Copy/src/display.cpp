@@ -83,8 +83,8 @@ void Display::refresh(void)
   int level = pros::battery::get_capacity();
   lv_lmeter_set_value(sys_battery_meter, level);
 
-  lv_label_set_text(autoL, std::to_string(autoLength).c_str());
-  lv_label_set_text(sAuto, std::to_string(SelectedAuto).c_str());
+  lv_label_set_text(autoL, std::to_string(autoLength).c_str()); //just placing the variable in does not work
+  lv_label_set_text(sAuto, std::to_string(SelectedAuto).c_str()); //you must insert it as a c string
 
   //lv_label_set_text(sAuto, "Unknown");
   lv_label_set_text(bat_meter_label, (std::to_string(level)+"%").c_str()); //Thanks to Caden H for coming up with this fix
