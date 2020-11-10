@@ -92,6 +92,11 @@ extern Vision visionR;
  extern lv_obj_t * bat_meter_label;
  extern lv_obj_t * intakeLED;
 
+ extern lv_obj_t* autoDuration;
+ extern  lv_obj_t* selectedAuto;
+ extern lv_obj_t* autoL;
+ extern lv_obj_t* sAuto;
+
 #ifdef __cplusplus
 extern "C" {
 #endif

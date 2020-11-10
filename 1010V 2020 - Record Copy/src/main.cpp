@@ -30,6 +30,22 @@ void initialize() {
 void disabled() {
 	while(true){
 		display.refresh();
+		printf("%d\n", SelectedAuto);
+		printf("disabled\n");
+		switch (SelectedAuto) { //get the auto selected on the display and open the corisponding file
+			case 1:
+				autoLength = 14500;
+				break;
+			case 2:
+				autoLength = 14500;
+				break;
+			case 3:
+				autoLength = 59500;
+				break;
+			default: //if there is not auto file selected, record to the test file
+				autoLength = 14500;
+				break;
+		}
 		delay(100);
 	}
 }
@@ -50,19 +66,26 @@ void opcontrol() {
 	switch (SelectedAuto) { //get the auto selected on the display and open the corisponding file
 		case 1:
 			file = fopen("/usd/red.txt", "w");
+			autoLength = 14500;
 			break;
 		case 2:
 			file = fopen("/usd/blue.txt", "w");
+			autoLength = 14500;
 			break;
 		case 3:
 			file = fopen("/usd/skills.txt", "w");
+			autoLength = 59500;
 			break;
 		default: //if there is not auto file selected, record to the test file
 			file = fopen("/usd/record.txt", "w");
+			autoLength = 14500;
 			break;
 	}
-	while (timer < 14500) {
-		display.refresh();
+	printf("%d\n", SelectedAuto);
+	printf("recording\n");
+	while (timer < autoLength) {
+		//display.refresh();
+
 		/////////////////////////DATA COLECTION
 				//////drive
 		fprintf(file, "%f\n", getVelocity(driveRB));
@@ -93,4 +116,5 @@ void opcontrol() {
 		}
 	}
 		fclose(file);
+		printf("finished");
 }

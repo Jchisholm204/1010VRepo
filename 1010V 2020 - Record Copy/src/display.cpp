@@ -10,12 +10,17 @@ https://github.com/cadenhewlett/CHPersonal/tree/master/ScreenStuff
 #include "display.h"
 #include <string.h>
 int SelectedAuto;
+int autoLength;
 
 lv_obj_t * tabs = lv_tabview_create(lv_scr_act(), NULL);
-lv_obj_t * disabled_tab = lv_tabview_add_tab(tabs, "Disabled");
+lv_obj_t * disabled_tab = lv_tabview_add_tab(tabs, "RECORD AUTO");
 lv_obj_t * sys_battery_meter;
 lv_obj_t * bat_meter_label;
 lv_obj_t * intakeLED;
+lv_obj_t* autoDuration;
+lv_obj_t* selectedAuto;
+lv_obj_t* autoL;
+lv_obj_t* sAuto;
 
 lv_res_t autoSelect_action(lv_obj_t * selector){
   SelectedAuto = lv_roller_get_selected(selector);
@@ -29,7 +34,7 @@ void Display::createBatteryMeter(void){
   lv_obj_t * symbol_label =  lv_label_create(sys_battery_meter, NULL);
   lv_lmeter_set_range(sys_battery_meter, 0, 100);
 //  lv_obj_set_size(sys_battery_meter, 80, 80);
-  lv_obj_align(sys_battery_meter, NULL, LV_ALIGN_CENTER, -100, 0);
+  lv_obj_align(sys_battery_meter, NULL, LV_ALIGN_CENTER, -150, 0);
   lv_obj_align(bat_meter_label, sys_battery_meter, LV_ALIGN_CENTER, 0, -10);
   lv_obj_align(symbol_label, bat_meter_label, LV_ALIGN_CENTER, -10, 20);
   lv_lmeter_set_value(sys_battery_meter, 75);
@@ -53,13 +58,35 @@ void Display::createAutoSelector(void){
   lv_obj_set_width(autoSelector, 80);
   lv_roller_set_visible_row_count(autoSelector, 4);
   lv_roller_set_action(autoSelector, autoSelect_action);
-  lv_obj_align(autoSelector, NULL , LV_ALIGN_CENTER, 100, 0);
+  lv_obj_align(autoSelector, NULL , LV_ALIGN_CENTER, -25, 0);
+}
+
+void Display::createLabels(void){
+  autoDuration = lv_label_create(disabled_tab, NULL);
+  selectedAuto = lv_label_create(disabled_tab, NULL);
+  lv_obj_align(autoDuration, NULL, LV_ALIGN_CENTER, 50, 10);
+  lv_obj_align(selectedAuto, NULL, LV_ALIGN_CENTER, 50, -60);
+
+  autoL = lv_label_create(disabled_tab, NULL);
+  sAuto = lv_label_create(disabled_tab, NULL);
+  lv_obj_align(autoL, autoDuration,LV_ALIGN_CENTER, 0, 30);
+  lv_obj_align(sAuto, selectedAuto, LV_ALIGN_CENTER, 0, 30);
+
+  lv_label_set_text(autoDuration, "Auto Length:");
+  lv_label_set_text(selectedAuto, "Selected Auto:");
+  lv_label_set_text(autoL, "UNKNOWN");
+  lv_label_set_text(sAuto, "UNKNOWN");
+
 }
 void Display::refresh(void)
 {
   int level = pros::battery::get_capacity();
   lv_lmeter_set_value(sys_battery_meter, level);
 
+  lv_label_set_text(autoL, std::to_string(autoLength).c_str());
+  lv_label_set_text(sAuto, std::to_string(SelectedAuto).c_str());
+
+  //lv_label_set_text(sAuto, "Unknown");
   lv_label_set_text(bat_meter_label, (std::to_string(level)+"%").c_str()); //Thanks to Caden H for coming up with this fix
 //lv_lmeter_set_value(bat_meter_label, level);
   delay(20);
@@ -78,5 +105,6 @@ void Display::createScreen(void)
 
     createBatteryMeter();
     createAutoSelector();
+    createLabels();
     //createTabs();
 }

@@ -6,6 +6,7 @@
 
 #define NO_AUTO_SELECTED 0
 extern int SelectedAuto;
+extern int autoLength;
 
 
 
@@ -14,8 +15,7 @@ public:
   void createTabs(void);
   void setActiveTab(int tab);
   void createScreen(void);
-  void createOpLEDs(void);
-  void createTitle(void);
+  void createLabels(void);
   void createAutoSelector(void);
   void createBatteryMeter(void);
   void refresh(void);
