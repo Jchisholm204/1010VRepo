@@ -25,13 +25,31 @@ void initialize() {
 
 	display.createScreen();
 	display.refresh();
+
+	////Auton Initializers
+	printf("Selected Auto:...Unknown");
+	printf("GameMode: ...int\n");
+	switch (SelectedAuto) { //get the auto selected on the display
+		case 1:
+			autoLength = 14500;
+			break;
+		case 2:
+			autoLength = 14500;
+			break;
+		case 3:
+			autoLength = 59500;
+			break;
+		default:
+			autoLength = 14500;
+			break;
+	}
 }
 
 void disabled() {
 	while(true){
 		display.refresh();
-		printf("%d\n", SelectedAuto);
-		printf("disabled\n");
+		printf("Selected Auto:""%d\t", SelectedAuto);
+		printf("GameMode: Disabled\n");
 		switch (SelectedAuto) { //get the auto selected on the display
 			case 1:
 				autoLength = 14500;
@@ -46,7 +64,7 @@ void disabled() {
 				autoLength = 14500;
 				break;
 		}
-		delay(100);
+		delay(800);//long delay as the robot should be disabled
 	}
 }
 
@@ -85,7 +103,21 @@ void opcontrol() {
 	printf("recording\n");
 	while (timer < autoLength) {
 		//display.refresh();
+		drivef.operator_Chassis();
 
+		delay(15);
+		timer += 15;
+
+		if(timer > autoLength){
+			driveLB.move_velocity(0);
+			driveLF.move_velocity(0);
+			driveRB.move_velocity(0);
+			driveRF.move_velocity(0);
+			flyWheel.move_velocity(0);
+			roller.move_velocity(0);
+			intakeR.move_velocity(0);
+			intakeL.move_velocity(0);
+		}
 		/////////////////////////DATA COLECTION
 				//////drive
 		fprintf(file, "%f\n", getVelocity(driveRB));
@@ -99,21 +131,6 @@ void opcontrol() {
 		fprintf(file, "%f\n", getVelocity(intakeL));
 				////fast spinning roller
 		fprintf(file, "%f\n", getVelocity(flyWheel));
-		drivef.operator_Chassis();
-
-		delay(15);
-		timer += 15;
-
-		if(timer > 14500){
-			driveLB.move_velocity(0);
-			driveLF.move_velocity(0);
-			driveRB.move_velocity(0);
-			driveRF.move_velocity(0);
-			flyWheel.move_velocity(0);
-			roller.move_velocity(0);
-			intakeR.move_velocity(0);
-			intakeL.move_velocity(0);
-		}
 	}
 		fclose(file);
 		printf("finished");
