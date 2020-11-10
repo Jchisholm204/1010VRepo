@@ -32,7 +32,7 @@ void disabled() {
 		display.refresh();
 		printf("%d\n", SelectedAuto);
 		printf("disabled\n");
-		switch (SelectedAuto) { //get the auto selected on the display and open the corisponding file
+		switch (SelectedAuto) { //get the auto selected on the display
 			case 1:
 				autoLength = 14500;
 				break;
@@ -42,7 +42,7 @@ void disabled() {
 			case 3:
 				autoLength = 59500;
 				break;
-			default: //if there is not auto file selected, record to the test file
+			default:
 				autoLength = 14500;
 				break;
 		}
@@ -105,14 +105,14 @@ void opcontrol() {
 		timer += 15;
 
 		if(timer > 14500){
-			driveLB.move(0);
-			driveLF.move(0);
-			driveRB.move(0);
-			driveRF.move(0);
-			flyWheel.move(0);
-			roller.move(0);
-			intakeR.move(0);
-			intakeL.move(0);
+			driveLB.move_velocity(0);
+			driveLF.move_velocity(0);
+			driveRB.move_velocity(0);
+			driveRF.move_velocity(0);
+			flyWheel.move_velocity(0);
+			roller.move_velocity(0);
+			intakeR.move_velocity(0);
+			intakeL.move_velocity(0);
 		}
 	}
 		fclose(file);
