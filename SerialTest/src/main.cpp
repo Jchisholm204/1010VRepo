@@ -6,9 +6,12 @@ void competition_initialize() {}
 void autonomous() {}
 void opcontrol() {
 	int hi = 0;
+	int bye = 0;
+	pros::Motor moro = pros::Motor(1);
 	while (true) {
 		std::cin >> hi;
-		std::cout << hi << std::endl;
+		std::cout << hi;
+		moro.move(hi);
 		pros::delay(20);
 	}
 }
