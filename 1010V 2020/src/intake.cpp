@@ -27,7 +27,7 @@ void intake_fn(void*param){
           break;
 
         case INTAKE_OPEN:
-          targetValue = 150;
+          targetValue = 350;
           break;
 
         case INTAKE_CLOSED:
