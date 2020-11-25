@@ -1,6 +1,7 @@
 #include "main.h"
 #include "drive.h"
 #include "display.h"
+#include "intake.h"
 
 Controller master(E_CONTROLLER_MASTER);
 Motor driveRB(11, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
@@ -8,14 +9,16 @@ Motor driveRF(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor driveLB(12, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 Motor driveLF(1, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 
-Motor intakeL(101, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
-Motor intakeR(101, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor intakeL(8, E_MOTOR_GEARSET_36, true, E_MOTOR_ENCODER_DEGREES);
+Motor intakeR(9, E_MOTOR_GEARSET_36, false, E_MOTOR_ENCODER_DEGREES);
 
-Motor roller(101, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
-Motor flyWheel(101, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
+Motor roller(7, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor flyWheel(6, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
 
 Chassis drivef;
 Display display;
+
+int intakeStatus = 0;
 
 void initialize() {
 	driveLF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
@@ -26,6 +29,9 @@ void initialize() {
 	display.createScreen();
 	display.refresh();
 
+	//int the intake task
+	Task Intake_Task (intake_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
+				TASK_STACK_DEPTH_DEFAULT, "Intake Task");
 	////Auton Initializers
 	printf("Selected Auto:...Unknown");
 	printf("GameMode: ...int\n");
@@ -75,9 +81,15 @@ void autonomous() {
 
 }
 
+//make a get velocity return fuction..
+//because it doesent work normaly for some reason
 double getVelocity(Motor motor){
 	return motor.get_actual_velocity();
 }
+
+//ignore this
+//	return std::to_string(status).c_str();
+
 void opcontrol() {
 	int timer = 0;
 	FILE*file;
@@ -101,6 +113,7 @@ void opcontrol() {
 	}
 	printf("%d\n", SelectedAuto);
 	printf("recording\n");
+
 	while (timer < autoLength) {
 		//display.refresh();
 		drivef.operator_Chassis();
@@ -127,8 +140,10 @@ void opcontrol() {
 				////roller
 		fprintf(file, "%f\n", getVelocity(roller));
 				///intakes
-		fprintf(file, "%f\n", getVelocity(intakeR));
-		fprintf(file, "%f\n", getVelocity(intakeL));
+		fprintf(file, "%s\n", std::to_string(intakeStatus).c_str()); //yes i know error but i want it to be floating point//nevermind i change to string
+		//instead of using the motor values get the pid input
+		//fprintf(file, "%f\n", getVelocity(intakeR));
+		//fprintf(file, "%f\n", getVelocity(intakeL));
 				////fast spinning roller
 		fprintf(file, "%f\n", getVelocity(flyWheel));
 	}
