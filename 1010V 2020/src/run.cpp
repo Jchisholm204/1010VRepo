@@ -10,7 +10,7 @@ I typicaly record my files acording to the format "UpRED" for unprotected red, o
 In PROS, files are accessed through /usd/filename.txt
 EX:
 mvfile = fopen("/usd/UpBLUE.txt", "r");
-Would run the unprotected blue recording
+Would read from the unprotected blue recording
   */
 
 
