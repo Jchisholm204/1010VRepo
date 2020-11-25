@@ -27,7 +27,7 @@ void intake_fn(void*param){
           break;
 
         case INTAKE_OPEN:
-          targetValue = 350;
+          targetValue = 120;
           break;
 
         case INTAKE_CLOSED:
@@ -39,7 +39,8 @@ void intake_fn(void*param){
 
       };
 //Intake L
-      currentValue1 = intakeL.get_position();
+      currentValue1 = (intakeL.get_position()/3);
+      //the claws are on a 3:1 gearbox, so "/" by 3 to be able to set the deg in actual
       err1 = targetValue - currentValue1; //error is delta of target and current positions
       err_last1 = err1; //store last error
       derr1 = err1 - err_last1; //difference of errors over iterations
@@ -50,7 +51,8 @@ void intake_fn(void*param){
 //Intake R
 
 
-      currentValue2 = intakeR.get_position();
+      currentValue2 = (intakeR.get_position()/3);
+      //the claws are on a 3:1 gearbox, so "/" by 3 to be able to set the deg in actual
       err2 = targetValue - currentValue2; //error is delta of target and current positions
       err_last2 = err2; //store last error
       derr2 = err2 - err_last2; //difference of errors over iterations
