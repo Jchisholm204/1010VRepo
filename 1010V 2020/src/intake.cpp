@@ -42,8 +42,8 @@ void intake_fn(void*param){
       currentValue1 = (intakeL.get_position()/3);
       //the claws are on a 3:1 gearbox, so "/" by 3 to be able to set the deg in actual
       err1 = targetValue - currentValue1; //error is delta of target and current positions
-      err_last1 = err1; //store last error
       derr1 = err1 - err_last1; //difference of errors over iterations
+      err_last1 = err1; //store last error
       motorPower1 = (0.9 * err1) + (1.6 * derr1); //PD constants plus our variables
       motorPower1 = motorPower1 > 127 ? 127 : motorPower1 < -127 ? -127 : motorPower1; //caps output at +127, -127
    //motorPower > cap ?  cap :
@@ -54,8 +54,8 @@ void intake_fn(void*param){
       currentValue2 = (intakeR.get_position()/3);
       //the claws are on a 3:1 gearbox, so "/" by 3 to be able to set the deg in actual
       err2 = targetValue - currentValue2; //error is delta of target and current positions
-      err_last2 = err2; //store last error
       derr2 = err2 - err_last2; //difference of errors over iterations
+      err_last2 = err2; //store last error
       motorPower2 = (0.9 * err2) + (1.6 * derr2); //PD constants plus our variables
       motorPower2 = motorPower2 > 127 ? 127 : motorPower2 < -127 ? -127 : motorPower2; //caps output at +127, -127
    //motorPower > cap ?  cap :
