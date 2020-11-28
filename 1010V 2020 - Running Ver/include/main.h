@@ -55,8 +55,9 @@
 // using namespace okapi;
 
 
-//controller: only one for now
+//controller: 
 extern Controller master;
+extern Controller partner;
 
 //drive motors
 extern Motor driveRB;

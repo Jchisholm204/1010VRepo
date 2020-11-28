@@ -5,6 +5,7 @@
 #include "run.h"
 
 Controller master(E_CONTROLLER_MASTER);
+Controller partner(E_CONTROLLER_PARTNER);
 Motor driveRB(11, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor driveRF(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor driveLB(12, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
@@ -65,6 +66,9 @@ void opcontrol() {
 		else{
 			roller.move_velocity(0);
 		}
+		intakeR = partner.get_analog(E_CONTROLLER_ANALOG_2);
+		intakeL = partner.get_analog(E_CONTROLLER_ANALOG_3);
+
 		//else loop to control the intakes and roller
 		pros::delay(20);
 		//visionLoop();
