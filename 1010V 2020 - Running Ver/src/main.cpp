@@ -3,7 +3,6 @@
 #include "display.h"
 #include "vision.h"
 #include "run.h"
-#include "intake.h"
 
 Controller master(E_CONTROLLER_MASTER);
 Motor driveRB(11, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
@@ -35,9 +34,6 @@ void initialize() {
 	//call to create and refresh display elements
 
 	//visionINT();
-	Task Intake_Task (intake_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
-				TASK_STACK_DEPTH_DEFAULT, "Intake Task");
-				//int tasking for the intake grippers
 
 }
 
@@ -60,12 +56,6 @@ void opcontrol() {
 		display.refresh();
 		//calls to update display elements
 
-		if(master.get_digital(E_CONTROLLER_DIGITAL_L1) || master.get_digital(E_CONTROLLER_DIGITAL_L2)){ //toggle control
-			intakeStatus = INTAKE_CLOSED;
-		}
-		else{ //close toggle
-			intakeStatus = INTAKE_OPEN;
-		}
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
 			roller.move_velocity(200);
 		}
