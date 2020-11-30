@@ -56,6 +56,11 @@ void Display::createBatteryMeter(void){
   lv_label_set_text(symbol_label, "Battery");
 //lv_obj_align(bat_meter_label, sys_battery_meter, LV
 }
+
+void Display::createClawIndicators(void){
+  
+}
+
 void Display::createAutoSelector(void){
   lv_obj_t * autoSelector = lv_roller_create(disabled_tab, NULL); //create auto selector
   lv_roller_set_options(autoSelector, "Red\nBlue\nSkills\nNoAuto"); //set options for the array

@@ -16,6 +16,7 @@ public:
   void createScreen(void);
   void createOpLEDs(void);
   void createTitle(void);
+  void createClawIndicators(void);
   void createAutoSelector(void);
   void createBatteryMeter(void);
   void refresh(void);
