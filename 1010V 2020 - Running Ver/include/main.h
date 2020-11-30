@@ -40,6 +40,7 @@
  * You should add more #includes here
  */
 #include "okapi/api.hpp"
+#include "pros/apix.h"
 //#include "pros/api_legacy.h"
 
 /**
@@ -55,7 +56,7 @@
 // using namespace okapi;
 
 
-//controller: 
+//controller:
 extern Controller master;
 extern Controller partner;
 
