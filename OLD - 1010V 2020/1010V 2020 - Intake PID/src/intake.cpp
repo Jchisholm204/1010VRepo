@@ -3,6 +3,8 @@
 void intake_fn(void*param){
   intakeR.tare_position();
   intakeL.tare_position();
+
+  bool overide = false;
   int cap;
   int targetValue;
 
@@ -11,14 +13,34 @@ void intake_fn(void*param){
   int currentValue1;
   int motorPower1;
   int derr1;
+
   int err2 = 0;
   int err_last2 = 0;
   int currentValue2;
   int motorPower2;
   int derr2;
-  while(true){
-    if(competition::is_autonomous()){
 
+
+  while(true){
+    if(partner.get_digital(E_CONTROLLER_DIGITAL_A)){
+      overide = true;
+    }
+    else if(partner.get_digital(E_CONTROLLER_DIGITAL_B)){
+      overide = false;
+    }
+    if(partner.get_digital(E_CONTROLLER_DIGITAL_X)){
+      intakeR.tare_position();
+      intakeL.tare_position();
+    }
+
+    partner.set_text(0, 0, "Intake L: %d", intakeL.get_position());
+    partner.set_text(1, 0, "Intake R: %d", intakeR.get_position());
+/*    if(competition::is_autonomous()){
+
+    }
+    else*/ if(overide == true){
+      intakeL.move_velocity(partner.get_analog(E_CONTROLLER_ANALOG_LEFT_Y))
+      intakeR.move_velocity(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y))
     }
     else{
       switch(intakeStatus){
