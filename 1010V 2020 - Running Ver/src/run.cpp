@@ -2,6 +2,7 @@
 #include "drive.h"
 #include "run.h"
 #include "display.h"
+#include "intake.h"
 void autoRun(void){
   /*
 The fopen statement here is used to open the autonomous file previously recorded to the SD card.
@@ -31,7 +32,8 @@ Would read from the unprotected blue recording
   }
   //FILE* fp = fopen("/usd/record.txt", "r"); //opens the file with the auton in it
 
-  static float m1, m2, m3, m4, m5, m6, m7, m8; //these are placeholders for motor volatges
+  static float m1, m2, m3, m4, m5, m8; //these are placeholders for motor volatges
+  static int i; //int i as a whole number
   //Auton while loop
   while (true) {
     if(feof(fp)){  //if end of file reached
@@ -52,7 +54,7 @@ Would read from the unprotected blue recording
         delay(100);
     }
 //reading from the array
-    fscanf(fp, "%f %f %f %f %f %f %f %f ", &m1, &m2, &m3, &m4, &m5, &m6, &m7, &m8);
+    fscanf(fp, "%f %f %f %f %f %d %f ", &m1, &m2, &m3, &m4, &m5, &i, &m8);
   //printf("%f %f %f %f %f %f %f %f\n", &m1, &m2, &m3, &m4, &m5, &m6, &m7, &m8);  //debug to serial terminal
 //moving motors using array values
 //drive motors
@@ -63,8 +65,7 @@ Would read from the unprotected blue recording
   //inner roller
   roller.move_velocity(m5);
   //intakes
-  intakeL.move_velocity(m6);
-  intakeR.move_velocity(m7);
+  intakeStatus = i;
   //flyWheel vel target
   flyWheel.move_velocity(m8);
   delay(15);
