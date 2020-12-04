@@ -1,11 +1,12 @@
 #include "main.h"
 #include "drive.h"
 #include "display.h"
-#include "vision.h"
 #include "run.h"
 #include "intake.h"
 
+
 Controller master(E_CONTROLLER_MASTER);
+Controller partner(E_CONTROLLER_PARNTER);
 Motor driveRB(11, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor driveRF(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor driveLB(12, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);

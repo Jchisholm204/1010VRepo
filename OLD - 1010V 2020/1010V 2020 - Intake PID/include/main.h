@@ -55,8 +55,9 @@
 // using namespace okapi;
 
 
-//controller: only one for now
+//controller:
 extern Controller master;
+extern Controller partner;
 
 //drive motors
 extern Motor driveRB;
@@ -71,10 +72,6 @@ extern Motor intakeR;
 //inner rollers and flywheel
 extern Motor roller;
 extern Motor flyWheel;
-
-//vision stuff
-extern Vision visionL;
-extern Vision visionR;
 
 /*
 *There are two vision sensors defined in vision.cpp
