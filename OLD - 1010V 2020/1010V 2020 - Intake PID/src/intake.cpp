@@ -22,13 +22,16 @@ void intake_fn(void*param){
 
 
   while(true){
-    if(partner.get_digital(E_CONTROLLER_DIGITAL_A)){
+    if(partner.get_digital(E_CONTROLLER_DIGITAL_L1)){
       overide = true;
+      master.set_text(0, 0, "OVERRIDE ACTIVE");
+      master.rumble(".")
     }
-    else if(partner.get_digital(E_CONTROLLER_DIGITAL_B)){
+    else if(partner.get_digital(E_CONTROLLER_DIGITAL_L2)){
       overide = false;
+      master.set_text(0, 0, "OVERRIDE DISENGAGED")
     }
-    if(partner.get_digital(E_CONTROLLER_DIGITAL_X)){
+    if(partner.get_digital(E_CONTROLLER_DIGITAL_R1)){
       intakeR.tare_position();
       intakeL.tare_position();
     }
