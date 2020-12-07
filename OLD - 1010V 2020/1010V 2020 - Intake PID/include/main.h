@@ -73,6 +73,10 @@ extern Motor intakeR;
 extern Motor roller;
 extern Motor flyWheel;
 
+//intake limit switches
+extern ADIDigitalIn intakeRlimit;
+extern ADIDigitalIn intakeLlimit;
+
 /*
 *There are two vision sensors defined in vision.cpp
 *They are placed with their focal points 30cm apart from one another on the robot

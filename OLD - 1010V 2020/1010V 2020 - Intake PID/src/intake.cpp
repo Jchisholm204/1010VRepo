@@ -5,6 +5,7 @@ void intake_fn(void*param){
   intakeL.tare_position();
 
   bool overide = false;
+  bool iClosed = true;
   int cap;
   int targetValue;
   int adjust;
@@ -68,29 +69,51 @@ int count = 0;
           break;
 
       };
-//Intake L
-      currentValue1 = (intakeL.get_position());
-      //the claws are on a 3:1 gearbox, so "/" by 3 to be able to set the deg in actual
-      err1 = targetValue - currentValue1; //error is delta of target and current positions
-      derr1 = err1 - err_last1; //difference of errors over iterations
-      err_last1 = err1; //store last error
-      motorPower1 = (1 * err1) + (1.1 * derr1); //PD constants plus our variables
-      motorPower1 = motorPower1 > 127 ? 127 : motorPower1 < -127 ? -127 : motorPower1; //caps output at +127, -127
-   //motorPower > cap ?  cap :
-      intakeL.move(motorPower1); //move the lift equal to motorPower
-      
-//Intake R
-      currentValue2 = (intakeR.get_position());
-      //the claws are on a 3:1 gearbox, so "/" by 3 to be able to set the deg in actual
-      err2 = targetValue - currentValue2; //error is delta of target and current positions
-      derr2 = err2 - err_last2; //difference of errors over iterations
-      err_last2 = err2; //store last error
-      motorPower2 = (1 * err2) + (1.1 * derr2); //PD constants plus our variables
-      motorPower2 = motorPower2 > 127 ? 127 : motorPower2 < -127 ? -127 : motorPower2; //caps output at +127, -127
-   //motorPower > cap ?  cap :
+      if(intakeStatus == INTAKE_CLOSED){
+        if(intakeRlimit.get_value() == false){
+          intakeR.move_velocity(-100);
+        }
+        else if(intakeRlimit.get_new_press()){
+          intakeR.tare_position();
+        }
+        else{
+          intakeR.move_velocity(0);
+        }
+        if(intakeLlimit.get_value() == false){
+          intakeL.move_velocity(-100);
+        }
+        else if(intakeLlimit.get_new_press()){
+          intakeL.tare_position();
+        }
+        else{
+          intakeL.move_velocity(0);
+        }
+      }
+      else{
+  //Intake L
+        currentValue1 = (intakeL.get_position());
+        //the claws are on a 3:1 gearbox, so "/" by 3 to be able to set the deg in actual
+        err1 = targetValue - currentValue1; //error is delta of target and current positions
+        derr1 = err1 - err_last1; //difference of errors over iterations
+        err_last1 = err1; //store last error
+        motorPower1 = (1 * err1) + (1.1 * derr1); //PD constants plus our variables
+        motorPower1 = motorPower1 > 127 ? 127 : motorPower1 < -127 ? -127 : motorPower1; //caps output at +127, -127
+     //motorPower > cap ?  cap :
+        intakeL.move(motorPower1); //move the lift equal to motorPower
 
-      intakeR.move(motorPower2); //move the lift equal to motorPower
+  //Intake R
+        currentValue2 = (intakeR.get_position());
+        //the claws are on a 3:1 gearbox, so "/" by 3 to be able to set the deg in actual
+        err2 = targetValue - currentValue2; //error is delta of target and current positions
+        derr2 = err2 - err_last2; //difference of errors over iterations
+        err_last2 = err2; //store last error
+        motorPower2 = (1 * err2) + (1.1 * derr2); //PD constants plus our variables
+        motorPower2 = motorPower2 > 127 ? 127 : motorPower2 < -127 ? -127 : motorPower2; //caps output at +127, -127
+     //motorPower > cap ?  cap :
+
+        intakeR.move(motorPower2); //move the lift equal to motorPower
     }
+  }
     delay(20);
     count++;
   }

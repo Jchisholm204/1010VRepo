@@ -18,6 +18,9 @@ Motor intakeR(9, E_MOTOR_GEARSET_36, true, E_MOTOR_ENCODER_DEGREES);
 Motor roller(2, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor flyWheel(1, E_MOTOR_GEARSET_06, true, E_MOTOR_ENCODER_DEGREES);
 
+ADIDigitalIn intakeRlimit('a');
+ADIDigitalIn intakeLlimit('b');
+
 Chassis drivef;
 Display display;
 //int the chassis and display operators
