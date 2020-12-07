@@ -56,9 +56,10 @@ void autonomous() {
 }
 
 void opcontrol() {
+	int fwTarg = 600;
 	//display.setActiveTab(op_tab);
-	flyWheel.move_velocity(600);
 	while (true) {
+		flyWheel.move_velocity(fwTarg);
 		//printf("%d\n",SelectedAuto );
 		drivef.operator_Chassis();
 		//calls to run the operator chassis subset of the chassis controller
@@ -79,6 +80,15 @@ void opcontrol() {
 		}
 		else{
 			roller.move_velocity(0);
+		}
+		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
+			fwTarg=0;
+		}
+		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
+			fwTarg=600;
+		}
+		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_A)){
+			fwTarg=-200;
 		}
 		//else loop to control the intakes and roller
 		pros::delay(20);
