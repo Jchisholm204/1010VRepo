@@ -25,25 +25,21 @@ void intake_fn(void*param){
 
 int count = 0;
   while(true){
-    if(partner.get_digital(E_CONTROLLER_DIGITAL_L1)){
-      overide = true;
-      if (!(count % 5)) {
-        // Only print every 100ms, the controller text update rate is slow
-        master.set_text(0, 0, "OVERRIDE ACTIVE");
-        partner.set_text(1, 0, "OVERRIDE ACTIVE");
-      }
-
-    }
-    else if(partner.get_digital(E_CONTROLLER_DIGITAL_L2)){
-      overide = false;
-      if (!(count % 5)) {
-        // Only print every 100ms, the controller text update rate is slow
+    if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L1) || partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
+      master.clear();
+      partner.clear();
+      if(overide==true){
+        overide=false;
         master.set_text(0, 0, "OVERRIDE DISENGAGED");
-        partner.set_text(1, 0, "OVERRIDE DISENGAGED");
-
-      }
-    }
-    if(partner.get_digital(E_CONTROLLER_DIGITAL_R1)){
+        partner.set_text(0, 0, "OVERRIDE DISENGAGED");
+      };
+      if(overide==false){
+        overide=true;
+        master.set_text(0, 0, "OVERRIDE ACTIVE");
+        partner.set_text(0, 0, "OVERRIDE ACTIVE");
+      };
+    };
+    if(partner.get_digital(E_CONTROLLER_DIGITAL_R1) && overide == true){
       intakeR.tare_position();
       intakeL.tare_position();
     }
@@ -82,9 +78,8 @@ int count = 0;
       motorPower1 = motorPower1 > 127 ? 127 : motorPower1 < -127 ? -127 : motorPower1; //caps output at +127, -127
    //motorPower > cap ?  cap :
       intakeL.move(motorPower1); //move the lift equal to motorPower
+      
 //Intake R
-
-
       currentValue2 = (intakeR.get_position());
       //the claws are on a 3:1 gearbox, so "/" by 3 to be able to set the deg in actual
       err2 = targetValue - currentValue2; //error is delta of target and current positions
