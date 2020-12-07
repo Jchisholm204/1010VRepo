@@ -6,17 +6,17 @@
 
 
 Controller master(E_CONTROLLER_MASTER);
-Controller partner(E_CONTROLLER_PARNTER);
-Motor driveRB(11, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Controller partner(E_CONTROLLER_PARTNER);
+Motor driveRB(8, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor driveRF(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
-Motor driveLB(12, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
-Motor driveLF(1, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor driveLB(7, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor driveLF(3, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 
-Motor intakeL(8, E_MOTOR_GEARSET_36, true, E_MOTOR_ENCODER_DEGREES);
-Motor intakeR(9, E_MOTOR_GEARSET_36, false, E_MOTOR_ENCODER_DEGREES);
+Motor intakeL(4, E_MOTOR_GEARSET_36, true, E_MOTOR_ENCODER_DEGREES);
+Motor intakeR(9, E_MOTOR_GEARSET_36, true, E_MOTOR_ENCODER_DEGREES);
 
-Motor roller(7, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
-Motor flyWheel(6, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
+Motor roller(2, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor flyWheel(1, E_MOTOR_GEARSET_06, true, E_MOTOR_ENCODER_DEGREES);
 
 Chassis drivef;
 Display display;
@@ -54,6 +54,7 @@ void autonomous() {
 
 void opcontrol() {
 	//display.setActiveTab(op_tab);
+	flyWheel.move_velocity(600);
 	while (true) {
 		//printf("%d\n",SelectedAuto );
 		drivef.operator_Chassis();
