@@ -1,9 +1,7 @@
 #include "main.h"
 #include "drive.h"
 #include "display.h"
-#include "vision.h"
 #include "run.h"
-#include "intake.h"
 
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
@@ -22,9 +20,6 @@ Chassis drivef;
 Display display;
 //int the chassis and display operators
 
-int intakeStatus = 0;
-//int the variable for controlling the intakes
-
 void initialize() {
 	driveLF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveLB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
@@ -34,12 +29,6 @@ void initialize() {
 	display.createScreen();
 	display.refresh();
 	//call to create and refresh display elements
-
-	//visionINT();
-	Task Intake_Task (intake_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
-				TASK_STACK_DEPTH_DEFAULT, "Intake Task");
-				//int tasking for the intake grippers
-
 }
 
 void disabled() {}
@@ -60,13 +49,6 @@ void opcontrol() {
 		//calls to run the operator chassis subset of the chassis controller
 		display.refresh();
 		//calls to update display elements
-
-		if(master.get_digital(E_CONTROLLER_DIGITAL_L1) || master.get_digital(E_CONTROLLER_DIGITAL_L2)){ //toggle control
-			intakeStatus = INTAKE_CLOSED;
-		}
-		else{ //close toggle
-			intakeStatus = INTAKE_OPEN;
-		}
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
 			roller.move_velocity(200);
 		}
@@ -76,11 +58,11 @@ void opcontrol() {
 		else{
 			roller.move_velocity(0);
 		}
-		intakeR = partner.get_analog(E_CONTROLLER_ANALOG_2);
-		intakeL = partner.get_analog(E_CONTROLLER_ANALOG_3);
+		intakeR = partner.get_analog(E_CONTROLLER_ANALOG_LEFT_Y);
+		intakeL = partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y);
 
 		//else loop to control the intakes and roller
-		pros::delay(20);
+		delay(20);
 		//visionLoop();
 	}
 }

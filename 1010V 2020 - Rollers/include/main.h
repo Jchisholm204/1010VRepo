@@ -74,10 +74,6 @@ extern Motor intakeR;
 extern Motor roller;
 extern Motor flyWheel;
 
-//vision stuff
-extern Vision visionL;
-extern Vision visionR;
-
 /*
 *There are two vision sensors defined in vision.cpp
 *They are placed with their focal points 30cm apart from one another on the robot
