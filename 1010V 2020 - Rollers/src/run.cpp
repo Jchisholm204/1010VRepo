@@ -53,7 +53,7 @@ Would read from the unprotected blue recording
         pros::delay(100);
     }
 //reading from the array
-    fscanf(fp, "%f %f %f %f %f %d %f ", &m1, &m2, &m3, &m4, &m5, &m6, &m7, &m8);
+    fscanf(fp, "%f %f %f %f %f %f %f %f ", &m1, &m2, &m3, &m4, &m5, &m6, &m7, &m8);
   //printf("%f %f %f %f %f %f %f %f\n", &m1, &m2, &m3, &m4, &m5, &m6, &m7, &m8);  //debug to serial terminal
 //moving motors using array values
 //drive motors
