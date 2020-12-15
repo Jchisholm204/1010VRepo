@@ -1,6 +1,7 @@
 #include "main.h"
 #include "drive.h"
 
+//  Exponential drive control
 int exponential(int joystickVal, float driveExp, int joydead, int motorMin){
   int joySign;
   int joyMax = 128 - joydead;
@@ -12,6 +13,7 @@ int exponential(int joystickVal, float driveExp, int joydead, int motorMin){
   return power;
 }
 
+//  Operator Chassis - runs in operator control - used for controlling the drive base
 void Chassis::operator_Chassis(void){
   int Yval = exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y), 1.5 /*DriveExp*/, 8 /*JoyDead*/, 15 /*MotorMin*/);
   int Xval = exponential(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X), 1.5, 8, 15);
@@ -21,6 +23,8 @@ void Chassis::operator_Chassis(void){
   driveRB.move(Yval - Xval);
   driveRF.move(Yval - Xval);
 }
+
+// TimeDrive Function - for making simple autos that dont warrant ReRun
 void Chassis::timeDrive(int time, int vel){
   driveLB.move_velocity(vel);
   driveLF.move_velocity(vel);

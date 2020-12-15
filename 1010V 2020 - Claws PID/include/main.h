@@ -77,17 +77,7 @@ extern Motor flyWheel;
 extern ADIDigitalIn intakeRlimit;
 extern ADIDigitalIn intakeLlimit;
 
-/*
-*There are two vision sensors defined in vision.cpp
-*They are placed with their focal points 30cm apart from one another on the robot
-*in order to use perceptive vision to tell how far away game objects are via sin law
-*/
-
-/**
- * Prototypes for the competition control tasks are redefined here to ensure
- * that they can be called from user code (i.e. calling autonomous from a
- * button press in opcontrol() for testing purposes).
- */
+// Tell the code that the display elements are defined (in display.cpp)
  extern lv_obj_t * op_tab;
  extern lv_obj_t * sys_battery_meter;
  extern lv_obj_t * bat_meter_label;

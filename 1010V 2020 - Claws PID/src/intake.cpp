@@ -1,7 +1,7 @@
 #include "intake.h"
 #include "main.h"
 
-
+//  Intake Reset Function - returns true or false
 double zero_fn(int inr){
   bool iClosed = false;
   if(inr == intR){
@@ -45,21 +45,25 @@ double zero_fn(int inr){
   return iClosed;
 }
 
-
+ // Intake PID Task
 void intake_fn(void*param){
+  //  Reset the motor encoders to zero when the task starts for the first time
   intakeR.tare_position();
   intakeL.tare_position();
 
+  //  Int common variables
   bool overide = false;
   int cap = 127;
   int targetValue = 0;
 
+  // Int Left Specific Variables
   int err1 = 0;
   int err_last1 = 0;
   int currentValue1;
   int motorPower1;
   int derr1;
 
+  //  Int Right Specific Variables
   int err2 = 0;
   int err_last2 = 0;
   int currentValue2;
@@ -73,6 +77,8 @@ void intake_fn(void*param){
 			zero_fn(intB);
 			overide = true;
 		}*/
+
+    //  Toggle control for the intake override - lets us use joysticks instead of the PID
     if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L1) || partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
       master.clear();
       partner.clear();
@@ -87,10 +93,14 @@ void intake_fn(void*param){
         partner.set_text(0, 0, "OVERRIDE ACTIVE");
       };
     };
+    //  IF Override is on and Partner R1 is pressed reset the motor encoders to zero
     if(partner.get_digital(E_CONTROLLER_DIGITAL_R1) && overide == true){
       intakeR.tare_position();
       intakeL.tare_position();
     }
+
+
+    //  Switch Case for controlling intake PID input
     switch (intakeStatus)
     {
     case(INTAKE_HOLD):
@@ -109,11 +119,13 @@ void intake_fn(void*param){
       /*    if(competition::is_autonomous()){
 
       }
+    //  Override = joysticks / else = POS Controlled
     else*/ if(overide == true){
       intakeL.move_velocity(partner.get_analog(E_CONTROLLER_ANALOG_LEFT_Y));
       intakeR.move_velocity(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y));
     }
     else{
+      //  Use limit switches to close / else use PID
       if(intakeStatus == INTAKE_CLOSED){
         if(intakeRlimit.get_value() == true){
           intakeR.move_velocity(0);
@@ -128,7 +140,7 @@ void intake_fn(void*param){
           intakeL.move_velocity(-100);
         }
       }
-      else{
+      else{ //Run identical PIDs on the L and R intakes, but use 2 pids so that if one gets stuck it will autocorrect
         //Intake L
         currentValue1 = intakeL.get_position();
         //the claws are on a 3:1 gearbox, so "/" by 3 to be able to set the deg in actual
@@ -137,7 +149,6 @@ void intake_fn(void*param){
         err_last1 = err1; //store last error
         motorPower1 = (1 * err1) + (1.1 * derr1); //PD constants plus our variables
         motorPower1 = motorPower1 > 127 ? 127 : motorPower1 < -127 ? -127 : motorPower1; //caps output at +127, -127
-        //motorPower > cap ?  cap :
         intakeL.move(motorPower1); //move the lift equal to motorPower
 
         //Intake R
@@ -148,11 +159,9 @@ void intake_fn(void*param){
         err_last2 = err2; //store last error
         motorPower2 = (1 * err2) + (1.1 * derr2); //PD constants plus our variables
         motorPower2 = motorPower2 > 127 ? 127 : motorPower2 < -127 ? -127 : motorPower2; //caps output at +127, -127
-        //motorPower > cap ?  cap :
-
         intakeR.move(motorPower2); //move the lift equal to motorPower
       }
     }
-    delay(10);
+    delay(10); //delay - stops the brain from overheating
   }
 }
