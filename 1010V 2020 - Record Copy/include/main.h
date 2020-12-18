@@ -57,6 +57,7 @@
 
 //controller: only one for now
 extern Controller master;
+extern Controller partner;
 
 //drive motors
 extern Motor driveRB;
@@ -72,9 +73,9 @@ extern Motor intakeR;
 extern Motor roller;
 extern Motor flyWheel;
 
-//vision stuff
-extern Vision visionL;
-extern Vision visionR;
+//intake limit switches
+extern ADIDigitalIn intakeRlimit;
+extern ADIDigitalIn intakeLlimit;
 
 /*
 *There are two vision sensors defined in vision.cpp
