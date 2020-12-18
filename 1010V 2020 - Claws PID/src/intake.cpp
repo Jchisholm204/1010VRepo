@@ -143,7 +143,6 @@ void intake_fn(void*param){
       else{ //Run identical PIDs on the L and R intakes, but use 2 pids so that if one gets stuck it will autocorrect
         //Intake L
         currentValue1 = intakeL.get_position();
-        //the claws are on a 3:1 gearbox, so "/" by 3 to be able to set the deg in actual
         err1 = targetValue - currentValue1; //error is delta of target and current positions
         derr1 = err1 - err_last1; //difference of errors over iterations
         err_last1 = err1; //store last error
@@ -153,7 +152,6 @@ void intake_fn(void*param){
 
         //Intake R
         currentValue2 = intakeR.get_position();
-        //the claws are on a 3:1 gearbox, so "/" by 3 to be able to set the deg in actual
         err2 = targetValue - currentValue2; //error is delta of target and current positions
         derr2 = err2 - err_last2; //difference of errors over iterations
         err_last2 = err2; //store last error

@@ -33,6 +33,10 @@ void initialize() {
 	driveLB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveRF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveRB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+
+	roller.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+	flyWheel.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+
 	intakeL.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	intakeR.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 
@@ -59,7 +63,7 @@ void initialize() {
 			autoLength = 59500;
 			break;
 		default:
-			autoLength = 14500;
+			autoLength = 10000;
 			break;
 	}
 }
@@ -80,7 +84,7 @@ void disabled() {
 				autoLength = 59500;
 				break;
 			default:
-				autoLength = 14500;
+				autoLength = 10000;
 				break;
 		}
 		delay(800);//long delay as the robot should be disabled
@@ -99,6 +103,11 @@ void autonomous() {
 double getVelocity(Motor motor){
 	return motor.get_actual_velocity();
 }
+
+double getDeg(Motor motor){
+	return motor.get_position();
+}
+
 
 //ignore this
 //	return std::to_string(status).c_str();
@@ -121,7 +130,7 @@ void opcontrol() {
 			break;
 		default: //if there is not auto file selected, record to the test file
 			file = fopen("/usd/record.txt", "w");
-			autoLength = 14500;
+			autoLength = 10000;
 			break;
 	}
 	printf("%d\n", SelectedAuto);
@@ -137,6 +146,7 @@ void opcontrol() {
 		display.refresh();
 		//calls to update display elements
 
+		printf("L: %d", getDeg(intakeL))
 		//  Intake Control - R1 Closes / R2 Opens
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){ //toggle open
 			intakeStatus = INTAKE_CLOSED;
@@ -164,8 +174,6 @@ void opcontrol() {
 		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
 			fwTarg=-200;
 		}
-		//display.refresh();
-		drivef.operator_Chassis();
 
 		delay(15);
 		timer += 15;
@@ -187,7 +195,7 @@ void opcontrol() {
 				////roller
 		fprintf(file, "%f\n", getVelocity(roller));
 				///intakes
-		fprintf(file, "%s\n", std::to_string(intakeStatus).c_str()); //yes i know error but i want it to be floating point//nevermind i change to string
+		fprintf(file, "%s\n", std::to_string(intakeStatus).c_str());
 		//instead of using the motor values get the pid input
 		//fprintf(file, "%f\n", getVelocity(intakeR));
 		//fprintf(file, "%f\n", getVelocity(intakeL));
