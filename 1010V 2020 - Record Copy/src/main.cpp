@@ -50,7 +50,7 @@ void initialize() {
 	
 	
 	////Auton Initializers
-	printf("Selected Auto:...Unknown");
+	printf("Selected Auto:...Unknown\t");
 	printf("GameMode: ...int\n");
 	switch (SelectedAuto) { //get the auto selected on the display
 		case 1:
@@ -63,12 +63,13 @@ void initialize() {
 			autoLength = 59500;
 			break;
 		default:
-			autoLength = 10000;
+			autoLength = 14500;
 			break;
 	}
 }
 
 void disabled() {
+	/*
 	while(true){
 		display.refresh();
 		printf("Selected Auto:""%d\t", SelectedAuto);
@@ -89,6 +90,7 @@ void disabled() {
 		}
 		delay(800);//long delay as the robot should be disabled
 	}
+	*/
 }
 
 void competition_initialize() {}
@@ -115,7 +117,13 @@ double getDeg(Motor motor){
 void opcontrol() {
 	int timer = 0;
 	FILE*file;
-	switch (SelectedAuto) { //get the auto selected on the display and open the corisponding file
+	bool go = false;
+	bool ran = false;
+	int fwTarg = 0; // int Speed variable for controlling the top roller speed (0-600 rpm)
+
+	//wait until R1 is pressed to start recording
+	while(go == false){
+		switch (SelectedAuto) { //get the auto selected on the display and open the corisponding file
 		case 1:
 			file = fopen("/usd/red.txt", "w");
 			autoLength = 14500;
@@ -126,19 +134,28 @@ void opcontrol() {
 			break;
 		case 3:
 			file = fopen("/usd/skills.txt", "w");
-			autoLength = 59500;
+			autoLength = 58000;
 			break;
 		default: //if there is not auto file selected, record to the test file
 			file = fopen("/usd/record.txt", "w");
-			autoLength = 10000;
+			autoLength = 14500;
 			break;
+		};
+		if(master.get_digital(E_CONTROLLER_DIGITAL_R1) && ran == false){
+			go = true;
+		};
+		if(master.get_digital(E_CONTROLLER_DIGITAL_R1) && ran == true){
+					fclose(file);
+			printf("ended");
+			master.rumble("----");
+		}
 	}
+
 	printf("%d\n", SelectedAuto);
 	printf("recording\n");
-		// int Speed variable for controlling the top roller speed (0-600 rpm)
-	int fwTarg = 0;
-	while (timer < autoLength) {
-		//  Tell the top roller to move with the velocity of the speed variable
+
+	while (timer < autoLength && go == true && ran == false) {
+		//  Tell the top 	roller to move with the velocity of the speed variable
 		flyWheel.move_velocity(fwTarg);
 		//printf("%d\n",SelectedAuto );
 		drivef.operator_Chassis();
@@ -146,7 +163,7 @@ void opcontrol() {
 		display.refresh();
 		//calls to update display elements
 
-		printf("L: %d", getDeg(intakeL))
+		printf("L: %d", getDeg(intakeL));
 		//  Intake Control - R1 Closes / R2 Opens
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){ //toggle open
 			intakeStatus = INTAKE_CLOSED;
@@ -175,17 +192,6 @@ void opcontrol() {
 			fwTarg=-200;
 		}
 
-		delay(15);
-		timer += 15;
-
-		if(timer > autoLength){
-			driveLB.move_velocity(0);
-			driveLF.move_velocity(0);
-			driveRB.move_velocity(0);
-			driveRF.move_velocity(0);
-			flyWheel.move_velocity(0);
-			roller.move_velocity(0);
-		}
 		/////////////////////////DATA COLECTION
 				//////drive
 		fprintf(file, "%f\n", getVelocity(driveRB));
@@ -194,14 +200,28 @@ void opcontrol() {
 		fprintf(file, "%f\n", getVelocity(driveLF));
 				////roller
 		fprintf(file, "%f\n", getVelocity(roller));
+		fprintf(file, "%f\n", getVelocity(flyWheel));
 				///intakes
 		fprintf(file, "%s\n", std::to_string(intakeStatus).c_str());
 		//instead of using the motor values get the pid input
 		//fprintf(file, "%f\n", getVelocity(intakeR));
 		//fprintf(file, "%f\n", getVelocity(intakeL));
-				////fast spinning roller
-		fprintf(file, "%f\n", getVelocity(flyWheel));
-	}
+		
+		delay(15);
+		timer += 15;
+
+		if(timer > (autoLength-15)){
+			driveLB.move_velocity(0);
+			driveLF.move_velocity(0);
+			driveRB.move_velocity(0);
+			driveRF.move_velocity(0);
+			flyWheel.move_velocity(0);
+			roller.move_velocity(0);
+			go = false;
+			ran = true;
+		};
+	};
 		fclose(file);
 		printf("finished");
+		master.rumble("----");
 }
