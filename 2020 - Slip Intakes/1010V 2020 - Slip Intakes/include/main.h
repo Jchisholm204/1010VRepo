@@ -70,6 +70,10 @@ extern Motor driveLF;
 extern Motor intakeL;
 extern Motor intakeR;
 
+//Limit switches for Intakes
+extern ADIDigitalIn LIL;
+extern ADIDigitalIn LIR;
+
 //inner rollers and flywheel
 extern Motor roller;
 extern Motor flyWheel;

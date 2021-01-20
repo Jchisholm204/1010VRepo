@@ -29,6 +29,9 @@ void initialize() {
 	display.createScreen();
 	display.refresh();
 	//call to create and refresh display elements
+
+	ADIDigitalIn LIL('a');
+	ADIDigitalIn LIR('b');
 }
 
 void disabled() {}
@@ -58,9 +61,19 @@ void opcontrol() {
 		else{
 			roller.move_velocity(0);
 		}
-		intakeR = partner.get_analog(E_CONTROLLER_ANALOG_LEFT_Y);
-		intakeL = partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y);
 
+		if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
+			intakeL.move_velocity(-100);
+			intakeR.move_velocity(-100);
+		}
+		else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)){
+			intakeL.move_velocity(20 * LIL.get_value());
+			intakeR.move_velocity(20 * LIR.get_value());
+		}
+		else{
+			intakeL.move_velocity(0);
+			intakeR.move_velocity(0);			
+		}
 		//else loop to control the intakes and roller
 		delay(20);
 		//visionLoop();
