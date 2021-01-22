@@ -1,7 +1,6 @@
 #include "main.h"
 #include "drive.h"
 #include "display.h"
-#include "intake.h"
 
 // Define the Controllers
 Controller master(E_CONTROLLER_MASTER);
@@ -20,13 +19,11 @@ Motor roller(2, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor flyWheel(1, E_MOTOR_GEARSET_06, true, E_MOTOR_ENCODER_DEGREES);
 
 // Define the limit switches for closing the intakes
-ADIDigitalIn intakeRlimit('a');
-ADIDigitalIn intakeLlimit('b');
+ADIDigitalIn LiR('a');
+ADIDigitalIn LiL('b');
 
 Chassis drivef;
 Display display;
-
-int intakeStatus = 0;
 
 void initialize() {
 	driveLF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
@@ -42,12 +39,7 @@ void initialize() {
 
 
 	display.createScreen();
-	display.refresh();
-
-	//int the intake task
-	Task Intake_Task (intake_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
-				TASK_STACK_DEPTH_DEFAULT, "Intake Task");
-	
+	display.refresh();	
 	
 	////Auton Initializers
 	printf("Selected Auto:...Unknown\t");
@@ -165,11 +157,17 @@ void opcontrol() {
 
 		printf("L: %d", getDeg(intakeL));
 		//  Intake Control - R1 Closes / R2 Opens
-		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){ //toggle open
-			intakeStatus = INTAKE_CLOSED;
+		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
+			intakeL.move_velocity(-100);
+			intakeR.move_velocity(-100);
 		}
 		else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){ //close toggle
-			intakeStatus = INTAKE_OPEN;
+			intakeL.move_velocity(20 * (1-LiL.get_value()));
+			intakeR.move_velocity(20 * (1-LiR.get_value()));
+		}
+		else{
+			intakeL.move_velocity(0);
+			intakeR.move_velocity(0);			
 		}
 		//  Internal Roller Control - L1 Intakes / L2 Outtakes
 		if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
@@ -202,10 +200,9 @@ void opcontrol() {
 		fprintf(file, "%f\n", getVelocity(roller));
 		fprintf(file, "%f\n", getVelocity(flyWheel));
 				///intakes
-		fprintf(file, "%s\n", std::to_string(intakeStatus).c_str());
-		//instead of using the motor values get the pid input
-		//fprintf(file, "%f\n", getVelocity(intakeR));
-		//fprintf(file, "%f\n", getVelocity(intakeL));
+		//fprintf(file, "%s\n", std::to_string(intakeStatus).c_str());
+		fprintf(file, "%f\n", getVelocity(intakeR));
+		fprintf(file, "%f\n", getVelocity(intakeL));
 		
 		delay(15);
 		timer += 15;

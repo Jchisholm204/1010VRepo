@@ -45,6 +45,7 @@ void autonomous() {
 }
 
 void opcontrol() {
+	int fwTarg =  0;
 	//display.setActiveTab(op_tab);
 	while (true) {
 		//printf("%d\n",SelectedAuto );
@@ -61,6 +62,20 @@ void opcontrol() {
 		else{
 			roller.move_velocity(0);
 		}
+		
+		//  Set up the Top roller speed control - Y = Stop / X = Full Speed / B = Slow Outtake (in case of jam)
+		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
+			fwTarg=0;
+		}
+		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
+			fwTarg=600;
+		}
+		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
+			fwTarg=-200;
+		}
+
+		flyWheel.move_velocity(fwTarg);
+
 
 		if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
 			intakeL.move_velocity(-100);
