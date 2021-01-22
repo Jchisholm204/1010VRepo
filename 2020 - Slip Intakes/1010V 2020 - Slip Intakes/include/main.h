@@ -71,8 +71,8 @@ extern Motor intakeL;
 extern Motor intakeR;
 
 //Limit switches for Intakes
-extern ADIDigitalIn LIL;
-extern ADIDigitalIn LIR;
+extern ADIDigitalIn LiL;
+extern ADIDigitalIn LiR;
 
 //inner rollers and flywheel
 extern Motor roller;

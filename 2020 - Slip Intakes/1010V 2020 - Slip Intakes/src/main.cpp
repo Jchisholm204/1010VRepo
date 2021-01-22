@@ -30,8 +30,8 @@ void initialize() {
 	display.refresh();
 	//call to create and refresh display elements
 
-	ADIDigitalIn LIL('a');
-	ADIDigitalIn LIR('b');
+	ADIDigitalIn LiL('a');
+	ADIDigitalIn LiR('b');
 }
 
 void disabled() {}
@@ -67,8 +67,8 @@ void opcontrol() {
 			intakeR.move_velocity(-100);
 		}
 		else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)){
-			intakeL.move_velocity(20 * LIL.get_value());
-			intakeR.move_velocity(20 * LIR.get_value());
+			intakeL.move_velocity(20 * (1-LiL.get_value()));
+			intakeR.move_velocity(20 * (1-LiR.get_value()));
 		}
 		else{
 			intakeL.move_velocity(0);
