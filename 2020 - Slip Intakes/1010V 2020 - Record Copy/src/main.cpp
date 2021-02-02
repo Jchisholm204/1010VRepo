@@ -12,8 +12,8 @@ Motor driveRF(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor driveLB(7, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 Motor driveLF(3, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 //  Define the Motors - Intakes
-Motor intakeL(4, E_MOTOR_GEARSET_36, false, E_MOTOR_ENCODER_DEGREES);
-Motor intakeR(9, E_MOTOR_GEARSET_36, true, E_MOTOR_ENCODER_DEGREES);
+Motor intakeL(4, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor intakeR(9, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 // Define the Motors - Internal Rollers / Top Roller
 Motor roller(2, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor flyWheel(1, E_MOTOR_GEARSET_06, true, E_MOTOR_ENCODER_DEGREES);
@@ -26,6 +26,7 @@ Chassis drivef;
 Display display;
 
 void initialize() {
+	//set brake modes of motors
 	driveLF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveLB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveRF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
@@ -145,6 +146,7 @@ void opcontrol() {
 
 	printf("%d\n", SelectedAuto);
 	printf("recording\n");
+	master.rumble("..");
 
 	while (timer < autoLength && go == true && ran == false) {
 		//  Tell the top 	roller to move with the velocity of the speed variable
@@ -158,8 +160,8 @@ void opcontrol() {
 		printf("L: %d", getDeg(intakeL));
 		//  Intake Control - R1 Closes / R2 Opens
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
-			intakeL.move_velocity(-100);
-			intakeR.move_velocity(-100);
+			intakeL.move_velocity(-200);
+			intakeR.move_velocity(-200);
 		}
 		else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){ //close toggle
 			intakeL.move_velocity(20 * (1-LiL.get_value()));

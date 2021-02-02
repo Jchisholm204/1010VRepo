@@ -5,16 +5,16 @@
 
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
-Motor driveRB(11, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor driveRB(8, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor driveRF(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
-Motor driveLB(12, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
-Motor driveLF(1, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
-
-Motor intakeL(8, E_MOTOR_GEARSET_36, true, E_MOTOR_ENCODER_DEGREES);
-Motor intakeR(9, E_MOTOR_GEARSET_36, false, E_MOTOR_ENCODER_DEGREES);
-
-Motor roller(7, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
-Motor flyWheel(6, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
+Motor driveLB(7, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor driveLF(3, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+//  Define the Motors - Intakes
+Motor intakeL(4, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor intakeR(9, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+// Define the Motors - Internal Rollers / Top Roller
+Motor roller(2, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor flyWheel(1, E_MOTOR_GEARSET_06, true, E_MOTOR_ENCODER_DEGREES);
 
 Chassis drivef;
 Display display;
@@ -30,10 +30,10 @@ void initialize() {
 	display.refresh();
 	//call to create and refresh display elements
 
-	ADIDigitalIn LiL('a');
-	ADIDigitalIn LiR('b');
-}
 
+}
+ADIDigitalIn LiL('a');
+ADIDigitalIn LiR('b');
 void disabled() {}
 
 void competition_initialize() {}
@@ -78,12 +78,12 @@ void opcontrol() {
 
 
 		if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
-			intakeL.move_velocity(-100);
-			intakeR.move_velocity(-100);
+			intakeL.move_velocity(-200);
+			intakeR.move_velocity(-200);
 		}
 		else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)){
-			intakeL.move_velocity(20 * (1-LiL.get_value()));
-			intakeR.move_velocity(20 * (1-LiR.get_value()));
+			intakeL.move_velocity(20 * (1 - LiL.get_value()));
+			intakeR.move_velocity(20 * (1 - LiR.get_value()));
 		}
 		else{
 			intakeL.move_velocity(0);
