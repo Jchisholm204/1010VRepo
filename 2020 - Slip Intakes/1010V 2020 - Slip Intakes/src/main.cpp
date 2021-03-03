@@ -14,7 +14,7 @@ Motor intakeL(4, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor intakeR(9, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 // Define the Motors - Internal Rollers / Top Roller
 Motor roller(2, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
-Motor flyWheel(1, E_MOTOR_GEARSET_06, true, E_MOTOR_ENCODER_DEGREES);
+Motor flyWheel(1, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
 
 Chassis drivef;
 Display display;
@@ -25,6 +25,9 @@ void initialize() {
 	driveLB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveRF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveRB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+
+	intakeR.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+	intakeL.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 
 	display.createScreen();
 	display.refresh();
@@ -40,6 +43,12 @@ void competition_initialize() {}
 
 
 void autonomous() {
+	intakeL.move_velocity(-30);
+	delay(500);
+	intakeL.move_velocity(0);
+	intakeR.move_velocity(-200);
+	delay(750);
+	intakeR.move_velocity(0);
 	autoRun();
 //run the autorun file when the autonomous function is called by the match controller
 }
@@ -53,10 +62,10 @@ void opcontrol() {
 		//calls to run the operator chassis subset of the chassis controller
 		display.refresh();
 		//calls to update display elements
-		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
+		if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
 			roller.move_velocity(200);
 		}
-		else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
+		else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)){
 			roller.move_velocity(-200);
 		}
 		else{
@@ -68,7 +77,7 @@ void opcontrol() {
 			fwTarg=0;
 		}
 		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
-			fwTarg=600;
+			fwTarg=400;
 		}
 		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
 			fwTarg=-200;
@@ -77,13 +86,14 @@ void opcontrol() {
 		flyWheel.move_velocity(fwTarg);
 
 
-		if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
+		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
 			intakeL.move_velocity(-200);
 			intakeR.move_velocity(-200);
+			//roller.move_velocity(100);
 		}
-		else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)){
-			intakeL.move_velocity(20 * (1 - LiL.get_value()));
-			intakeR.move_velocity(20 * (1 - LiR.get_value()));
+		else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
+			intakeL.move_velocity(50 * (1 - LiL.get_value()));
+			intakeR.move_velocity(50 * (1 - LiR.get_value()));
 		}
 		else{
 			intakeL.move_velocity(0);
