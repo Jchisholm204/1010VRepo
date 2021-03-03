@@ -4,5 +4,5 @@ In this repository is our teams code, and hopefully soon some pictures of our te
 Code written in C++ and compiled for the Vex V5 microcontroller for use with a master and partner controller
 
 # Members
-## Main Builder --- Mathias Stiasny
-## Main Programer --- Jacob Chisholm
+## Main Builder --- Jacob Chisholm
+## Main Programer --- Mathias Stiasny
