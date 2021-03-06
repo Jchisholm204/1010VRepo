@@ -83,9 +83,9 @@ void Display::DistanceReadout(void){
     lULTsts = lv_label_create(diagnostics_tab, NULL);
     rULTsts = lv_label_create(diagnostics_tab, NULL);
 
-    lv_obj_align(bULTsts, lLED, LV_ALIGN_CENTER, -40, -20);
+    lv_obj_align(bULTsts, lLED, LV_ALIGN_CENTER, -210, -20);
     lv_obj_align(lULTsts, bULTsts, LV_ALIGN_CENTER, 0, 20);
-    lv_obj_align(rULTsts, lULTsts, LV_ALIGN_CENTER, -40, 20);
+    lv_obj_align(rULTsts, lULTsts, LV_ALIGN_CENTER, 0, 20);
 
     lv_label_set_text(bULTsts, "ULTRASONIC B: --");
     lv_label_set_text(lULTsts, "ULTRASONIC L: --");
