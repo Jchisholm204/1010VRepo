@@ -58,8 +58,8 @@ void Chassis::startDriving(int speed){
 }
 
 void Chassis::TurnDistance(int direction, int targetValue, int timeout){
-		float driveKP = 0.8;
-		float driveKD = 0.6;
+		float driveKP = 0.7;
+		float driveKD = 1;
 		int motorPower; //motor power level
 		int startTime = millis(); //Elapsed time since start of the sequence
 		int currentValue = 0; //starting value of 0
@@ -102,8 +102,8 @@ void Chassis::TurnDistance(int direction, int targetValue, int timeout){
 }
 
 void Chassis::MoveDistance(int direction, int targetValue, int timeout){
-	float driveKP = 0.8;
-	float driveKD = 0.6;
+	float driveKP = 0.7;
+	float driveKD = 1;
 	int motorPower; //motor power level
 	int startTime = millis(); //Elapsed time since start of the sequence
 	int currentValue = 0; //starting value of 0
