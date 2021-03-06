@@ -38,14 +38,14 @@ void initialize() {
 }
 
 
-ADIDigitalIn LiL('1');
-ADIDigitalIn LiR('2');
+ADIDigitalIn LiL('a');
+ADIDigitalIn LiR('b');
 //pros::ADIUltrasonic sensor (PORT_PING, PORT_ECHO);
 //port_ping	-- the port connected to the orange OUTPUT cable. This should be in port 1, 3, 5, or 7 (‘A’, ‘C’, ‘E’, ‘G’).
 //port_echo	-- the port connected to the yellow INPUT cable. This should be in the next highest port following port_ping.
-ADIUltrasonic bULT('3', '4');
-ADIUltrasonic lULT('5', '6');
-ADIUltrasonic rULT('7', '8');
+ADIUltrasonic lULT('c', 'd');
+ADIUltrasonic rULT('e', 'f');
+ADIUltrasonic bULT('g', 'h');
 
 void disabled() {}
 
@@ -53,33 +53,7 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	intakeL.move_velocity(-30);
-	delay(500);
-	intakeL.move_velocity(0);
-	intakeR.move_velocity(-200);
-	delay(750);
-	intakeR.move_velocity(0);
-
-	pros::delay(1000);
-
-	intakeL.move_velocity(-200);
-	intakeR.move_velocity(-200);
-
-	flyWheel.move_velocity(600);
-	pros::delay(800);
-	flyWheel.move_velocity(450);
-
-	drivef.timeDrive(1300, 200, 1);
-	drivef.startDriving(50);
-	roller.move_velocity(200);
-	pros::delay(1000);
-	intakeL.move_velocity(50);
-	intakeR.move_velocity(50);
-	drivef.startDriving(-100);
-	pros::delay(1000);
-	intakeL.move_velocity(0);
-	intakeR.move_velocity(0);
-	drivef.stopDriving();
+	testAuto();
 	//RedAuto();
 	//BlueAuto();
 
