@@ -57,9 +57,9 @@ void Chassis::startDriving(int speed){
   driveRF.move_velocity(speed);
 }
 
-void Chassis::TurnDistance(int direction, int targetValue, int speed, int timeout){
-		float driveKP = 1.2;
-		float driveKD = 0.8;
+void Chassis::TurnDistance(int direction, int targetValue, int timeout){
+		float driveKP = 0.8;
+		float driveKD = 0.6;
 		int motorPower; //motor power level
 		int startTime = millis(); //Elapsed time since start of the sequence
 		int currentValue = 0; //starting value of 0
@@ -90,8 +90,8 @@ void Chassis::TurnDistance(int direction, int targetValue, int speed, int timeou
 
 			motorPower = p+i+d; //motorpower is the sum of p, i, and d
 
-			if(motorPower > 50){motorPower = 50;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
-			if(motorPower < -50){motorPower = -50;}//if the motor power is less than -127 (the minimum it can go), set it to -127
+			if(motorPower > 25){motorPower = 25;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
+			if(motorPower < -25){motorPower = -25;}//if the motor power is less than -127 (the minimum it can go), set it to -127
 
 				driveRF.move(direction*motorPower);
 				driveLB.move((-direction*motorPower));
@@ -101,9 +101,9 @@ void Chassis::TurnDistance(int direction, int targetValue, int speed, int timeou
 		}
 }
 
-void Chassis::MoveDistance(int direction, int targetValue, int speed, int timeout){
-	float driveKP = 1.2;
-	float driveKD = 0.8;
+void Chassis::MoveDistance(int direction, int targetValue, int timeout){
+	float driveKP = 0.8;
+	float driveKD = 0.6;
 	int motorPower; //motor power level
 	int startTime = millis(); //Elapsed time since start of the sequence
 	int currentValue = 0; //starting value of 0
@@ -128,8 +128,8 @@ void Chassis::MoveDistance(int direction, int targetValue, int speed, int timeou
 
 		motorPower = p+i+d; //motorpower is the sum of p, i, and d
 
-		if(motorPower > 127){motorPower = 127;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
-		if(motorPower < -127){motorPower = -127;}//if the motor power is less than -127 (the minimum it can go), set it to -127
+		if(motorPower > 100){motorPower = 100;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
+		if(motorPower < -100){motorPower = -100;}//if the motor power is less than -127 (the minimum it can go), set it to -127
 
 		driveRF.move(direction*motorPower);
       	driveLB.move((direction*motorPower));
