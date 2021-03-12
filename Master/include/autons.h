@@ -3,6 +3,7 @@
 
 void expanSn(int timeout);
 void testAuto(void);
+void skills(void);
 void RedAuto(void);
 void BlueAuto(void);
 

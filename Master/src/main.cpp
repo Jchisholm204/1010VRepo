@@ -53,9 +53,11 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	testAuto();
+	//testAuto();
 	//RedAuto();
 	//BlueAuto();
+	skills();
+	//drivef.MoveDistance(DIRECTION_BACK, 100, 2000);
 
 }
 

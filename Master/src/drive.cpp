@@ -76,10 +76,10 @@ void Chassis::TurnDistance(int direction, int targetValue, int timeout){
 		while((millis() - startTime) < timeout){
 			//reset motor encoders
 			if(direction == DIRECTION_RIGHT){  //left encoder if turing right
-				currentValue = driveLB.get_position();
+				currentValue = abs(driveLB.get_position());
 			}
 			else if(direction == DIRECTION_LEFT){  // right encoder if turing left
-				currentValue = driveRB.get_position();
+				currentValue = abs(driveRB.get_position());
 			}
 			turn_err = targetValue - currentValue; //error is how far the current position is from the position you put into the loop
 			err_last = turn_err; //stores the error
@@ -102,8 +102,8 @@ void Chassis::TurnDistance(int direction, int targetValue, int timeout){
 }
 
 void Chassis::MoveDistance(int direction, int targetValue, int timeout){
-	float driveKP = 0.7;
-	float driveKD = 1;
+	float driveKP = 1.2;
+	float driveKD = 0.8;
 	int motorPower; //motor power level
 	int startTime = millis(); //Elapsed time since start of the sequence
 	int currentValue = 0; //starting value of 0
@@ -118,7 +118,7 @@ void Chassis::MoveDistance(int direction, int targetValue, int timeout){
 	driveRB.tare_position();
 	driveLB.tare_position();
 	while((millis() - startTime) < timeout){
-		currentValue = (driveRB.get_position() + driveLB.get_position()) /2;
+		currentValue = abs(driveRB.get_position() + driveLB.get_position()) /2;
 		turn_err = targetValue - currentValue; //error is how far the current position is from the position you put into the loop
 		err_last = turn_err; //stores the error
 		derr = (turn_err - err_last); //difference between how far you were from the target last sequence compared to this sequence
