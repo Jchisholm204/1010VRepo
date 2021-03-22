@@ -1,7 +1,7 @@
 #include "main.h"
 #include "drive.h"
 #include "display.h"
-#include "autons.h"
+#include "run.h"
 
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
@@ -53,12 +53,7 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	//testAuto();
-	//RedAuto();
-	//BlueAuto();
-	skills();
-	//drivef.MoveDistance(DIRECTION_BACK, 100, 2000);
-
+	autoRun();
 }
 
 void opcontrol() {
@@ -81,27 +76,6 @@ void opcontrol() {
 			roller.move_velocity(0);
 			flyWheel.move_velocity(0);
 		}
-		
-		/*//  Set up the Top roller speed control - Y = Stop / X = Full Speed / B = Slow Outtake (in case of jam)
-		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
-			fwTarg=0;
-		}
-		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
-			fwTarg=470;
-		}
-		else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
-			fwTarg+=10;
-		}
-		else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
-			fwTarg-=10;
-		}
-		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
-			fwTarg=-100;
-		}
-
-		flyWheel.move_velocity(fwTarg);
-		printf("fwTarg: %d\n", fwTarg);
-*/
 
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
 			intakeL.move_velocity(-200);
