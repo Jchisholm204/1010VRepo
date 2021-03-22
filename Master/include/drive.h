@@ -1,6 +1,9 @@
 #ifndef _DRIVE_H_
 #define _DRIVE_H_
 
+#define TRN_RIGHT = 1
+#define TRN_LEFT = -1
+
 class Chassis{
 public:
   void operator_Chassis(void);
@@ -12,6 +15,7 @@ public:
   void startDriving(int speed);
   void driveULT(int targetValue, ADIUltrasonic sensor, int timeout, int slowdownfactor, int slowdownValue);
   void towerDive(int stoppingValue, int slowdownfactor, int slowdownValue, int timeout);
+  void twrAlign(int timeout);
 
 };
 

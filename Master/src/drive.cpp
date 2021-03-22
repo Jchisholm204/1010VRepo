@@ -181,44 +181,59 @@ void Chassis::driveULT(int targetValue, ADIUltrasonic sensor, int timeout, int s
 }
 
 void Chassis::towerDive(int stoppingValue, int slowdownfactor, int slowdownValue, int timeout){
-	int aVal;
+	//int aVal;
+	//int sValL = lULT.get_value();
+	//int sValR = rULT.get_value();
 	int errorLeft;
 	int errorRight;
-	int DriveError;
+	//int DriveError;
 	int leftPower;
 	int rightPower;
 	int startTime = pros::millis();
 	
 	while(pros::millis() - startTime < timeout){
-		aVal = ((lULT.get_value() + rULT.get_value()) /2);
+		//aVal = ((lULT.get_value() + rULT.get_value()) /2);
 
 		errorLeft = lULT.get_value() - stoppingValue; //gets the remaining distance on the left side
 		errorRight = rULT.get_value() - stoppingValue; //gets the remaining distance on the right side
 		
-		//DriveError - keeps the two sides of the robot in position as well as helps to position the robot for shooting
-		DriveError = errorLeft - errorRight; 
-		//turns positive if the left side is ahead of the right and negative if the right side is ahead of the left
+			//DriveError - keeps the two sides of the robot in position as well as helps to position the robot for shooting
+		//DriveError = errorLeft - errorRight; 
+			//turns positive if the left side is ahead of the right and negative if the right side is ahead of the left
 
-		leftPower = errorLeft + DriveError; // drive error is negative when the left side is ahead, so slow the left side down
-		rightPower = errorRight - DriveError; // drive error is positive when the right side is ahead, so slow the right side down
+		leftPower = (errorLeft * 1000); // drive error is negative when the left side is ahead, so slow the left side down
+		rightPower = (errorRight * 1000); // drive error is positive when the right side is ahead, so slow the right side down
 
-		if(leftPower > 127){leftPower = 127;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
-		if(leftPower < -127){leftPower = -127;}//if the motor power is less than -127 (the minimum it can go), set it to -127
+		if(leftPower > 50){leftPower = 50;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
+		if(leftPower < -50){leftPower = -50;}//if the motor power is less than -127 (the minimum it can go), set it to -127
 
-		if(rightPower > 127){rightPower = 127;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
-		if(rightPower < -127){rightPower = -127;}//if the motor power is less than -127 (the minimum it can go), set it to -127
-
+		if(rightPower > 50){rightPower = 50;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
+		if(rightPower < -50){rightPower = -50;}//if the motor power is less than -127 (the minimum it can go), set it to -127
+/*
 		if(slowdownfactor < 1 && slowdownValue > 0){ //use slowdown factor to help with positional accuracy - does not work in place of pid, but serves simmarly
 			if ((stoppingValue - slowdownValue) < aVal < (stoppingValue + slowdownValue)){ // if the target is close to the goal, engage the slowdown factor
 				rightPower = rightPower * slowdownfactor; //if slowdown factor is engaged, multiply the motorpowers by the slowdown factor
 				leftPower = leftPower * slowdownfactor;
 			}
 		}
-
+*/
 		driveRF.move(rightPower);
       	driveLB.move(leftPower);
       	driveRB.move(rightPower);
       	driveLF.move(leftPower);
 	}
+}
 
+void Chassis::twrAlign(int timeout){
+	int milis = pros::millis();
+	int motorVel;
+	while((pros::millis()-milis) < timeout){
+
+		motorVel = (lULT.get_value() - rULT.get_value());
+
+		driveRF.move_velocity(motorVel * -10);
+      	driveLB.move_velocity(motorVel * 10);
+      	driveRB.move_velocity(motorVel * -10);
+      	driveLF.move_velocity(motorVel * 10);
+	}
 }
