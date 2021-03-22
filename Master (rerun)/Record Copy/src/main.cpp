@@ -60,7 +60,7 @@ void opcontrol() {
 
 	FILE * recFile = fopen("/usd/NEWrecord.txt", "w");
 	//display.setActiveTab(op_tab);
-	while (timer < 14500) {
+	while (timer < 58000) {
 		drivef.operator_Chassis();
 		display.refresh();
 		if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
@@ -89,7 +89,7 @@ void opcontrol() {
 		}
 		delay(15);
 		timer += 15;
-		if(timer > 14500){ //stop all motors
+		if(timer > 58000){ //stop all motors
 			driveLB.move_velocity(0);
 			driveLF.move_velocity(0);
 			driveRB.move_velocity(0);
@@ -111,5 +111,5 @@ void opcontrol() {
 		fprintf(recFile, "%f\n", intakeR.get_target_velocity());
 	}
 	fclose(recFile);
-	
+
 }
