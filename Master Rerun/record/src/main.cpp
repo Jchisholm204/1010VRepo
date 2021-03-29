@@ -1,7 +1,6 @@
 #include "main.h"
 #include "drive.h"
 #include "display.h"
-#include "autons.h"
 
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
@@ -53,18 +52,17 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	//testAuto();
-	//RedAuto();
-	//BlueAuto();
-	skills();
-	//drivef.MoveDistance(DIRECTION_BACK, 100, 2000);
 
 }
 
 void opcontrol() {
 	int fwTarg =  0;
+	int timer = 0;
+	float intakeValue;
+	float flyWheelValue;
+	FILE *recFile = fopen("/usd/NEWrecord.txt", "w");
 	//display.setActiveTab(op_tab);
-	while (true) {
+	while (timer < 58000) {
 		//printf("%d\n",SelectedAuto );
 		drivef.operator_Chassis();
 		//calls to run the operator chassis subset of the chassis controller
@@ -73,51 +71,68 @@ void opcontrol() {
 		if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
 			roller.move_velocity(200);
 			flyWheel.move_velocity(470);
+			flyWheelValue = 480;
 		}
 		else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)){
-			roller.move_velocity(-200);
+			roller.move_velocity(-190);
 		}
 		else{
-			roller.move_velocity(0);
 			flyWheel.move_velocity(0);
+			roller.move_velocity(0);
+			flyWheelValue = 0;
 		}
-		
-		/*//  Set up the Top roller speed control - Y = Stop / X = Full Speed / B = Slow Outtake (in case of jam)
-		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
-			fwTarg=0;
-		}
-		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
-			fwTarg=470;
-		}
-		else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
-			fwTarg+=10;
-		}
-		else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
-			fwTarg-=10;
-		}
-		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
-			fwTarg=-100;
-		}
-
-		flyWheel.move_velocity(fwTarg);
-		printf("fwTarg: %d\n", fwTarg);
-*/
-
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
 			intakeL.move_velocity(-200);
 			intakeR.move_velocity(-200);
+			intakeValue = -200;
 			//roller.move_velocity(20);
 		}
 		else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
 			intakeL.move_velocity(180 * (1 - LiL.get_value())); //stop intakes moving backwards if limit pressed
 			intakeR.move_velocity(180 * (1 - LiR.get_value()));
+			intakeValue = 180;
 		}
 		else{
-			intakeL.move_velocity(partner.get_analog(E_CONTROLLER_ANALOG_LEFT_Y));
-			intakeR.move_velocity(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y));	
+			intakeL.move_velocity(0);
+			intakeR.move_velocity(0);	
+			intakeValue = 0;
+		}
+		if(master.get_digital(E_CONTROLLER_DIGITAL_B)){
+			flyWheel.move_velocity(0);
+			flyWheelValue = 0;
+		}
+		else if(master.get_digital(E_CONTROLLER_DIGITAL_X)){
+			flyWheel.move_velocity(500);
+			flyWheelValue = 500;
 		}
 		//else loop to control the intakes and roller
-		delay(20);
-		//visionLoop();
+		delay(15);
+		timer += 15;
+		if(master.get_digital(E_CONTROLLER_DIGITAL_A)){
+			timer = 58000;
+		};
+		if(timer > 58000){ //stop all motors
+			driveLB.move_velocity(0);
+			driveLF.move_velocity(0);
+			driveRB.move_velocity(0);
+			driveRF.move_velocity(0);
+			flyWheel.move_velocity(0);
+			roller.move_velocity(0);
+			intakeR.move_velocity(0);
+			intakeR.move_velocity(0);
+		};
+		fprintf(recFile, "%f\n", driveRB.get_actual_velocity());
+		fprintf(recFile, "%f\n", driveRF.get_actual_velocity());
+		fprintf(recFile, "%f\n", driveLB.get_actual_velocity());
+		fprintf(recFile, "%f\n", driveLF.get_actual_velocity());
+
+		fprintf(recFile, "%f\n", flyWheelValue);
+		fprintf(recFile, "%f\n", roller.get_actual_velocity());
+		
+		fprintf(recFile, "%f\n", intakeValue);
+		fprintf(recFile, "%f\n", intakeValue);
+		printf("%f", intakeValue);
 	}
+	fclose(recFile);
+	master.rumble("..");
 }

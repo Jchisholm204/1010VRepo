@@ -31,13 +31,13 @@ void autoRun(void){
         flyWheel.move_velocity(m5);
         roller.move_velocity(m6);
 
-        if(m7 < 0){
+        if(m7 > 0){
             intakeL.move_velocity(m7 * (1 - LiL.get_value()));
         }
         else{
             intakeL.move_velocity(m7);
         }
-        if(m8 < 0){
+        if(m8 > 0){
             intakeR.move_velocity(m8 * (1 - LiR.get_value()));
         }
         else{
