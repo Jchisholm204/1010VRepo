@@ -60,6 +60,7 @@ void opcontrol() {
 	int timer = 0;
 	float intakeValue;
 	float flyWheelValue;
+	bool ultCheck = false;
 	FILE *recFile = fopen("/usd/NEWrecord.txt", "w");
 	//display.setActiveTab(op_tab);
 	while (timer < 58000) {
