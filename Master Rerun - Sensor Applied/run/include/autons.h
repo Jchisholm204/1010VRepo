@@ -2,7 +2,7 @@
 #define _AUTONS_H_
 
 void autoRun(void);
-void ultraCheck(int leftVal, int rightVal, int timeout);
+void ultraCheck(int leftTarg, int rightTarg, int timeout);
 
 
 #endif

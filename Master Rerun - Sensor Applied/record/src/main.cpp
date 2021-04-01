@@ -147,6 +147,7 @@ void opcontrol() {
 		fprintf(recFile, "%f\n", intakeValue);
 
 		fprintf(recFile, "%d\n", ultCheck);
+		ultCheck = false;
 
 		fprintf(recFile, "%f\n", rUltCheckVal);
 		fprintf(recFile, "%f\n", lUltCheckVal);

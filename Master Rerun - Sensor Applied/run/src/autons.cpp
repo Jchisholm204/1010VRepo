@@ -53,6 +53,20 @@ void autoRun(void){
     }
 }
 
-void ultraCheck(int leftVal, int rightVal, int timeout){
+void ultraCheck(int leftTarg, int rightTarg, int timeout){
+    int startMillis = pros::millis();
+    int leftDif;
+    int rightDif;
+
+    leftDif = lULT.get_value() - leftTarg;
+    rightDif = rULT.get_value() - rightTarg;
+
+    while((pros::millis()-startMillis) < timeout){
+		driveRF.move_velocity(rightDif * 10);
+      	driveLB.move_velocity(leftDif * 10);
+      	driveRB.move_velocity(rightDif * 10);
+      	driveLF.move_velocity(leftDif * 10);        
+    }
+
     
 }
