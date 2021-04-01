@@ -60,7 +60,9 @@ void opcontrol() {
 	int timer = 0;
 	float intakeValue;
 	float flyWheelValue;
-	bool ultCheck = false;
+	bool ultCheck = 0;
+	float rUltCheckVal;
+	float lUltCheckVal;
 	FILE *recFile = fopen("/usd/NEWrecord.txt", "w");
 	//display.setActiveTab(op_tab);
 	while (timer < 58000) {
@@ -106,9 +108,20 @@ void opcontrol() {
 			flyWheel.move_velocity(500);
 			flyWheelValue = 500;
 		}
-		//else loop to control the intakes and roller
+		
+		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
+			master.rumble(".");
+			ultCheck = true;
+			rUltCheckVal = rULT.get_value();
+			lUltCheckVal = lULT.get_value();
+			timer += 1500;
+			pros::delay(1500);
+			master.rumble("..");
+		}
+
 		delay(15);
 		timer += 15;
+
 		if(master.get_digital(E_CONTROLLER_DIGITAL_A)){
 			timer = 58000;
 		};
@@ -132,8 +145,14 @@ void opcontrol() {
 		
 		fprintf(recFile, "%f\n", intakeValue);
 		fprintf(recFile, "%f\n", intakeValue);
+
+		fprintf(recFile, "%d\n", ultCheck);
+
+		fprintf(recFile, "%f\n", rUltCheckVal);
+		fprintf(recFile, "%f\n", lUltCheckVal);
+
 		printf("%f", intakeValue);
 	}
 	fclose(recFile);
-	master.rumble("..");
+	master.rumble("._.");
 }

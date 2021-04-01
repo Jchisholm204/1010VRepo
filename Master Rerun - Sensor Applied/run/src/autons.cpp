@@ -5,7 +5,8 @@ void autoRun(void){
 
     FILE * runFile = fopen("/usd/NEWrecord.txt", "r");
 
-    static float m1, m2, m3, m4, m5, m6, m7, m8;
+    static float m1, m2, m3, m4, m5, m6, m7, m8, u10, u11;
+    static bool b9;
 
     while (true){
         if(feof(runFile)){
@@ -22,7 +23,7 @@ void autoRun(void){
             pros::delay(100);    
         }
 
-        fscanf(runFile, "%f %f %f %f %f %f %f %f", &m1, &m2, &m3, &m4, &m5, &m6, &m7, &m8);
+        fscanf(runFile, "%f %f %f %f %f %f %f %f %f %f %f", &m1, &m2, &m3, &m4, &m5, &m6, &m7, &m8, &b9, &u10, &u11);
         driveRB.move_velocity(m1);
         driveRF.move_velocity(m2);
         driveLB.move_velocity(m3);
@@ -42,8 +43,16 @@ void autoRun(void){
         }
         else{
             intakeR.move_velocity(m8);
+        }
+
+        if(b9 = true){
+            ultraCheck(u11, u10, 1500);
         }        
 
         pros::delay(15);
     }
+}
+
+void ultraCheck(int leftVal, int rightVal, int timeout){
+    
 }
