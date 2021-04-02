@@ -54,7 +54,21 @@ void competition_initialize() {}
 
 void autonomous() {
 	autoRun();
+	/*
+    int leftDif;
+    int rightDif;
 
+    while(true){
+
+        leftDif = lULT.get_value() - 420;
+        rightDif = rULT.get_value() - 315;
+
+		driveRF.move_velocity(rightDif /2);
+      	driveLB.move_velocity(leftDif /2);
+      	driveRB.move_velocity(rightDif /2);
+      	driveLF.move_velocity(leftDif /2);        
+    }
+*/
 }
 
 void opcontrol() {

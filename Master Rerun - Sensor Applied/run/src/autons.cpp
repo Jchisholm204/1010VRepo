@@ -12,10 +12,10 @@ void ultraCheck(int leftTarg, int rightTarg, int timeout){
         leftDif = lULT.get_value() - leftTarg;
         rightDif = rULT.get_value() - rightTarg;
 
-		driveRF.move_velocity(rightDif * 4);
-      	driveLB.move_velocity(leftDif * 4);
-      	driveRB.move_velocity(rightDif * 4);
-      	driveLF.move_velocity(leftDif * 4);        
+		driveRF.move_velocity(rightDif / 2);
+      	driveLB.move_velocity(leftDif / 2);
+      	driveRB.move_velocity(rightDif / 2);
+      	driveLF.move_velocity(leftDif / 2);        
     }    
 }
 
@@ -71,7 +71,7 @@ void autoRun(void){
         else{
             printf("N");
         };
-        
+
         pros::delay(15);
     }
 }
