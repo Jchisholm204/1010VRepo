@@ -3,7 +3,7 @@
 #include "drive.h"
 void autoRun(void){
 
-    FILE * runFile = fopen("/usd/SensorRecord.txt", "r");
+    FILE * runFile = fopen("/usd/TestSensors.txt", "r");
 
     static float m1, m2, m3, m4, m5, m6, m7, m8, u10, u11;
     static bool b9;
@@ -46,7 +46,7 @@ void autoRun(void){
         }
 
         if(b9 = 1){
-            ultraCheck(u11, u10, 1500);
+           // ultraCheck(u11, u10, 1500);
         }
         else{
 
@@ -55,7 +55,7 @@ void autoRun(void){
         pros::delay(15);
     }
 }
-
+/*
 void ultraCheck(int leftTarg, int rightTarg, int timeout){
     int startMillis = pros::millis();
     int leftDif;
@@ -74,3 +74,4 @@ void ultraCheck(int leftTarg, int rightTarg, int timeout){
 
     
 }
+*/
