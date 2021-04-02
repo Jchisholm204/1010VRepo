@@ -3,7 +3,7 @@
 #include "drive.h"
 void autoRun(void){
 
-    FILE * runFile = fopen("/usd/NEWrecord.txt", "r");
+    FILE * runFile = fopen("/usd/SensorRecord.txt", "r");
 
     static float m1, m2, m3, m4, m5, m6, m7, m8, u10, u11;
     static bool b9;
@@ -23,7 +23,7 @@ void autoRun(void){
             pros::delay(100);    
         }
 
-        fscanf(runFile, "%f %f %f %f %f %f %f %f %f %f %f", &m1, &m2, &m3, &m4, &m5, &m6, &m7, &m8, &b9, &u10, &u11);
+        fscanf(runFile, "%f %f %f %f %f %f %f %f %d %f %f", &m1, &m2, &m3, &m4, &m5, &m6, &m7, &m8, &b9, &u10, &u11);
         driveRB.move_velocity(m1);
         driveRF.move_velocity(m2);
         driveLB.move_velocity(m3);
@@ -45,8 +45,11 @@ void autoRun(void){
             intakeR.move_velocity(m8);
         }
 
-        if(b9 = true){
+        if(b9 = 1){
             ultraCheck(u11, u10, 1500);
+        }
+        else{
+
         }        
 
         pros::delay(15);
@@ -58,10 +61,11 @@ void ultraCheck(int leftTarg, int rightTarg, int timeout){
     int leftDif;
     int rightDif;
 
-    leftDif = lULT.get_value() - leftTarg;
-    rightDif = rULT.get_value() - rightTarg;
-
     while((pros::millis()-startMillis) < timeout){
+
+        leftDif = lULT.get_value() - leftTarg;
+        rightDif = rULT.get_value() - rightTarg;
+        
 		driveRF.move_velocity(rightDif * 10);
       	driveLB.move_velocity(leftDif * 10);
       	driveRB.move_velocity(rightDif * 10);

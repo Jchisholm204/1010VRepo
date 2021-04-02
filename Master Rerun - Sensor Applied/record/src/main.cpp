@@ -63,9 +63,10 @@ void opcontrol() {
 	bool ultCheck = 0;
 	float rUltCheckVal;
 	float lUltCheckVal;
-	FILE *recFile = fopen("/usd/SensorRecord.txt", "w");
+	FILE *recFile = fopen("/usd/TestSensors.txt", "w");
 	//display.setActiveTab(op_tab);
 	while (timer < 58000) {
+		ultCheck = 0;
 		//printf("%d\n",SelectedAuto );
 		drivef.operator_Chassis();
 		//calls to run the operator chassis subset of the chassis controller
@@ -111,7 +112,7 @@ void opcontrol() {
 		
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
 			master.rumble(".");
-			ultCheck = true;
+			ultCheck = 1;
 			rUltCheckVal = rULT.get_value();
 			lUltCheckVal = lULT.get_value();
 			timer += 1500;
@@ -134,6 +135,7 @@ void opcontrol() {
 			roller.move_velocity(0);
 			intakeR.move_velocity(0);
 			intakeR.move_velocity(0);
+			ultCheck = 0;
 		};
 		fprintf(recFile, "%f\n", driveRB.get_actual_velocity());
 		fprintf(recFile, "%f\n", driveRF.get_actual_velocity());
@@ -147,13 +149,10 @@ void opcontrol() {
 		fprintf(recFile, "%f\n", intakeValue);
 
 		fprintf(recFile, "%d\n", ultCheck);
-		ultCheck = false;
 
 		fprintf(recFile, "%f\n", rUltCheckVal);
 		fprintf(recFile, "%f\n", lUltCheckVal);
-
-		printf("%f", intakeValue);
 	}
 	fclose(recFile);
-	master.rumble("._.");
+	master.rumble(".-.");
 }
