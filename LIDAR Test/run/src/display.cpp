@@ -132,11 +132,11 @@ void Display::refresh(void)
     lv_led_off(rLED);
   };
 
-  int bULTtempdat = bULT.get_value();
-  int lULTtempdat = lULT.get_value();
-  int rULTtempdat = rULT.get_value();
+  int bULTtempdat = distance_sensor.get();
+  int lULTtempdat = lLDR.get();
+  int rULTtempdat = rLDR.get();
 
-  lv_label_set_text(bULTsts, ("ULTRASONIC B: " + std::to_string(bULTtempdat)).c_str());
+  lv_label_set_text(bULTsts, ("LIDAR T: " + std::to_string(bULTtempdat)).c_str());
   lv_label_set_text(lULTsts, ("ULTRASONIC L: " + std::to_string(lULTtempdat)).c_str());
   lv_label_set_text(rULTsts, ("ULTRASONIC R: " + std::to_string(rULTtempdat)).c_str());
 

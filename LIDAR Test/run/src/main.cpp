@@ -43,9 +43,12 @@ ADIDigitalIn LiR('b');
 //pros::ADIUltrasonic sensor (PORT_PING, PORT_ECHO);
 //port_ping	-- the port connected to the orange OUTPUT cable. This should be in port 1, 3, 5, or 7 (‘A’, ‘C’, ‘E’, ‘G’).
 //port_echo	-- the port connected to the yellow INPUT cable. This should be in the next highest port following port_ping.
-ADIUltrasonic lULT('c', 'd');
-ADIUltrasonic rULT('e', 'f');
-ADIUltrasonic bULT('g', 'h');
+//ADIUltrasonic lULT('c', 'd');
+//ADIUltrasonic rULT('e', 'f');
+//ADIUltrasonic bULT('g', 'h');
+Distance distance_sensor(13);
+Distance rLDR(5);
+Distance lLDR(6);
 
 void disabled() {}
 
@@ -53,22 +56,25 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	autoRun();
-	/*
+	//autoRun();
+	
     int leftDif;
     int rightDif;
 
     while(true){
+		display.refresh();
 
-        leftDif = lULT.get_value() - 420;
-        rightDif = rULT.get_value() - 315;
-
+        leftDif = lLDR.get() - 400;
+        rightDif = rLDR.get() - 400;
+		printf("%f\n", lLDR.get());
+/*
 		driveRF.move_velocity(rightDif /2);
       	driveLB.move_velocity(leftDif /2);
       	driveRB.move_velocity(rightDif /2);
-      	driveLF.move_velocity(leftDif /2);        
+      	driveLF.move_velocity(leftDif /2);
+		  */
     }
-*/
+
 }
 
 void opcontrol() {
@@ -91,7 +97,7 @@ void opcontrol() {
 			roller.move_velocity(0);
 			flyWheel.move_velocity(0);
 		}
-		
+
 		/*//  Set up the Top roller speed control - Y = Stop / X = Full Speed / B = Slow Outtake (in case of jam)
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
 			fwTarg=0;
@@ -124,7 +130,7 @@ void opcontrol() {
 		}
 		else{
 			intakeL.move_velocity(partner.get_analog(E_CONTROLLER_ANALOG_LEFT_Y));
-			intakeR.move_velocity(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y));	
+			intakeR.move_velocity(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y));
 		}
 		//else loop to control the intakes and roller
 		delay(20);

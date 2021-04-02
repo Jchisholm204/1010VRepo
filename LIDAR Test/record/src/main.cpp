@@ -42,9 +42,13 @@ ADIDigitalIn LiR('b');
 //pros::ADIUltrasonic sensor (PORT_PING, PORT_ECHO);
 //port_ping	-- the port connected to the orange OUTPUT cable. This should be in port 1, 3, 5, or 7 (‘A’, ‘C’, ‘E’, ‘G’).
 //port_echo	-- the port connected to the yellow INPUT cable. This should be in the next highest port following port_ping.
+/*
 ADIUltrasonic lULT('c', 'd');
 ADIUltrasonic rULT('e', 'f');
 ADIUltrasonic bULT('g', 'h');
+*/
+pros::Distance rLDR(5);
+pros::Distance lLDR(6);
 
 void disabled() {}
 
@@ -98,7 +102,7 @@ void opcontrol() {
 		}
 		else{
 			intakeL.move_velocity(0);
-			intakeR.move_velocity(0);	
+			intakeR.move_velocity(0);
 			intakeValue = 0;
 		}
 		if(master.get_digital(E_CONTROLLER_DIGITAL_B)){
@@ -109,14 +113,14 @@ void opcontrol() {
 			flyWheel.move_velocity(500);
 			flyWheelValue = 500;
 		}
-		
+
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
 			master.rumble(".");
 			ultCheck = 1;
-			rUltCheckVal = rULT.get_value();
-			lUltCheckVal = lULT.get_value();
-			timer += 1500;
-			pros::delay(1500);
+			rUltCheckVal = rLDR.get();
+			lUltCheckVal = lLDR.get();
+			timer += 2500;
+			pros::delay(2500);
 			master.rumble("..");
 		}
 
@@ -144,7 +148,7 @@ void opcontrol() {
 
 		fprintf(recFile, "%f\n", flyWheelValue);
 		fprintf(recFile, "%f\n", roller.get_actual_velocity());
-		
+
 		fprintf(recFile, "%f\n", intakeValue);
 		fprintf(recFile, "%f\n", intakeValue);
 

@@ -194,8 +194,8 @@ void Chassis::towerDive(int stoppingValue, int slowdownfactor, int slowdownValue
 	while(pros::millis() - startTime < timeout){
 		//aVal = ((lULT.get_value() + rULT.get_value()) /2);
 
-		errorLeft = lULT.get_value() - stoppingValue; //gets the remaining distance on the left side
-		errorRight = rULT.get_value() - stoppingValue; //gets the remaining distance on the right side
+		errorLeft = lLDR.get() - stoppingValue; //gets the remaining distance on the left side
+		errorRight = rLDR.get() - stoppingValue; //gets the remaining distance on the right side
 		
 			//DriveError - keeps the two sides of the robot in position as well as helps to position the robot for shooting
 		//DriveError = errorLeft - errorRight; 
@@ -229,7 +229,7 @@ void Chassis::twrAlign(int timeout){
 	int motorVel;
 	while((pros::millis()-milis) < timeout){
 
-		motorVel = (lULT.get_value() - rULT.get_value());
+		motorVel = (lLDR.get() - rLDR.get());
 
 		driveRF.move_velocity(motorVel * -10);
       	driveLB.move_velocity(motorVel * 10);
