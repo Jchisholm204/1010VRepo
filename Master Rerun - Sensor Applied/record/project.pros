@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "SR",
+        "project_name": "SREC",
         "target": "v5",
         "templates": {
             "kernel": {

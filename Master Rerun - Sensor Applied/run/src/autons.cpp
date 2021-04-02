@@ -1,6 +1,25 @@
 #include "main.h"
 #include "autons.h"
 #include "drive.h"
+
+void ultraCheck(int leftTarg, int rightTarg, int timeout){
+    int startMillis = pros::millis();
+    int leftDif;
+    int rightDif;
+
+    while((pros::millis()-startMillis) < timeout){
+
+        leftDif = lULT.get_value() - leftTarg;
+        rightDif = rULT.get_value() - rightTarg;
+
+		driveRF.move_velocity(rightDif * 4);
+      	driveLB.move_velocity(leftDif * 4);
+      	driveRB.move_velocity(rightDif * 4);
+      	driveLF.move_velocity(leftDif * 4);        
+    }    
+}
+
+
 void autoRun(void){
 
     FILE * runFile = fopen("/usd/TestSensors.txt", "r");
@@ -45,33 +64,14 @@ void autoRun(void){
             intakeR.move_velocity(m8);
         }
 
-        if(b9 = 1){
-           // ultraCheck(u11, u10, 1500);
+        if(b9 == 1){
+            printf("Y");
+           ultraCheck(u11, u10, 1500);
         }
         else{
-
-        }        
-
+            printf("N");
+        };
+        
         pros::delay(15);
     }
 }
-/*
-void ultraCheck(int leftTarg, int rightTarg, int timeout){
-    int startMillis = pros::millis();
-    int leftDif;
-    int rightDif;
-
-    while((pros::millis()-startMillis) < timeout){
-
-        leftDif = lULT.get_value() - leftTarg;
-        rightDif = rULT.get_value() - rightTarg;
-
-		driveRF.move_velocity(rightDif * 4);
-      	driveLB.move_velocity(leftDif * 4);
-      	driveRB.move_velocity(rightDif * 4);
-      	driveLF.move_velocity(leftDif * 4);        
-    }
-
-    
-}
-*/
