@@ -3,7 +3,7 @@
 #include "drive.h"
 void autoRun(void){
 
-    FILE * runFile = fopen("/usd/NEWrecord.txt", "r");
+    FILE * runFile = fopen("/usd/SensorRecord.txt", "r");
 
     static float m1, m2, m3, m4, m5, m6, m7, m8;
 

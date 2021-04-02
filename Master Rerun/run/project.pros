@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "Run",
+        "project_name": "Sensor Run",
         "target": "v5",
         "templates": {
             "kernel": {

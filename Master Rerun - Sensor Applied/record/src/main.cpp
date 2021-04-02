@@ -63,7 +63,7 @@ void opcontrol() {
 	bool ultCheck = 0;
 	float rUltCheckVal;
 	float lUltCheckVal;
-	FILE *recFile = fopen("/usd/NEWrecord.txt", "w");
+	FILE *recFile = fopen("/usd/SensorRecord.txt", "w");
 	//display.setActiveTab(op_tab);
 	while (timer < 58000) {
 		//printf("%d\n",SelectedAuto );
