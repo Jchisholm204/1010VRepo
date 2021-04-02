@@ -65,11 +65,11 @@ void ultraCheck(int leftTarg, int rightTarg, int timeout){
 
         leftDif = lULT.get_value() - leftTarg;
         rightDif = rULT.get_value() - rightTarg;
-        
-		driveRF.move_velocity(rightDif * 10);
-      	driveLB.move_velocity(leftDif * 10);
-      	driveRB.move_velocity(rightDif * 10);
-      	driveLF.move_velocity(leftDif * 10);        
+
+		driveRF.move_velocity(rightDif * 4);
+      	driveLB.move_velocity(leftDif * 4);
+      	driveRB.move_velocity(rightDif * 4);
+      	driveLF.move_velocity(leftDif * 4);        
     }
 
     

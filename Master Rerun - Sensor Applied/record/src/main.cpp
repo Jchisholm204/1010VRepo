@@ -126,7 +126,7 @@ void opcontrol() {
 		if(master.get_digital(E_CONTROLLER_DIGITAL_A)){
 			timer = 58000;
 		};
-		if(timer > 58000){ //stop all motors
+		if(timer >= 58000){ //stop all motors
 			driveLB.move_velocity(0);
 			driveLF.move_velocity(0);
 			driveRB.move_velocity(0);

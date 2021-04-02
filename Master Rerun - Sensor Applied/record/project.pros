@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "Sensor Record",
+        "project_name": "SR",
         "target": "v5",
         "templates": {
             "kernel": {
