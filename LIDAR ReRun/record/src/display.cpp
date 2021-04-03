@@ -83,13 +83,13 @@ void Display::DistanceReadout(void){
     lULTsts = lv_label_create(diagnostics_tab, NULL);
     rULTsts = lv_label_create(diagnostics_tab, NULL);
 
-    lv_obj_align(bULTsts, lLED, LV_ALIGN_CENTER, -210, -20);
+    lv_obj_align(bULTsts, lLED, LV_ALIGN_CENTER, -230, -20);
     lv_obj_align(lULTsts, bULTsts, LV_ALIGN_CENTER, 0, 20);
     lv_obj_align(rULTsts, lULTsts, LV_ALIGN_CENTER, 0, 20);
 
-    lv_label_set_text(bULTsts, "ULTRASONIC B: --");
-    lv_label_set_text(lULTsts, "ULTRASONIC L: --");
-    lv_label_set_text(rULTsts, "ULTRASONIC R: --");
+    lv_label_set_text(bULTsts, "LIDAR B: --");
+    lv_label_set_text(lULTsts, "LIDAR L: --");
+    lv_label_set_text(rULTsts, "LIDAR T: --");
 
 }
 
@@ -132,13 +132,13 @@ void Display::refresh(void)
     lv_led_off(rLED);
   };
 
-  int bULTtempdat = distance_sensor.get();
+  int bULTtempdat = 0;
   int lULTtempdat = lLDR.get();
   int rULTtempdat = rLDR.get();
 
-  lv_label_set_text(bULTsts, ("LIDAR T: " + std::to_string(bULTtempdat)).c_str());
-  lv_label_set_text(lULTsts, ("ULTRASONIC L: " + std::to_string(lULTtempdat)).c_str());
-  lv_label_set_text(rULTsts, ("ULTRASONIC R: " + std::to_string(rULTtempdat)).c_str());
+  //lv_label_set_text(bULTsts, ("LIDAR T: " + std::to_string(bULTtempdat)).c_str());
+  lv_label_set_text(lULTsts, ("LIDAR L: " + std::to_string(lULTtempdat)).c_str());
+  lv_label_set_text(rULTsts, ("LIDAR R: " + std::to_string(rULTtempdat)).c_str());
 
 }
 void Display::setActiveTab(int tab){
