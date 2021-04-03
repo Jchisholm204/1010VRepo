@@ -59,9 +59,11 @@
 
 //ADI Devies Miscellaneous
 //extern ADIGyro gyro;
-extern ADIUltrasonic bULT;
-extern ADIUltrasonic lULT;
-extern ADIUltrasonic rULT;
+//extern ADIUltrasonic bULT;
+//extern ADIUltrasonic lULT;
+//extern ADIUltrasonic rULT;
+extern Distance lLIDAR;
+extern Distance rLIDAR;
 
 //controller:
 extern Controller master;

@@ -43,9 +43,11 @@ ADIDigitalIn LiR('b');
 //pros::ADIUltrasonic sensor (PORT_PING, PORT_ECHO);
 //port_ping	-- the port connected to the orange OUTPUT cable. This should be in port 1, 3, 5, or 7 (‘A’, ‘C’, ‘E’, ‘G’).
 //port_echo	-- the port connected to the yellow INPUT cable. This should be in the next highest port following port_ping.
-ADIUltrasonic lULT('c', 'd');
-ADIUltrasonic rULT('e', 'f');
-ADIUltrasonic bULT('g', 'h');
+//ADIUltrasonic lULT('c', 'd');
+//ADIUltrasonic rULT('e', 'f');
+//ADIUltrasonic bULT('g', 'h');
+Distance lLIDAR(6);
+Distance rLIDAR(5);
 
 void disabled() {}
 
