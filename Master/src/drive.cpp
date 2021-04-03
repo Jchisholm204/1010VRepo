@@ -182,8 +182,8 @@ void Chassis::driveULT(int targetValue, ADIUltrasonic sensor, int timeout, int s
 
 void Chassis::towerDive(int stoppingValue, int slowdownfactor, int slowdownValue, int timeout){
 	//int aVal;
-	//int sValL = lULT.get_value();
-	//int sValR = rULT.get_value();
+	//int sValL = lLIDAR.get();
+	//int sValR = rLIDAR.get();
 	int errorLeft;
 	int errorRight;
 	//int DriveError;
@@ -192,10 +192,10 @@ void Chassis::towerDive(int stoppingValue, int slowdownfactor, int slowdownValue
 	int startTime = pros::millis();
 	
 	while(pros::millis() - startTime < timeout){
-		//aVal = ((lULT.get_value() + rULT.get_value()) /2);
+		//aVal = ((lLIDAR.get() + rLIDAR.get()) /2);
 
-		errorLeft = lULT.get_value() - stoppingValue; //gets the remaining distance on the left side
-		errorRight = rULT.get_value() - stoppingValue; //gets the remaining distance on the right side
+		errorLeft = lLIDAR.get() - stoppingValue; //gets the remaining distance on the left side
+		errorRight = rLIDAR.get() - stoppingValue; //gets the remaining distance on the right side
 		
 			//DriveError - keeps the two sides of the robot in position as well as helps to position the robot for shooting
 		//DriveError = errorLeft - errorRight; 
@@ -229,7 +229,7 @@ void Chassis::twrAlign(int timeout){
 	int motorVel;
 	while((pros::millis()-milis) < timeout){
 
-		motorVel = (lULT.get_value() - rULT.get_value());
+		motorVel = (lLIDAR.get() - rLIDAR.get());
 
 		driveRF.move_velocity(motorVel * -10);
       	driveLB.move_velocity(motorVel * 10);
