@@ -54,6 +54,16 @@ void disabled() {}
 
 void competition_initialize() {}
 
+int LDRexpo(int joystickVal, float driveExp, int joydead, int motorMin){
+  int joySign;
+  int joyMax = 128 - joydead;
+  int joyLive = abs(joystickVal) - joydead;
+  if(joystickVal > 0){joySign = 1;}
+  else if(joystickVal < 0){joySign = -1;}
+  else{joySign = 0;}
+  int power = joySign * (motorMin + ((127 - motorMin) * (pow(joyLive, driveExp) / pow(joyMax, driveExp))));
+  return power;
+}
 
 void autonomous() {
 	//autoRun();
@@ -64,15 +74,16 @@ void autonomous() {
     while(true){
 		display.refresh();
 
-        leftDif = lLDR.get() - 400;
-        rightDif = rLDR.get() - 400;
-		printf("%f\n", lLDR.get());
-/*
-		driveRF.move_velocity(rightDif /2);
-      	driveLB.move_velocity(leftDif /2);
-      	driveRB.move_velocity(rightDif /2);
-      	driveLF.move_velocity(leftDif /2);
-		  */
+        leftDif = LDRexpo((lLDR.get() - 100), 20, 5, 15);
+        rightDif = LDRexpo((rLDR.get() - 100), 20, 5, 15);
+		printf("LD: %d\t", leftDif);
+		printf("RD %f\n", rightDif);
+
+		driveRF.move(rightDif);
+      	driveLB.move(leftDif);
+      	driveRB.move(rightDif);
+      	driveLF.move(leftDif);
+		  
     }
 
 }
