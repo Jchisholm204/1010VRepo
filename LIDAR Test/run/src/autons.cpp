@@ -4,18 +4,44 @@
 
 void ultraCheck(int leftTarg, int rightTarg, int timeout){
     int startMillis = pros::millis();
-    int leftDif;
-    int rightDif;
+
+    float KP = 0.7;
+	float KD = 1.2;
+	int errL = 0; //error value init
+	int derrL = 0;//error difference
+	int err_lastL = 0; //last error
+	int err_sumL = 0; //sum of errors
+	float pL; //p value normally 0.8
+	float dL; //d value normally 0.7
+
+	int errR = 0; //error value init
+	int derrR = 0;//error difference
+	int err_lastR = 0; //last error
+	int err_sumR = 0; //sum of errors
+	float pR; //p value normally 0.8
+	float dR; //d value normally 0.7
 
     while((pros::millis()-startMillis) < timeout){
 
-        leftDif = lLDR.get() - leftTarg;
-        rightDif = rLDR.get() - rightTarg;
+		errL = lLDR.get() - leftTarg;
+		err_lastL = errL; 
+		derrL = (errL - err_lastL); 
+		pL = (KP * errL); 
+		err_sumL += errL;
+		dL = KD * derrL;
 
-		driveRF.move_velocity(rightDif / 5);
-      	driveLB.move_velocity(leftDif / 5);
-      	driveRB.move_velocity(rightDif / 5);
-      	driveLF.move_velocity(leftDif / 5);        
+		errR = rLDR.get() - rightTarg;
+		err_lastR = errR; 
+		derrR = (errR - err_lastR); 
+		pR = (KP * errR); 
+		err_sumL += errR;
+		dR = KD * derrR;
+
+		driveRF.move(pR+dR);
+      	driveLB.move(pL+dL);
+      	driveRB.move(pR+dR);
+      	driveLF.move(pL+dR);
+
     }    
 }
 
@@ -65,11 +91,11 @@ void autoRun(void){
         }
 
         if(b9 == 1){
-            printf("Y");
+            
            ultraCheck(u11, u10, 2500);
         }
         else{
-            printf("N");
+            
         };
 
         pros::delay(15);

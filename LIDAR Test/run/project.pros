@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "LDR Test",
+        "project_name": "SRUN-L",
         "target": "v5",
         "templates": {
             "kernel": {
