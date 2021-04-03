@@ -83,7 +83,7 @@ void Display::DistanceReadout(void){
     lULTsts = lv_label_create(diagnostics_tab, NULL);
     rULTsts = lv_label_create(diagnostics_tab, NULL);
 
-    lv_obj_align(bULTsts, lLED, LV_ALIGN_CENTER, -230, -20);
+    lv_obj_align(bULTsts, lLED, LV_ALIGN_CENTER, -190, -25);
     lv_obj_align(lULTsts, bULTsts, LV_ALIGN_CENTER, 0, 20);
     lv_obj_align(rULTsts, lULTsts, LV_ALIGN_CENTER, 0, 20);
 
