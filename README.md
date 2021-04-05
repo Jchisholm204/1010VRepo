@@ -1,7 +1,5 @@
-# Official 1010V repository
-In this repository is our teams code, and hopefully soon some pictures of our team and robot
-
-Code written in C++ and compiled for the Vex V5 microcontroller for use with a master and partner controller
+# TESTING BRANCH - 1010V repository
+This is our testing branch where we put anything that isnt fully ready yet..
 
 # Members
 ## Main Builder --- Jacob Chisholm
