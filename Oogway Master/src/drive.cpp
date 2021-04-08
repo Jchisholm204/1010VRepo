@@ -23,217 +23,205 @@ void Chassis::operator_Chassis(void){
 }
 
 
-void Chassis::timeDrive(int time/*the time it drives for*/, int vel/*the entered Speed*/, int cooldown/*the period that the robot should drive for a slower % of the speed*/){
-  driveLB.move_velocity(vel);
-  driveLF.move_velocity(vel);
-  driveRB.move_velocity(vel);
-  driveRF.move_velocity(vel);
-//
-  delay(time*(1-cooldown));
+void Chassis::timeDrive(int time, int leftPow, int righPow){
 
-  driveLB.move_velocity(vel*0.25);
-  driveLF.move_velocity(vel*0.25);
-  driveRB.move_velocity(vel*0.25);
-  driveRF.move_velocity(vel*0.25);
-//
-  delay(time*cooldown);
-//stop
-  driveLB.move_velocity(0);
-  driveLF.move_velocity(0);
-  driveRB.move_velocity(0);
-  driveRF.move_velocity(0);
 }
 
-void Chassis::stopDriving(void){
-  driveLB.move_velocity(0);
-  driveLF.move_velocity(0);
-  driveRB.move_velocity(0);
-  driveRF.move_velocity(0);
-}
-void Chassis::startDriving(int speed){
-  driveLB.move_velocity(speed);
-  driveLF.move_velocity(speed);
-  driveRB.move_velocity(speed);
-  driveRF.move_velocity(speed);
-}
+void Chassis::drive(int targetValue, int timeout){
+	int startMillis = pros::millis();
 
-void Chassis::TurnDistance(int direction, int targetValue, int timeout){
-		float driveKP = 0.7;
-		float driveKD = 1;
-		int motorPower; //motor power level
-		int startTime = millis(); //Elapsed time since start of the sequence
-		int currentValue = 0; //starting value of 0
-		int turn_err = 0; //error value init
-		int derr = 0;//error difference
-		int err_last = 0; //last error
-		int err_sum = 0; //sum of errors
-		float KI = 0; //KI value - not currently used'
-		float p; //p value normally 0.8
-		float i = 0; //I value
-		float d; //d value normally 0.7
-		driveLB.tare_position();
-		driveRB.tare_position();
-		while((millis() - startTime) < timeout){
-			//reset motor encoders
-			if(direction == DIRECTION_RIGHT){  //left encoder if turing right
-				currentValue = abs(driveLB.get_position());
-			}
-			else if(direction == DIRECTION_LEFT){  // right encoder if turing left
-				currentValue = abs(driveRB.get_position());
-			}
-			turn_err = targetValue - currentValue; //error is how far the current position is from the position you put into the loop
-			err_last = turn_err; //stores the error
-			derr = (turn_err - err_last); //difference between how far you were from the target last sequence compared to this sequence
-			p = (driveKP * turn_err); //p value is preset driveKP multiplied by how far we are from our target
-			err_sum += turn_err; //err_sum increases by the sum of errors
-			d = driveKD * derr; //d value is preset driveKD multiplied by the difference between how far you were from the last rotation
+    float KP = 0.7;
+	float KD = 1.2;
+	int errL = 0; //error value init
+	int derrL = 0;//error difference
+	int err_lastL = 0; //last error
+	int err_sumL = 0; //sum of errors
+	float pL; //p value normally 0.8
+	float dL; //d value normally 0.7
 
-			motorPower = p+i+d; //motorpower is the sum of p, i, and d
+	int errR = 0; //error value init
+	int derrR = 0;//error difference
+	int err_lastR = 0; //last error
+	int err_sumR = 0; //sum of errors
+	float pR; //p value normally 0.8
+	float dR; //d value normally 0.7
 
-			if(motorPower > 25){motorPower = 25;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
-			if(motorPower < -25){motorPower = -25;}//if the motor power is less than -127 (the minimum it can go), set it to -127
+	int dPowR;
+	int dPowL;
 
-				driveRF.move(direction*motorPower);
-				driveLB.move((-direction*motorPower));
-				driveRB.move((direction*motorPower));
-				driveLF.move(-direction*motorPower);
-			delay(20);
-		}
+
+
+    while((pros::millis()-startMillis) < timeout){
+
+		errL = targetValue - lbLDR.get();
+		err_lastL = errL; 
+		derrL = (errL - err_lastL); 
+		pL = (KP * errL); 
+		err_sumL += errL;
+		dL = KD * derrL;
+
+		errR = targetValue - rbLDR.get();
+		err_lastR = errR; 
+		derrR = (errR - err_lastR); 
+		pR = (KP * errR); 
+		err_sumL += errR;
+		dR = KD * derrR;
+
+		dPowL = (pL+dL);
+		dPowR = (pR+dR);
+
+		dPowL = (dPowL > 127 ? 127 : dPowL < -127 ? -127 : dPowL);
+		dPowR = (dPowR > 127 ? 127 : dPowR < -127 ? -127 : dPowR);
+
+
+		driveRF.move(dPowR);
+      	driveLB.move(dPowL);
+      	driveRB.move(dPowR);
+      	driveLF.move(dPowL);
+	}
 }
 
-void Chassis::MoveDistance(int direction, int targetValue, int timeout){
-	float driveKP = 1.2;
-	float driveKD = 0.8;
-	int motorPower; //motor power level
-	int startTime = millis(); //Elapsed time since start of the sequence
-	int currentValue = 0; //starting value of 0
-	int turn_err = 0; //error value init
+void Chassis::turn(int targetValue, int timeout){
+	gyro.tare_heading();
+	int startMillis = pros::millis();
+
+    float KP = 0.7;
+	float KD = 1.2;
+	int err = 0; //error value init
 	int derr = 0;//error difference
 	int err_last = 0; //last error
 	int err_sum = 0; //sum of errors
-	float KI = 0; //KI value - not currently used'
 	float p; //p value normally 0.8
-	float i = 0; //I value
 	float d; //d value normally 0.7
-	driveRB.tare_position();
-	driveLB.tare_position();
-	while((millis() - startTime) < timeout){
-		currentValue = abs(driveRB.get_position() + driveLB.get_position()) /2;
-		turn_err = targetValue - currentValue; //error is how far the current position is from the position you put into the loop
-		err_last = turn_err; //stores the error
-		derr = (turn_err - err_last); //difference between how far you were from the target last sequence compared to this sequence
-		p = (driveKP * turn_err); //p value is preset driveKP multiplied by how far we are from our target
-		err_sum += turn_err; //err_sum increases by the sum of errors
-		d = driveKD * derr; //d value is preset driveKD multiplied by the difference between how far you were from the last rotation
+	int dPow;
 
-		motorPower = p+i+d; //motorpower is the sum of p, i, and d
+    while((pros::millis()-startMillis) < timeout){
 
-		if(motorPower > 100){motorPower = 100;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
-		if(motorPower < -100){motorPower = -100;}//if the motor power is less than -127 (the minimum it can go), set it to -127
+		err = targetValue - gyro.get_heading();
+		err_last = err; 
+		derr = (err - err_last); 
+		p = (KP * err); 
+		err_sum += err;
+		d = KD * derr;
 
-		driveRF.move(direction*motorPower);
-      	driveLB.move((direction*motorPower));
-      	driveRB.move((direction*motorPower));
-      	driveLF.move(direction*motorPower);
-		delay(20);
+		dPow = (p+d);
+
+		dPow = (dPow > 127 ? 127 : dPow < -127 ? -127 : dPow);
+
+
+		driveRF.move(-dPow);
+      	driveLB.move(dPow);
+      	driveRB.move(-dPow);
+      	driveLF.move(dPow);
 	}
 }
 
-void Chassis::driveULT(int targetValue, ADIUltrasonic sensor, int timeout, int slowdownfactor, int slowdownValue){
-	float driveKP = 1.2;
-	float driveKD = 0.8;
-	int motorpower;
-	int startTime = pros::millis();
-	int currentValue = 0;
-	int err = 0;
-	int derr = 0;
-	int err_last = 0;
-	int err_sum = 0;
-	float KI = 0;
-	float p;
-	float i;
-	float d;
-	
-	while(pros::millis() - startTime < timeout){
-		currentValue = sensor.get_value();
-		err = targetValue - currentValue; //error is how far the current position is from the position you put into the loop
-		err_last = err; //stores the error
-		derr = (err - err_last); //difference between how far you were from the target last sequence compared to this sequence
-		p = (driveKP * err); //p value is preset driveKP multiplied by how far we are from our target
-		err_sum += err; //err_sum increases by the sum of errors
-		d = driveKD * derr; //d value is preset driveKD multiplied by the difference between how far you were from the last rotation
+void Chassis::twrAlign(int timeout, int leftTarg, int rightTarg){
+    int startMillis = pros::millis();
 
-		motorpower = p + i + d;
-		if(motorpower > 127){motorpower = 127;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
-		if(motorpower < -127){motorpower = -127;}//if the motor power is less than -127 (the minimum it can go), set it to -127
+    float KP = 0.7;
+	float KD = 1.2;
+	int errL = 0; //error value init
+	int derrL = 0;//error difference
+	int err_lastL = 0; //last error
+	int err_sumL = 0; //sum of errors
+	float pL; //p value normally 0.8
+	float dL; //d value normally 0.7
 
-		if(slowdownfactor < 1 && slowdownValue > 0){
-			if ((targetValue - slowdownValue) < sensor.get_value() < (targetValue + slowdownValue)){
-				motorpower = motorpower * slowdownfactor;
-			}
+	int errR = 0; //error value init
+	int derrR = 0;//error difference
+	int err_lastR = 0; //last error
+	int err_sumR = 0; //sum of errors
+	float pR; //p value normally 0.8
+	float dR; //d value normally 0.7
 
-		}
-		driveRF.move(motorpower);
-      	driveLB.move(motorpower);
-      	driveRB.move(motorpower);
-      	driveLF.move(motorpower);
+	int dPowL, dPowR;
+
+    while((pros::millis()-startMillis) < timeout){
+
+		errL = lLDR.get() - leftTarg;
+		err_lastL = errL; 
+		derrL = (errL - err_lastL); 
+		pL = (KP * errL); 
+		err_sumL += errL;
+		dL = KD * derrL;
+
+		errR = rLDR.get() - rightTarg;
+		err_lastR = errR; 
+		derrR = (errR - err_lastR); 
+		pR = (KP * errR); 
+		err_sumL += errR;
+		dR = KD * derrR;
+
+		dPowL = (pL+dL);
+		dPowR = (pR+dR);
+
+		dPowL = (dPowL > 127 ? 127 : dPowL < -127 ? -127 : dPowL);
+		dPowR = (dPowR > 127 ? 127 : dPowR < -127 ? -127 : dPowR);
+
+
+		driveRF.move(dPowR);
+      	driveLB.move(dPowL);
+      	driveRB.move(dPowR);
+      	driveLF.move(dPowL);
+
+    }
+}
+
+void Chassis::fenceAlign(int timeout){
+	int startMillis = pros::millis();
+
+    float KP = 0.7;
+	float KD = 1.2;
+	int err = 0; //error value init
+	int derr = 0;//error difference
+	int err_last = 0; //last error
+	int err_sum = 0; //sum of errors
+	float p; //p value normally 0.8
+	float d; //d value normally 0.7
+	int dPow;
+
+    while((pros::millis()-startMillis) < timeout){
+
+		err = rbLDR.get() - lbLDR.get();
+		err_last = err; 
+		derr = (err - err_last); 
+		p = (KP * err); 
+		err_sum += err;
+		d = KD * derr;
+
+		dPow = (p+d);
+
+		dPow = (dPow > 127 ? 127 : dPow < -127 ? -127 : dPow);
+
+
+		driveRF.move(dPow);
+      	driveLB.move(-dPow);
+      	driveRB.move(dPow);
+      	driveLF.move(-dPow);
 	}
 }
 
-void Chassis::towerDive(int stoppingValue, int slowdownfactor, int slowdownValue, int timeout){
-	//int aVal;
-	//int sValL = lULT.get_value();
-	//int sValR = rULT.get_value();
-	int errorLeft;
-	int errorRight;
-	//int DriveError;
-	int leftPower;
-	int rightPower;
-	int startTime = pros::millis();
-	
-	while(pros::millis() - startTime < timeout){
-		//aVal = ((lULT.get_value() + rULT.get_value()) /2);
-
-		errorLeft = lLDR.get() - stoppingValue; //gets the remaining distance on the left side
-		errorRight = rLDR.get() - stoppingValue; //gets the remaining distance on the right side
-		
-			//DriveError - keeps the two sides of the robot in position as well as helps to position the robot for shooting
-		//DriveError = errorLeft - errorRight; 
-			//turns positive if the left side is ahead of the right and negative if the right side is ahead of the left
-
-		leftPower = (errorLeft * 1000); // drive error is negative when the left side is ahead, so slow the left side down
-		rightPower = (errorRight * 1000); // drive error is positive when the right side is ahead, so slow the right side down
-
-		if(leftPower > 50){leftPower = 50;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
-		if(leftPower < -50){leftPower = -50;}//if the motor power is less than -127 (the minimum it can go), set it to -127
-
-		if(rightPower > 50){rightPower = 50;} //if the motor power is greater than 127 (the maximun it can go), set it to 127
-		if(rightPower < -50){rightPower = -50;}//if the motor power is less than -127 (the minimum it can go), set it to -127
-/*
-		if(slowdownfactor < 1 && slowdownValue > 0){ //use slowdown factor to help with positional accuracy - does not work in place of pid, but serves simmarly
-			if ((stoppingValue - slowdownValue) < aVal < (stoppingValue + slowdownValue)){ // if the target is close to the goal, engage the slowdown factor
-				rightPower = rightPower * slowdownfactor; //if slowdown factor is engaged, multiply the motorpowers by the slowdown factor
-				leftPower = leftPower * slowdownfactor;
-			}
-		}
-*/
-		driveRF.move(rightPower);
-      	driveLB.move(leftPower);
-      	driveRB.move(rightPower);
-      	driveLF.move(leftPower);
-	}
+void Chassis::stop(void){
+	driveRF.move_velocity(0);
+    driveLB.move_velocity(0);
+    driveRB.move_velocity(0);
+    driveLF.move_velocity(0);
 }
 
-void Chassis::twrAlign(int timeout){
-	int milis = pros::millis();
-	int motorVel;
-	while((pros::millis()-milis) < timeout){
+void Chassis::time(int time, int velocity){
+	driveRF.move_velocity(velocity);
+    driveLB.move_velocity(velocity);
+    driveRB.move_velocity(velocity);
+    driveLF.move_velocity(velocity);
+	pros::delay(time);
+	driveRF.move(0);
+    driveLB.move(0);
+    driveRB.move(0);
+    driveLF.move(0);
+}
 
-		motorVel = (lLDR.get() - rLDR.get());
-
-		driveRF.move_velocity(motorVel * -10);
-      	driveLB.move_velocity(motorVel * 10);
-      	driveRB.move_velocity(motorVel * -10);
-      	driveLF.move_velocity(motorVel * 10);
-	}
+void Intakes(int velocity){
+	intakeL.move_velocity(velocity);
+	intakeR.move_velocity(velocity);
 }

@@ -67,6 +67,9 @@ extern ADIUltrasonic rULT;
 extern Distance distance_sensor;
 extern Distance rLDR;
 extern Distance lLDR;
+extern Distance rbLDR;
+extern Distance lbLDR;
+extern Imu gyro;
 
 //controller:
 extern Controller master;

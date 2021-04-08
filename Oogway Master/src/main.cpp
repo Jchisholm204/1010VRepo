@@ -49,14 +49,19 @@ ADIDigitalIn LiR('b');
 Distance distance_sensor(13);
 Distance rLDR(5);
 Distance lLDR(6);
+Distance lbLDR(12);
+Distance rbLDR(14);
+Imu gyro(16);
 
 void disabled() {}
 
-void competition_initialize() {}
+void competition_initialize() {
+	gyro.reset();
+}
 
 
 void autonomous() {
-	autoRun();
+	skills();
 }
 
 void opcontrol() {
