@@ -41,6 +41,7 @@
  */
 #include "okapi/api.hpp"
 #include "pros/apix.h"
+#include "drive.h"
 //#include "pros/api_legacy.h"
 
 /**
@@ -55,7 +56,7 @@
 // using namespace pros::literals;
 // using namespace okapi;
 
-//extern Chassis driveF;
+extern Chassis drivef;
 
 //ADI Devies Miscellaneous
 //extern ADIGyro gyro;

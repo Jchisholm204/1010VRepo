@@ -45,5 +45,5 @@ void ultraCheck(int leftTarg, int rightTarg, int timeout){
     }    
 }
 void skills(){
-    
+    drivef.stop();
 }
