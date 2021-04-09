@@ -10,7 +10,7 @@ Motor driveRF(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor driveLB(7, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 Motor driveLF(3, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 //  Define the Motors - Intakes
-Motor intakeL(4, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor intakeL(19, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor intakeR(9, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 // Define the Motors - Internal Rollers / Top Roller
 Motor roller(2, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
@@ -37,21 +37,14 @@ void initialize() {
 
 }
 
-
 ADIDigitalIn LiL('a');
 ADIDigitalIn LiR('b');
-//pros::ADIUltrasonic sensor (PORT_PING, PORT_ECHO);
-//port_ping	-- the port connected to the orange OUTPUT cable. This should be in port 1, 3, 5, or 7 (‘A’, ‘C’, ‘E’, ‘G’).
-//port_echo	-- the port connected to the yellow INPUT cable. This should be in the next highest port following port_ping.
-//ADIUltrasonic lULT('c', 'd');
-//ADIUltrasonic rULT('e', 'f');
-//ADIUltrasonic bULT('g', 'h');
 Distance distance_sensor(13);
 Distance rLDR(5);
 Distance lLDR(6);
-Distance lbLDR(12);
-Distance rbLDR(14);
-Imu gyro(16);
+Distance lbLDR(11);
+Distance rbLDR(20);
+Imu gyro(12);
 
 void disabled() {}
 
