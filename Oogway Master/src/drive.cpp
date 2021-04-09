@@ -82,7 +82,7 @@ void Chassis::drive(int targetValue, int timeout){
 }
 
 void Chassis::turn(int targetValue, int timeout){
-	gyro.tare_heading();
+	gyro.tare_rotation();
 	int startMillis = pros::millis();
 
     float KP = 0.7;
@@ -97,7 +97,7 @@ void Chassis::turn(int targetValue, int timeout){
 
     while((pros::millis()-startMillis) < timeout){
 
-		err = targetValue - gyro.get_heading();
+		err = targetValue - gyro.get_rotation();
 		err_last = err; 
 		derr = (err - err_last); 
 		p = (KP * err); 
