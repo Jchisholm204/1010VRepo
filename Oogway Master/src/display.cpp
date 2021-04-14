@@ -20,7 +20,8 @@ lv_obj_t * sys_battery_meter;
 lv_obj_t * bat_meter_label;
 lv_obj_t * lLED;
 lv_obj_t * rLED;
-lv_obj_t * bULTsts;
+lv_obj_t * blULTsts;
+lv_obj_t * brULTsts;
 lv_obj_t * lULTsts;
 lv_obj_t * rULTsts;
 
@@ -79,15 +80,18 @@ void Display::createBatteryMeter(void){
 }
 
 void Display::DistanceReadout(void){
-    bULTsts = lv_label_create(diagnostics_tab, NULL);
+    blULTsts = lv_label_create(diagnostics_tab, NULL);
+    brULTsts = lv_label_create(diagnostics_tab, NULL);
     lULTsts = lv_label_create(diagnostics_tab, NULL);
     rULTsts = lv_label_create(diagnostics_tab, NULL);
 
-    lv_obj_align(bULTsts, lLED, LV_ALIGN_CENTER, -190, -25);
-    lv_obj_align(lULTsts, bULTsts, LV_ALIGN_CENTER, 0, 20);
+    lv_obj_align(lULTsts, lLED, LV_ALIGN_CENTER, -190, 0);
     lv_obj_align(rULTsts, lULTsts, LV_ALIGN_CENTER, 0, 20);
+    lv_obj_align(brULTsts, rULTsts, LV_ALIGN_CENTER, 0, 20);
+    lv_obj_align(blULTsts, brULTsts, LV_ALIGN_CENTER, 0, 20);
 
-    lv_label_set_text(bULTsts, "LIDAR T: --");
+    lv_label_set_text(blULTsts, "LIDAR BL: --");
+    lv_label_set_text(brULTsts, "LIDAR BR: --");
     lv_label_set_text(lULTsts, "LIDAR L: --");
     lv_label_set_text(rULTsts, "LIDAR R: --");
 
@@ -132,14 +136,16 @@ void Display::refresh(void)
     lv_led_off(rLED);
   };
 
-  int bULTtempdat = distance_sensor.get();
-  int lULTtempdat = lLDR.get();
-  int rULTtempdat = rLDR.get();
+  //int bULTtempdat = distance_sensor.get();
+  int lULTtempdat = lLDR.get()/10;
+  int rULTtempdat = rLDR.get()/10;
+  int blULTtempdat = lbLDR.get()/10;
+  int brULTtempdat = rbLDR.get()/10;
 
-  lv_label_set_text(bULTsts, ("LIDAR T: " + std::to_string(bULTtempdat)).c_str());
-  lv_label_set_text(lULTsts, ("LIDAR L: " + std::to_string(lULTtempdat)).c_str());
-  lv_label_set_text(rULTsts, ("LIDAR R: " + std::to_string(rULTtempdat)).c_str());
-
+  lv_label_set_text(brULTsts, ("LDR BR: " + std::to_string(brULTtempdat) + "cm").c_str());
+  lv_label_set_text(blULTsts, ("LDR BL: " + std::to_string(blULTtempdat) + "cm").c_str());
+  lv_label_set_text(lULTsts, ("LDR FL: " + std::to_string(lULTtempdat) + "cm").c_str());
+  lv_label_set_text(rULTsts, ("LDR FR: " + std::to_string(rULTtempdat) + "cm").c_str());
 }
 void Display::setActiveTab(int tab){
   lv_tabview_set_tab_act(tabs, tab, LV_ANIM_NONE);

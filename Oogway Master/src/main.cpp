@@ -5,16 +5,16 @@
 
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
-Motor driveRB(8, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
-Motor driveRF(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
-Motor driveLB(7, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
-Motor driveLF(3, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor driveRB(6, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor driveRF(19, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor driveLB(5, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor driveLF(2, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 //  Define the Motors - Intakes
-Motor intakeL(19, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
-Motor intakeR(9, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor intakeL(3, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor intakeR(17, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 // Define the Motors - Internal Rollers / Top Roller
-Motor roller(2, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
-Motor flyWheel(1, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
+Motor roller(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor flyWheel(18, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
 
 Chassis drivef;
 Display display;
@@ -40,11 +40,11 @@ void initialize() {
 ADIDigitalIn LiL('a');
 ADIDigitalIn LiR('b');
 Distance distance_sensor(13);
-Distance rLDR(5);
-Distance lLDR(6);
-Distance lbLDR(11);
-Distance rbLDR(20);
-Imu gyro(12);
+Distance rLDR(1);
+Distance lLDR(9);
+Distance lbLDR(7);
+Distance rbLDR(8);
+Imu gyro(20);
 
 void disabled() {}
 
@@ -52,10 +52,62 @@ void competition_initialize() {
 	gyro.reset();
 }
 
+void intakes(int vel){//hi
+	intakeL.move_velocity(-vel);
+	intakeR.move_velocity(-vel);
+}
 
 void autonomous() {
-	skills();
+    intakes(200);
+	pros::delay(500);
+	roller.move_velocity(90);
+	pros::delay(1000);
+	roller.move_velocity(0);
+	drivef.drive(700, 2000);
+	intakes(-100);
+	drivef.turn(155, 2000);
+	drivef.time(800, 150);
+	flyWheel.move_velocity(550);
+	drivef.twrAlign(2000, 450, 250);
+	roller.move_velocity(200);
+	pros::delay(450);
+	roller.move_velocity(0);
+	pros::delay(1000);
+	drivef.turn(-18, 800);
+	drivef.move(-2850, 5000);
+	intakes(200);
+	drivef.turn(-65, 1500); //46
+	drivef.heading(110, 0, 1500);
+	drivef.time(1000, 100);
+	drivef.heading(100, 0, 1000);
+	drivef.time(800, -100);
+	drivef.heading(105, 0, 1500);
+	intakes(-180);
+	pros::delay(800);
+	intakes(0);
+	drivef.timeDrive(1500, 70, 75);
+	flyWheel.move_velocity(460);
+	//drivef.turn(10, 800);
+	roller.move_velocity(200);
+	pros::delay(1000);
+	roller.move_velocity(0);
+	drivef.move(-500, 1000);
+	drivef.heading(0, 0, 2000);
+	drivef.turn(-55, 1000);
+	intakes(200);
+	drivef.stop();
+	pros::delay(500);
+	drivef.move(1400, 3000);
+	drivef.timeDrive(1000, 20, 80);
+	drivef.timeDrive(800, 100, 80);
+	drivef.twrAlign(2000, 350, 350);
+	roller.move_velocity(200);
+
+	
+
+
 }
+
 
 void opcontrol() {
 	int fwTarg =  0;

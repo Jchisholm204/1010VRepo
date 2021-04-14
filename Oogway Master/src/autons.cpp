@@ -45,27 +45,4 @@ void ultraCheck(int leftTarg, int rightTarg, int timeout){
     }    
 }
 void skills(){
-    Intakes(200);
-	roller.move_velocity(90);
-	pros::delay(750);
-	roller.move_velocity(0);
-	drivef.drive(800, 4000);
-	Intakes(-100);
-	drivef.turn(100, 2000);
-	Intakes(0);
-	drivef.time(1000, 100);
-	roller.move_velocity(80);
-	pros::delay(500);
-	roller.move_velocity(0);
-	drivef.time(1000, -100);
-	drivef.turn(30, 1000);
-	drivef.time(800, 100);
-	Intakes(200);
-	drivef.twrAlign(2000, 350, 350);
-	flyWheel.move_velocity(500);
-	pros::delay(500);
-	roller.move_velocity(200);
-	pros::delay(1500);
-	drivef.time(1000, -100);
-
 }
