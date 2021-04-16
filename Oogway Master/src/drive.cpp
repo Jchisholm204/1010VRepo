@@ -38,7 +38,7 @@ void Chassis::timeDrive(int time, int leftPow, int rightPow){
 void Chassis::drive(int targetValue, int timeout){
 	int startMillis = pros::millis();
 
-    float KP = 0.7;
+    float KP = 0.6;
 	float KD = 1.2;
 	int errL = 0; //error value init
 	int derrL = 0;//error difference
@@ -78,8 +78,12 @@ void Chassis::drive(int targetValue, int timeout){
 		dPowL = (pL+dL);
 		dPowR = (pR+dR);
 
-		dPowL = (dPowL > 100 ? 100 : dPowL < -100 ? -100 : dPowL);
-		dPowR = (dPowR > 100 ? 100 : dPowR < -100 ? -100 : dPowR);
+		//dPowL = (dPowL > 100 ? 100 : dPowL < -100 ? -100 : dPowL);
+		//dPowR = (dPowR > 100 ? 100 : dPowR < -100 ? -100 : dPowR);
+		if(dPowL > 100){dPowL=100};
+		if(dPowL < -100){dPowL=-100};
+		if(dPowR > 100){dPowR=100};
+		if(dPowR < -100){dPowR=-100};
 
 
 		driveRF.move(dPowR);
@@ -134,9 +138,12 @@ void Chassis::move(int targetValue, int timeout){
 		dPowL = (pL+dL);
 		dPowR = (pR+dR);
 
-		dPowL = (dPowL > 100 ? 100 : dPowL < -100 ? -100 : dPowL);
-		dPowR = (dPowR > 100 ? 100 : dPowR < -100 ? -100 : dPowR);
-
+		//dPowL = (dPowL > 100 ? 100 : dPowL < -100 ? -100 : dPowL);
+		//dPowR = (dPowR > 100 ? 100 : dPowR < -100 ? -100 : dPowR);
+		if(dPowL > 100){dPowL=100};
+		if(dPowL < -100){dPowL=-100};
+		if(dPowR > 100){dPowR=100};
+		if(dPowR < -100){dPowR=-100};
 
 		driveRF.move(dPowR);
       	driveLB.move(dPowL);
@@ -170,8 +177,9 @@ void Chassis::turn(int targetValue, int timeout){
 
 		dPow = (p+d);
 
-		dPow = (dPow > 100 ? 100 : dPow < -100 ? -100 : dPow);
-
+		//dPow = (dPow > 100 ? 100 : dPow < -100 ? -100 : dPow);
+		if(dPow > 100){dPow=100};
+		if(dPow < -100){dPow=-100};
 
 		driveRF.move(-dPow);
       	driveLB.move(dPow);
@@ -220,8 +228,12 @@ void Chassis::twrAlign(int timeout, int leftTarg, int rightTarg){
 		dPowL = (pL+dL);
 		dPowR = (pR+dR);
 
-		dPowL = (dPowL > 90 ? 90 : dPowL < -90 ? -90 : dPowL);
-		dPowR = (dPowR > 90 ? 90 : dPowR < -90 ? -90 : dPowR);
+		//dPowL = (dPowL > 90 ? 90 : dPowL < -90 ? -90 : dPowL);
+		//dPowR = (dPowR > 90 ? 90 : dPowR < -90 ? -90 : dPowR);
+		if(dPowL > 80){dPowL=80};
+		if(dPowL < -80){dPowL=-80};
+		if(dPowR > 80){dPowR=80};
+		if(dPowR < -80){dPowR=-80};
 
 
 		driveRF.move(dPowR);
@@ -256,7 +268,9 @@ void Chassis::fenceAlign(int timeout){
 
 		dPow = (p+d);
 
-		dPow = (dPow > 100 ? 100 : dPow < -100 ? -100 : dPow);
+		//dPow = (dPow > 100 ? 100 : dPow < -100 ? -100 : dPow);
+		if(dPow > 127){dPow=127};
+		if(dPow < -127){dPow=-127};
 
 
 		driveRF.move(dPow);
@@ -269,7 +283,7 @@ void Chassis::fenceAlign(int timeout){
 void Chassis::heading(int targHeading, int offset, int timeout){
 	int startMillis = pros::millis();
 
-    float KP = 0.7;
+    float KP = 0.8;
 	float KD = 1.2;
 	int err = 0; //error value init
 	int derr = 0;//error difference
@@ -290,7 +304,9 @@ void Chassis::heading(int targHeading, int offset, int timeout){
 
 		dPow = (p+d);
 
-		dPow = (dPow > 100 ? 100 : dPow < -100 ? -100 : dPow);
+		//dPow = (dPow > 100 ? 100 : dPow < -100 ? -100 : dPow);
+		if(dPow > 127){dPow=127};
+		if(dPow < -127){dPow=-127};
 
 
 		driveRF.move(-dPow);
