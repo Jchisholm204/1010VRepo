@@ -2,47 +2,60 @@
 #include "autons.h"
 #include "drive.h"
 
-void ultraCheck(int leftTarg, int rightTarg, int timeout){
-    int startMillis = pros::millis();
-
-    float KP = 0.7;
-	float KD = 1.2;
-	int errL = 0; //error value init
-	int derrL = 0;//error difference
-	int err_lastL = 0; //last error
-	int err_sumL = 0; //sum of errors
-	float pL; //p value normally 0.8
-	float dL; //d value normally 0.7
-
-	int errR = 0; //error value init
-	int derrR = 0;//error difference
-	int err_lastR = 0; //last error
-	int err_sumR = 0; //sum of errors
-	float pR; //p value normally 0.8
-	float dR; //d value normally 0.7
-
-    while((pros::millis()-startMillis) < timeout){
-
-		errL = lLDR.get() - leftTarg;
-		err_lastL = errL; 
-		derrL = (errL - err_lastL); 
-		pL = (KP * errL); 
-		err_sumL += errL;
-		dL = KD * derrL;
-
-		errR = rLDR.get() - rightTarg;
-		err_lastR = errR; 
-		derrR = (errR - err_lastR); 
-		pR = (KP * errR); 
-		err_sumL += errR;
-		dR = KD * derrR;
-
-		driveRF.move(pR+dR);
-      	driveLB.move(pL+dL);
-      	driveRB.move(pR+dR);
-      	driveLF.move(pL+dR);
-
-    }    
+void intakes(int vel){//hi
+	intakeL.move_velocity(-vel);
+	intakeR.move_velocity(-vel);
 }
+
 void skills(){
+	intakes(200);
+	pros::delay(500);
+	roller.move_velocity(90);
+	pros::delay(1000);
+	roller.move_velocity(0);
+	drivef.drive(700, 2000);
+	intakes(-100);
+	drivef.turn(155, 2000);
+	drivef.time(800, 150);
+	flyWheel.move_velocity(550);
+	drivef.twrAlign(2000, 450, 250);
+	roller.move_velocity(200);
+	pros::delay(450);
+	roller.move_velocity(0);
+	pros::delay(1000);
+	drivef.turn(-18, 800);
+	drivef.move(-2850, 5000);
+	intakes(200);
+	drivef.turn(-65, 1500); //46
+	drivef.heading(110, 0, 1500);
+	drivef.time(1000, 100);
+	drivef.heading(100, 0, 1000);
+	drivef.time(800, -100);
+	drivef.heading(105, 0, 1500);
+	intakes(-180);
+	pros::delay(800);
+	intakes(0);
+	drivef.timeDrive(1500, 70, 75);
+	flyWheel.move_velocity(460);
+	//drivef.turn(10, 800);
+	roller.move_velocity(200);
+	pros::delay(1000);
+	roller.move_velocity(0);
+	drivef.move(-500, 1000);
+	drivef.heading(0, 0, 2000);
+	drivef.turn(-55, 1000);
+	intakes(200);
+	drivef.stop();
+	pros::delay(500);
+	drivef.move(1400, 3000);
+	drivef.timeDrive(1000, 20, 80);
+	drivef.timeDrive(800, 100, 80);
+	drivef.twrAlign(2000, 350, 350);
+	roller.move_velocity(200);
+}
+void redAuto(){
+
+}
+void blueAuto(){
+
 }
