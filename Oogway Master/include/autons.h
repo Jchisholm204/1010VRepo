@@ -3,8 +3,9 @@
 
 void intakes(int vel);
 void skills(void);
-void redAuto(void);
-void blueAuto(void);
+void sadAuto(void);
+void leftAuto(void);
+void rightAuto(void);
 
 
 #endif

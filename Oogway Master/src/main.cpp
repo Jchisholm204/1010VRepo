@@ -55,8 +55,9 @@ void competition_initialize() {
 
 void autonomous() {
 	//skills();
-	blueAuto();
-	//blue();
+	leftAuto();
+	//sadAuto();
+	//rightAuto();
 
 }
 
