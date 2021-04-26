@@ -24,6 +24,7 @@ lv_obj_t * blULTsts;
 lv_obj_t * brULTsts;
 lv_obj_t * lULTsts;
 lv_obj_t * rULTsts;
+lv_obj_t * IMUsts;
 
 LV_IMG_DECLARE(dispimg);
 
@@ -84,16 +85,19 @@ void Display::DistanceReadout(void){
     brULTsts = lv_label_create(diagnostics_tab, NULL);
     lULTsts = lv_label_create(diagnostics_tab, NULL);
     rULTsts = lv_label_create(diagnostics_tab, NULL);
+    IMUsts = lv_label_create(diagnostics_tab, NULL);
 
     lv_obj_align(lULTsts, lLED, LV_ALIGN_CENTER, -190, 0);
     lv_obj_align(rULTsts, lULTsts, LV_ALIGN_CENTER, 0, 20);
     lv_obj_align(brULTsts, rULTsts, LV_ALIGN_CENTER, 0, 20);
     lv_obj_align(blULTsts, brULTsts, LV_ALIGN_CENTER, 0, 20);
+    lv_obj_align(IMUsts, blULTsts, LV_ALIGN_CENTER, 0, 20);
 
     lv_label_set_text(blULTsts, "LIDAR BL: --");
     lv_label_set_text(brULTsts, "LIDAR BR: --");
     lv_label_set_text(lULTsts, "LIDAR L: --");
     lv_label_set_text(rULTsts, "LIDAR R: --");
+    lv_label_set_text(IMUsts, "GYRO: --")
 
 }
 
@@ -141,11 +145,13 @@ void Display::refresh(void)
   int rULTtempdat = rLDR.get()/10;
   int blULTtempdat = lbLDR.get()/10;
   int brULTtempdat = rbLDR.get()/10;
+  int headingTempDat = gyro.get_heading();
 
   lv_label_set_text(brULTsts, ("LDR BR: " + std::to_string(brULTtempdat) + "cm").c_str());
   lv_label_set_text(blULTsts, ("LDR BL: " + std::to_string(blULTtempdat) + "cm").c_str());
   lv_label_set_text(lULTsts, ("LDR FL: " + std::to_string(lULTtempdat) + "cm").c_str());
   lv_label_set_text(rULTsts, ("LDR FR: " + std::to_string(rULTtempdat) + "cm").c_str());
+  lv_label_set_text(IMUsts, ("GYRO H: " + std::to_string(headingTempDat)).c_str());
 }
 void Display::setActiveTab(int tab){
   lv_tabview_set_tab_act(tabs, tab, LV_ANIM_NONE);
