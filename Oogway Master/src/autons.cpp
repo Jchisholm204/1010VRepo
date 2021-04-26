@@ -54,8 +54,8 @@ void skills(){
 	roller.move_velocity(200);
 }
 void sadAuto(){
-	flyWheel.move_velocity(470);
-	pros::delay(200);
+	flyWheel.move_velocity(600);
+	pros::delay(500);
 	roller.move_velocity(200);	
 }
 void leftAuto(){
@@ -73,7 +73,8 @@ void leftAuto(){
 	pros::delay(1800);
 	intakes(-200);
 	roller.move_velocity(0);
-	pros::delay(800);
+	pros::delay(1100);
+	intakes(0);
 	//drivef.time(800, 50);
 	drivef.twrAlign(2000, 300, 370);
 	intakes(0);
@@ -94,9 +95,10 @@ void rightAuto(){
 	pros::delay(1800);
 	intakes(-200);
 	roller.move_velocity(0);
-	pros::delay(800);
+	pros::delay(1100);
+	intakes(0);
 	//drivef.time(800, 50);
 	drivef.twrAlign(2000, 370, 300);
-	intakes(0);
+	//intakes(0);
 	roller.move_velocity(200);
 }

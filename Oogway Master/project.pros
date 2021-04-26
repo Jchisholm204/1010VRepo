@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "OOGWAY",
+        "project_name": "DasWAY",
         "target": "v5",
         "templates": {
             "kernel": {
