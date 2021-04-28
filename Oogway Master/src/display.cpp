@@ -25,8 +25,10 @@ lv_obj_t * brULTsts;
 lv_obj_t * lULTsts;
 lv_obj_t * rULTsts;
 lv_obj_t * IMUsts;
+lv_obj_t * IMUst2;
 
-LV_IMG_DECLARE(dispimg);
+//LV_IMG_DECLARE(dispimg);
+//lv_img_set_src(img, "/usd/dispimg.bin");
 
 lv_res_t autoSelect_action(lv_obj_t * selector){
   SelectedAuto = lv_roller_get_selected(selector);
@@ -36,7 +38,7 @@ lv_res_t autoSelect_action(lv_obj_t * selector){
 
 void Display::createImg(void){
   lv_obj_t * oogway = lv_img_create(op_tab, NULL);
-  lv_img_set_src(oogway, &dispimg);
+  lv_img_set_src(oogway, "/usd/dispimg.bin");
   lv_obj_align(oogway, NULL, LV_ALIGN_CENTER, 100, 0);
   lv_img_set_auto_size(oogway, true);
 }
@@ -86,18 +88,21 @@ void Display::DistanceReadout(void){
     lULTsts = lv_label_create(diagnostics_tab, NULL);
     rULTsts = lv_label_create(diagnostics_tab, NULL);
     IMUsts = lv_label_create(diagnostics_tab, NULL);
+    IMUst2 = lv_label_create(diagnostics_tab, NULL);
 
-    lv_obj_align(lULTsts, lLED, LV_ALIGN_CENTER, -190, 0);
+    lv_obj_align(lULTsts, lLED, LV_ALIGN_CENTER, -190, -40);
     lv_obj_align(rULTsts, lULTsts, LV_ALIGN_CENTER, 0, 20);
     lv_obj_align(brULTsts, rULTsts, LV_ALIGN_CENTER, 0, 20);
     lv_obj_align(blULTsts, brULTsts, LV_ALIGN_CENTER, 0, 20);
     lv_obj_align(IMUsts, blULTsts, LV_ALIGN_CENTER, 0, 20);
+    lv_obj_align(IMUst2, IMUsts, LV_ALIGN_CENTER, 0, 20);
 
     lv_label_set_text(blULTsts, "LIDAR BL: --");
     lv_label_set_text(brULTsts, "LIDAR BR: --");
     lv_label_set_text(lULTsts, "LIDAR L: --");
     lv_label_set_text(rULTsts, "LIDAR R: --");
-    lv_label_set_text(IMUsts, "GYRO: --")
+    lv_label_set_text(IMUsts, "GYRO: -H-");
+    lv_label_set_text(IMUst2, "GYRO: -D-");
 
 }
 
@@ -146,12 +151,14 @@ void Display::refresh(void)
   int blULTtempdat = lbLDR.get()/10;
   int brULTtempdat = rbLDR.get()/10;
   int headingTempDat = gyro.get_heading();
+  int roboDirTempdat = gyro.get_rotation();
 
   lv_label_set_text(brULTsts, ("LDR BR: " + std::to_string(brULTtempdat) + "cm").c_str());
   lv_label_set_text(blULTsts, ("LDR BL: " + std::to_string(blULTtempdat) + "cm").c_str());
   lv_label_set_text(lULTsts, ("LDR FL: " + std::to_string(lULTtempdat) + "cm").c_str());
   lv_label_set_text(rULTsts, ("LDR FR: " + std::to_string(rULTtempdat) + "cm").c_str());
   lv_label_set_text(IMUsts, ("GYRO H: " + std::to_string(headingTempDat)).c_str());
+  lv_label_set_text(IMUst2, ("GYRO D: " + std::to_string(roboDirTempdat)).c_str());
 }
 void Display::setActiveTab(int tab){
   lv_tabview_set_tab_act(tabs, tab, LV_ANIM_NONE);
