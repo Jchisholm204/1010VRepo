@@ -2,7 +2,7 @@
 #include "drive.h"
 #include "display.h"
 #include "autons.h"
-
+auto hi = "hi";
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
 Motor driveRB(6, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
@@ -47,7 +47,11 @@ Distance lbLDR(7);
 Distance rbLDR(8);
 Imu gyro(20);
 
-void disabled() {}
+void disabled() {
+	while(true){
+		display.disabledRefresh();
+	}
+}
 
 void competition_initialize() {
 	gyro.reset();
@@ -103,7 +107,6 @@ void opcontrol() {
 		flyWheel.move_velocity(fwTarg);
 		printf("fwTarg: %d\n", fwTarg);
 */
-
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
 			intakeL.move_velocity(-200);
 			intakeR.move_velocity(-200);

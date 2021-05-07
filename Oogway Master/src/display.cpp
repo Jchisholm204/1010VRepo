@@ -160,6 +160,41 @@ void Display::refresh(void)
   lv_label_set_text(IMUsts, ("GYRO H: " + std::to_string(headingTempDat)).c_str());
   lv_label_set_text(IMUst2, ("GYRO D: " + std::to_string(roboDirTempdat)).c_str());
 }
+void Display::disabledRefresh(void)
+{
+  int level = pros::battery::get_capacity();
+  lv_lmeter_set_value(sys_battery_meter, level);
+
+  lv_label_set_text(bat_meter_label, (std::to_string(level)+"%").c_str()); //Thanks to Caden H for coming up with this fix
+//lv_lmeter_set_value(bat_meter_label, level);
+  if(LiL.get_value() == 1){
+    lv_led_on(lLED);
+  }
+  else{
+    lv_led_off(lLED);
+  };
+  if(LiR.get_value() == 1){
+    lv_led_on(rLED);
+  }
+  else{
+    lv_led_off(rLED);
+  };
+
+  //int bULTtempdat = distance_sensor.get();
+  int lULTtempdat = lLDR.get()/10;
+  int rULTtempdat = rLDR.get()/10;
+  int blULTtempdat = lbLDR.get()/10;
+  int brULTtempdat = rbLDR.get()/10;
+  int headingTempDat = gyro.get_heading();
+  int roboDirTempdat = gyro.get_rotation();
+
+  lv_label_set_text(brULTsts, ("LDR BR: " + std::to_string(brULTtempdat) + "cm").c_str());
+  lv_label_set_text(blULTsts, ("LDR BL: " + std::to_string(blULTtempdat) + "cm").c_str());
+  lv_label_set_text(lULTsts, ("LDR FL: " + std::to_string(lULTtempdat) + "cm").c_str());
+  lv_label_set_text(rULTsts, ("LDR FR: " + std::to_string(rULTtempdat) + "cm").c_str());
+  lv_label_set_text(IMUsts, ("GYRO H: " + std::to_string(headingTempDat)).c_str());
+  lv_label_set_text(IMUst2, ("GYRO D: " + std::to_string(roboDirTempdat)).c_str());
+}
 void Display::setActiveTab(int tab){
   lv_tabview_set_tab_act(tabs, tab, LV_ANIM_NONE);
 }

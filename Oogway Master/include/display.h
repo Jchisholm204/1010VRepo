@@ -22,6 +22,7 @@ public:
   void createAutoSelector(void);
   void createBatteryMeter(void);
   void refresh(void);
+  void disabledRefresh(void);
 };
 
 #endif
