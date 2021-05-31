@@ -27,7 +27,7 @@ lv_obj_t * rULTsts;
 lv_obj_t * IMUsts;
 lv_obj_t * IMUst2;
 
-//LV_IMG_DECLARE(dispimg);
+LV_IMG_DECLARE(dispimg);
 //lv_img_set_src(img, "/usd/dispimg.bin");
 
 lv_res_t autoSelect_action(lv_obj_t * selector){
@@ -38,7 +38,7 @@ lv_res_t autoSelect_action(lv_obj_t * selector){
 
 void Display::createImg(void){
   lv_obj_t * oogway = lv_img_create(op_tab, NULL);
-  lv_img_set_src(oogway, "/usd/dispimg.bin");
+  lv_img_set_src(oogway, &dispimg);
   lv_obj_align(oogway, NULL, LV_ALIGN_CENTER, 100, 0);
   lv_img_set_auto_size(oogway, true);
 }
