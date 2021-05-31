@@ -2,11 +2,9 @@
 #include "drive.h"
 #include "display.h"
 #include "autons.h"
-<<<<<<< Updated upstream
-
-=======
 #include "camera.h"
->>>>>>> Stashed changes
+
+
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
 Motor driveRB(6, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
@@ -88,31 +86,7 @@ void opcontrol() {
 			roller.move_velocity(0);
 			flyWheel.move_velocity(0);
 		}
-<<<<<<< Updated upstream
 
-		/*//  Set up the Top roller speed control - Y = Stop / X = Full Speed / B = Slow Outtake (in case of jam)
-		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
-			fwTarg=0;
-		}
-		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
-			fwTarg=470;
-		}
-		else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
-			fwTarg+=10;
-		}
-		else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
-			fwTarg-=10;
-		}
-		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
-			fwTarg=-100;
-		}
-
-		flyWheel.move_velocity(fwTarg);
-		printf("fwTarg: %d\n", fwTarg);
-*/
-
-=======
->>>>>>> Stashed changes
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
 			intakeL.move_velocity(-200);
 			intakeR.move_velocity(-200);
