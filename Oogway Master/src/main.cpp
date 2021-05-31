@@ -2,7 +2,11 @@
 #include "drive.h"
 #include "display.h"
 #include "autons.h"
+<<<<<<< Updated upstream
 
+=======
+#include "camera.h"
+>>>>>>> Stashed changes
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
 Motor driveRB(6, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
@@ -15,6 +19,7 @@ Motor intakeR(17, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 // Define the Motors - Internal Rollers / Top Roller
 Motor roller(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor flyWheel(18, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
+Vision vision_sensor(11);
 
 Chassis drivef;
 Display display;
@@ -35,7 +40,7 @@ void initialize() {
 
 	gyro.reset();
 
-
+	vsnInit();
 }
 
 ADIDigitalIn LiL('a');
@@ -56,8 +61,9 @@ void competition_initialize() {
 void autonomous() {
 	//skills();
 	//leftAuto();
-	sadAuto();
+	//sadAuto();
 	//rightAuto();
+	testAuto();
 
 }
 
@@ -82,6 +88,7 @@ void opcontrol() {
 			roller.move_velocity(0);
 			flyWheel.move_velocity(0);
 		}
+<<<<<<< Updated upstream
 
 		/*//  Set up the Top roller speed control - Y = Stop / X = Full Speed / B = Slow Outtake (in case of jam)
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
@@ -104,6 +111,8 @@ void opcontrol() {
 		printf("fwTarg: %d\n", fwTarg);
 */
 
+=======
+>>>>>>> Stashed changes
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
 			intakeL.move_velocity(-200);
 			intakeR.move_velocity(-200);
@@ -120,5 +129,7 @@ void opcontrol() {
 		//else loop to control the intakes and roller
 		delay(20);
 		//visionLoop();
+		
+		//vsnTest();
 	}
 }
