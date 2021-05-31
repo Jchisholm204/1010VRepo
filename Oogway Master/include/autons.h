@@ -6,6 +6,7 @@ void skills(void);
 void sadAuto(void);
 void leftAuto(void);
 void rightAuto(void);
+void testAuto(void);
 
 
 #endif
