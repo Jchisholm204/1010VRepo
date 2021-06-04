@@ -39,7 +39,7 @@ void initialize() {
 
 ADIDigitalIn LiL('a');
 ADIDigitalIn LiR('b');
-Distance distance_sensor(13);
+ADIUltrasonic ballDetector('e', 'f');
 Distance rLDR(1);
 Distance lLDR(9);
 Distance lbLDR(7);
@@ -59,8 +59,8 @@ void competition_initialize() {
 void autonomous() {
 	//skills();
 	//leftAuto();
-	sadAuto();
-	//rightAuto();
+	//sadAuto();
+	rightAuto();
 
 }
 
@@ -70,6 +70,7 @@ void opcontrol() {
 	//display.setActiveTab(op_tab);
 	while (true) {
 		//printf("%d\n",SelectedAuto );
+		//printf("%d\n", ballDetector.get_value());
 		drivef.operator_Chassis();
 		//calls to run the operator chassis subset of the chassis controller
 		display.refresh();

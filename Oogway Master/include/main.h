@@ -66,6 +66,7 @@ extern ADIUltrasonic lULT;
 extern ADIUltrasonic rULT;
 */
 extern Distance distance_sensor;
+extern ADIUltrasonic ballDetector;
 extern Distance rLDR;
 extern Distance lLDR;
 extern Distance rbLDR;
