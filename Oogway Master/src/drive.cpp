@@ -153,7 +153,7 @@ void Chassis::move(int targetValue, int timeout){
 }
 
 void Chassis::turn(int targetValue, int timeout){
-	gyro.tare_rotation();
+	gyro.tare_rotation(); //returns (+) or (-) rotation values in deg
 	int startMillis = pros::millis();
 
     float KP = 0.7;
@@ -285,8 +285,8 @@ void Chassis::fenceAlign(int timeout){
 }
 
 void Chassis::heading(int targHeading, int offset, int timeout){
+	//gyro.get_heading() //gets a (+) value between 0 and 360 deg
 	int startMillis = pros::millis();
-
     float KP = 0.8;
 	float KD = 1.2;
 	int err = 0; //error value init

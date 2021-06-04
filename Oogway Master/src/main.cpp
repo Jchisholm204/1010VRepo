@@ -2,8 +2,10 @@
 #include "drive.h"
 #include "display.h"
 #include "autons.h"
+	//CONTROLLERS
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
+//	Define the Motors - Drive
 Motor driveRB(6, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor driveRF(19, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor driveLB(5, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
@@ -14,40 +16,44 @@ Motor intakeR(17, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 // Define the Motors - Internal Rollers / Top Roller
 Motor roller(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor flyWheel(18, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
+//	Sensors - intake limit switches
+ADIDigitalIn LiL('a');
+ADIDigitalIn LiR('b');
+//	Sensors - ball detector Ultrasonic
+ADIUltrasonic ballDetector('e', 'f');
+//	Sensors - Tower Distance Sensors
+Distance rLDR(1);
+Distance lLDR(9);
+//	Sensors - Rear Distance
+Distance lbLDR(7);
+Distance rbLDR(8);
+//	Sensors - Gyro
+Imu gyro(20);
 
+//	Operators - Chassis / Display
 Chassis drivef;
 Display display;
-//int the chassis and display operators
 
 void initialize() {
+	//	Brake Modes - Drive
 	driveLF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveLB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveRF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveRB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
-
+	//	Brake Modes - Intakes
 	intakeL.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	intakeR.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	roller.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
-
+	//Operators - Initialization
 	display.createScreen();
 	display.refresh();
-
+	//	Sensors - Initialization
 	gyro.reset();
-
-
 }
-
-ADIDigitalIn LiL('a');
-ADIDigitalIn LiR('b');
-ADIUltrasonic ballDetector('e', 'f');
-Distance rLDR(1);
-Distance lLDR(9);
-Distance lbLDR(7);
-Distance rbLDR(8);
-Imu gyro(20);
 
 void disabled() {
 	while(true){
+		//allows the display to be used while robot is disabled
 		display.disabledRefresh();
 	}
 }
