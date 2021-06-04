@@ -21,21 +21,23 @@ void leftAuto(){
 	roller.move_velocity(200);
 	pros::delay(1300);
 	roller.move_velocity(0);
-	drivef.move(-800, 1500);
-	drivef.turn(125, 1000);
+	drivef.move(-950, 1500);
+	drivef.turn(115, 1200);
 	pros::delay(150);
-	drivef.move(600, 1500);
+	intakes(100);
+	drivef.move(600, 1200);
 	intakes(200);
-	roller.move_velocity(100);
-	pros::delay(1800);
-	intakes(-200);
-	roller.move_velocity(0);
-	pros::delay(1100);
-	intakes(0);
-	//drivef.time(800, 50);
-	drivef.twrAlign(2000, 300, 370);
-	intakes(0);
+	drivef.move(150, 1000);
+	intakes(200);
+	flyWheel.move_velocity(570);
 	roller.move_velocity(200);
+	pros::delay(1200);
+	intakes(0);
+	pros::delay(500);
+	//drivef.time(800, 50);
+	//intakes(0);
+	roller.move_velocity(0);
+	drivef.move(-400, 1000);
 }
 void rightAuto(){
 	flyWheel.move_velocity(470);
@@ -44,17 +46,21 @@ void rightAuto(){
 	pros::delay(1300);
 	roller.move_velocity(0);
 	drivef.move(-950, 1500);
-	drivef.turn(-125, 1200);
+	drivef.turn(-115, 1200);
 	pros::delay(150);
-	intakes(80);
-	drivef.move(450, 1200);
+	intakes(100);
+	drivef.move(600, 1200);
 	intakes(200);
-	roller.move_velocity(100);
-	pros::delay(1800);
-	roller.move_velocity(0);
-	pros::delay(1100);
-	//drivef.time(800, 50);
-	drivef.twrAlign(2000, 370, 300);
-	//intakes(0);
+	drivef.move(150, 1000);
+	intakes(200);
+	flyWheel.move_velocity(570);
 	roller.move_velocity(200);
+	pros::delay(1200);
+	intakes(0);
+	pros::delay(500);
+	//drivef.time(800, 50);
+	//intakes(0);
+	roller.move_velocity(0);
+	drivef.move(-400, 1000);
+	
 }
