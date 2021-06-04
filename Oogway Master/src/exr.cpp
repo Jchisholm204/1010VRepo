@@ -22,14 +22,14 @@ int cycle(int balls, int rollerSpeed, int flyWheelSpeed){
     while(balls > 0){
         int count = 0;
         int last = 0;
-        int largest = 0;
-        if(ballDetector.get_value() > largest && ballDetector.get_value() < 200 && int(ballDetector.get_value()/20) > int(last/20)){
-            largest = ballDetector.get_value();
+        int smallest = 300;
+        if(ballDetector.get_value() < smallest && ballDetector.get_value() < 200 && int(ballDetector.get_value()/20) < int(last/20)){
+            smallest = ballDetector.get_value();
         }
-        else if(ballDetector.get_value() < largest && (largest - ballDetector.get_value()) > 50){
+        else if(ballDetector.get_value() > smallest && (ballDetector.get_value() - smallest) > 50){
             count++;
             balls--;
-            largest = 0;
+            smallest = 300;
         }
         else{
         }
@@ -42,7 +42,7 @@ int cycle(int balls, int rollerSpeed, int flyWheelSpeed){
         else{
             roller.move_velocity(rollerSpeed);
             flyWheel.move_velocity(flyWheelSpeed);
-        }
+        };
         last = ballDetector.get_value();
-    }
+    };
 }
