@@ -1,62 +1,31 @@
 #include "main.h"
 #include "autons.h"
 #include "drive.h"
+#include "exr.h"
 
-void intakes(int vel){//hi
+void intakes(int vel){
 	intakeL.move_velocity(-vel);
 	intakeR.move_velocity(-vel);
 }
 
 void skills(){
-	intakes(200);
-	pros::delay(500);
-	roller.move_velocity(90);
-	pros::delay(1000);
-	roller.move_velocity(0);
-	drivef.drive(700, 2000);
-	intakes(-100);
-	drivef.turn(155, 2000);
-	drivef.time(800, 150);
-	flyWheel.move_velocity(550);
-	drivef.twrAlign(2000, 450, 250);
-	roller.move_velocity(200);
-	pros::delay(450);
-	roller.move_velocity(0);
-	pros::delay(1000);
-	drivef.turn(-18, 800);
-	drivef.move(-2850, 5000);
-	intakes(200);
-	drivef.turn(-65, 1500); //46
-	drivef.heading(110, 0, 1500);
-	drivef.time(1000, 100);
-	drivef.heading(100, 0, 1000);
-	drivef.time(800, -100);
-	drivef.heading(105, 0, 1500);
-	intakes(-180);
-	pros::delay(800);
-	intakes(0);
-	drivef.timeDrive(1500, 70, 75);
-	flyWheel.move_velocity(460);
-	//drivef.turn(10, 800);
-	roller.move_velocity(200);
-	pros::delay(1000);
-	roller.move_velocity(0);
-	drivef.move(-500, 1000);
-	drivef.heading(0, 0, 2000);
-	drivef.turn(-55, 1000);
-	intakes(200);
-	drivef.stop();
-	pros::delay(500);
-	drivef.move(1400, 3000);
-	drivef.timeDrive(1000, 20, 80);
-	drivef.timeDrive(800, 100, 80);
-	drivef.twrAlign(2000, 350, 350);
-	roller.move_velocity(200);
 }
+
 void sadAuto(){
+	int turnDir;
+	if(autoPot.get_value() < 2000){
+		turnDir = 65;
+	}
+	else if(autoPot.get_value() > 2000){
+		turnDir = -65;
+	}
+	drivef.drive(1200, 2000);
 	flyWheel.move_velocity(600);
-	pros::delay(500);
-	roller.move_velocity(200);	
+	pros::delay(3000);
+	drivef.turn(turnDir, 4500);
+	//drivef.time(800, 120);
+	drivef.move(210, 5000);
+	roller.move_velocity(200);
 }
 void leftAuto(){
 	flyWheel.move_velocity(470);
@@ -64,21 +33,42 @@ void leftAuto(){
 	roller.move_velocity(200);
 	pros::delay(1300);
 	roller.move_velocity(0);
-	drivef.move(-800, 1500);
-	drivef.turn(125, 1000);
+	drivef.move(-1000, 1800);
+	drivef.turn(115, 1200);
 	pros::delay(150);
-	drivef.move(600, 1500);
+	intakes(120);
+	drivef.move(600, 1200);
 	intakes(200);
-	roller.move_velocity(100);
-	pros::delay(1800);
-	intakes(-200);
-	roller.move_velocity(0);
-	pros::delay(1100);
-	intakes(0);
-	//drivef.time(800, 50);
-	drivef.twrAlign(2000, 300, 370);
-	intakes(0);
+
+	drivef.move(150, 1000);
+	drivef.twrAlign(1000, 280, 410);
+
+	intakes(200);
+	flyWheel.move_velocity(570);
 	roller.move_velocity(200);
+	cycle(2);
+	//drivef.time(800, 50);
+	pros::delay(600);
+	intakes(0);
+	roller.move_velocity(0);
+	drivef.move(-400, 1000);
+}
+void leftCycle(){
+	drivef.drive(650, 2000);
+	drivef.turn(-140, 2000);
+	intakes(140);
+	drivef.twrAlign(1500, 280, 410);
+
+	intakes(200);
+	flyWheel.move_velocity(570);
+	roller.move_velocity(200);
+	pros::delay(500);
+	cycle(2);
+	//drivef.time(800, 50);
+	pros::delay(600);
+	intakes(0);
+	roller.move_velocity(0);
+	drivef.move(-400, 1000);
 }
 void rightAuto(){
 	flyWheel.move_velocity(470);
@@ -86,19 +76,53 @@ void rightAuto(){
 	roller.move_velocity(200);
 	pros::delay(1300);
 	roller.move_velocity(0);
-	drivef.move(-800, 1500);
-	drivef.turn(-125, 1000);
+	drivef.move(-950, 1500);
+	drivef.turn(-110, 1200);
 	pros::delay(150);
-	drivef.move(600, 1500);
+	intakes(120);
+	drivef.move(600, 1200);
 	intakes(200);
-	roller.move_velocity(100);
-	pros::delay(1800);
-	intakes(-200);
-	roller.move_velocity(0);
-	pros::delay(1100);
-	intakes(0);
-	//drivef.time(800, 50);
-	drivef.twrAlign(2000, 370, 300);
-	//intakes(0);
+
+	//drivef.move(150, 1000); //move into the tower and prepare to cycle
+	drivef.twrAlign(1000, 410, 280);
+
+	intakes(200);
+	flyWheel.move_velocity(570);
 	roller.move_velocity(200);
+	//pros::delay(1000);
+	cycle(2);
+	pros::delay(600);
+	intakes(0);
+	roller.move_velocity(0);
+	drivef.move(-400, 1000);
+	
+}
+void rightFront(){
+	flyWheel.move_velocity(470);
+	pros::delay(200);
+	roller.move_velocity(200);
+	pros::delay(1300);
+	roller.move_velocity(0);
+	drivef.move(-950, 1500);
+	drivef.turn(-115, 1200);
+	pros::delay(150);
+	intakes(100);
+	drivef.move(600, 1200);
+	intakes(200);
+	drivef.move(150, 1000);
+	intakes(200);
+	flyWheel.move_velocity(570);
+	roller.move_velocity(200);
+	pros::delay(1000);
+	flyWheel.move_velocity(-10);
+	roller.move_velocity(100);
+	//drivef.time(800, 50);
+	//intakes(0);
+	drivef.move(-400, 1000);
+	drivef.turn(180, 2000);
+	drivef.move(400, 1000);
+
+}
+void leftFront(){
+
 }
