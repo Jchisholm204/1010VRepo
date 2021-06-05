@@ -33,7 +33,7 @@ Distance rbLDR(8);
 Imu gyro(20);
 //	Sensors - Auto Pent
 ADIPotentiometer autoPot('g');
-
+ADIDigitalIn stupidButton('h');
 //	Operators - Chassis / Display
 Chassis drivef;
 Display display;
@@ -68,8 +68,9 @@ void competition_initialize() {
 
 void autonomous() {
 	//skills();
-	//leftAuto();
-	sadAuto();
+	leftAuto();
+	//leftCycle();
+	//sadAuto();
 	//rightAuto();
 
 }
@@ -84,7 +85,16 @@ void opcontrol() {
 		cycle(4);
 		roller.move_velocity(0);
 		*/
+	
 	while (true) {
+		/*
+		if(stupidButton.get_value() == 1){
+			intakeL.move_velocity(180 * (1 - LiL.get_value())); //stop intakes moving backwards if limit pressed
+			intakeR.move_velocity(180 * (1 - LiR.get_value()));
+		}
+		else{
+			intakes(autoPot.get_value()/20);
+		}*/
 		
 		//printf("%d\n",SelectedAuto );
 		printf("%d\n", autoPot.get_value());
@@ -121,4 +131,5 @@ void opcontrol() {
 		delay(20);
 		//visionLoop();
 	}
+	
 }

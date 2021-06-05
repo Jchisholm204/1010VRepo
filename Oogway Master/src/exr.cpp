@@ -31,11 +31,12 @@ void cycle(int balls){
             reset = 1;
         }
         if (balls == 1){
-            intakes(0);
+            //intakes(0);
         }
         //printf("DIS: %d\t COUNT: %d\n", ballDetector.get_value(), count);
         pros::delay(10);
     }
+    
 }
 
 void colorCycle(int color){

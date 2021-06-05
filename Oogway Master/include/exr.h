@@ -8,7 +8,7 @@
 */
 int ballCheck(void);
 
-//cycles the tower for a given number of balls, with adjustable roller and fw speed
+//cycles the tower for a given number of balls, stops rollers on ball 0
 void cycle(int balls);
 
 

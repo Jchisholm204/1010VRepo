@@ -13,9 +13,22 @@ public:
   void move(int targetValue, int timeout);
   //gyro based drivebase turning
   void turn(int targetValue, int timeout);
-  //lidar based drivebase turning+movement
+  /*lidar based drivebase turning+movement:
+
+      Meant for aligning with the corner towers
+      
+        timeout --> amount of time the function will run for
+        leftTarg --> left sensor reading
+        rightTarg --> right sensor reading
+      
+      Sensor readings can be found on the
+      diagnostics tab of the display
+    */
   void twrAlign(int timeout, int leftTarg, int rightTarg);
-  //lidar based drivebase turning
+  /*
+    Lidar based drivebase turning:
+aligns the robot paralell with the wall
+  */
   void fenceAlign(int timeout);
   //time driven drivebase movement
   void time(int time, int velocity);

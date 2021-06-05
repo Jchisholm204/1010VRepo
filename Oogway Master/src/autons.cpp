@@ -3,7 +3,7 @@
 #include "drive.h"
 #include "exr.h"
 
-void intakes(int vel){//hi
+void intakes(int vel){
 	intakeL.move_velocity(-vel);
 	intakeR.move_velocity(-vel);
 }
@@ -14,16 +14,17 @@ void skills(){
 void sadAuto(){
 	int turnDir;
 	if(autoPot.get_value() < 2000){
-		turnDir = 50;
+		turnDir = 65;
 	}
 	else if(autoPot.get_value() > 2000){
-		turnDir = -50;
+		turnDir = -65;
 	}
-	drivef.drive(1200, 5000);
-	drivef.turn(turnDir, 4500);
+	drivef.drive(1200, 2000);
 	flyWheel.move_velocity(600);
+	pros::delay(3000);
+	drivef.turn(turnDir, 4500);
 	//drivef.time(800, 120);
-	drivef.move(100, 5000);
+	drivef.move(210, 5000);
 	roller.move_velocity(200);
 }
 void leftAuto(){
@@ -47,7 +48,25 @@ void leftAuto(){
 	roller.move_velocity(200);
 	cycle(2);
 	//drivef.time(800, 50);
-	//intakes(0);
+	pros::delay(600);
+	intakes(0);
+	roller.move_velocity(0);
+	drivef.move(-400, 1000);
+}
+void leftCycle(){
+	drivef.drive(650, 2000);
+	drivef.turn(-140, 2000);
+	intakes(140);
+	drivef.twrAlign(1500, 280, 410);
+
+	intakes(200);
+	flyWheel.move_velocity(570);
+	roller.move_velocity(200);
+	pros::delay(500);
+	cycle(2);
+	//drivef.time(800, 50);
+	pros::delay(600);
+	intakes(0);
 	roller.move_velocity(0);
 	drivef.move(-400, 1000);
 }
@@ -72,7 +91,8 @@ void rightAuto(){
 	roller.move_velocity(200);
 	//pros::delay(1000);
 	cycle(2);
-	//pros::delay(500);
+	pros::delay(600);
+	intakes(0);
 	roller.move_velocity(0);
 	drivef.move(-400, 1000);
 	
