@@ -2,6 +2,7 @@
 #include "drive.h"
 #include "display.h"
 #include "autons.h"
+#include "exr.h"
 	//CONTROLLERS
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
@@ -19,8 +20,9 @@ Motor flyWheel(18, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
 //	Sensors - intake limit switches
 ADIDigitalIn LiL('a');
 ADIDigitalIn LiR('b');
-//	Sensors - ball detector Ultrasonic
-ADIUltrasonic ballDetector('e', 'f');
+//	Sensors - ball detectors
+ADIUltrasonic ballDetector('e', 'f'); //legacy
+Optical colorSensor(12);
 //	Sensors - Tower Distance Sensors
 Distance rLDR(1);
 Distance lLDR(9);
@@ -29,6 +31,8 @@ Distance lbLDR(7);
 Distance rbLDR(8);
 //	Sensors - Gyro
 Imu gyro(20);
+//	Sensors - Auto Pent
+ADIPotentiometer autoPot('g');
 
 //	Operators - Chassis / Display
 Chassis drivef;
@@ -65,8 +69,8 @@ void competition_initialize() {
 void autonomous() {
 	//skills();
 	//leftAuto();
-	//sadAuto();
-	rightAuto();
+	sadAuto();
+	//rightAuto();
 
 }
 
@@ -74,9 +78,16 @@ void autonomous() {
 void opcontrol() {
 	int fwTarg =  0;
 	//display.setActiveTab(op_tab);
+	/*
+		roller.move_velocity(200);
+		flyWheel.move_velocity(200);
+		cycle(4);
+		roller.move_velocity(0);
+		*/
 	while (true) {
+		
 		//printf("%d\n",SelectedAuto );
-		//printf("%d\n", ballDetector.get_value());
+		printf("%d\n", autoPot.get_value());
 		drivef.operator_Chassis();
 		//calls to run the operator chassis subset of the chassis controller
 		display.refresh();
@@ -106,6 +117,7 @@ void opcontrol() {
 			intakeR.move_velocity(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y));
 		}
 		//else loop to control the intakes and roller
+		
 		delay(20);
 		//visionLoop();
 	}

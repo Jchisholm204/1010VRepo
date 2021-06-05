@@ -18,31 +18,34 @@ int ballCheck(void){
     }
 }
 
-int cycle(int balls, int rollerSpeed, int flyWheelSpeed){
-    while(balls > 0){
+void cycle(int balls){
         int count = 0;
-        int last = 0;
-        int smallest = 300;
-        if(ballDetector.get_value() < smallest && ballDetector.get_value() < 200 && int(ballDetector.get_value()/20) < int(last/20)){
-            smallest = ballDetector.get_value();
+        bool reset = 1;
+    while(balls != 0){
+        if(ballDetector.get_value() < 50 && reset == 1){
+            count +=1;
+            balls -=1;
+            reset = 0;
         }
-        else if(ballDetector.get_value() > smallest && (ballDetector.get_value() - smallest) > 50){
-            count++;
-            balls--;
-            smallest = 300;
+        if(ballDetector.get_value() > 150){
+            reset = 1;
         }
-        else{
+        if (balls == 1){
+            intakes(0);
         }
-        if(balls < 0){
-            roller.move(0);
-            flyWheel.move(50);
-            flyWheel.move(0);
-            return 0;
-        }
-        else{
-            roller.move_velocity(rollerSpeed);
-            flyWheel.move_velocity(flyWheelSpeed);
-        };
-        last = ballDetector.get_value();
-    };
+        //printf("DIS: %d\t COUNT: %d\n", ballDetector.get_value(), count);
+        pros::delay(10);
+    }
+}
+
+void colorCycle(int color){
+    auto rgb_value = colorSensor.get_rgb();
+    if (color == 0){
+        auto colorGet = rgb_value.red;
+        int colorWanted = 0;
+    }
+    else if (color == 1){
+        auto colorGet = rgb_value.blue;
+        int colorWanted = 0;
+    }
 }

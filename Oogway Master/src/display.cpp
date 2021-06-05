@@ -27,21 +27,21 @@ lv_obj_t * rULTsts;
 lv_obj_t * IMUsts;
 lv_obj_t * IMUst2;
 
-LV_IMG_DECLARE(dispimg);
-//lv_img_set_src(img, "/usd/dispimg.bin");
+//LV_IMG_DECLARE(dispimg);
+//lv_img_set_src(dispimg, "/usd/dispimg.bin");
 
 lv_res_t autoSelect_action(lv_obj_t * selector){
   SelectedAuto = lv_roller_get_selected(selector);
 
   return LV_RES_OK;
 }
-
+/*
 void Display::createImg(void){
   lv_obj_t * oogway = lv_img_create(op_tab, NULL);
   lv_img_set_src(oogway, &dispimg);
   lv_obj_align(oogway, NULL, LV_ALIGN_CENTER, 100, 0);
   lv_img_set_auto_size(oogway, true);
-}
+}*/
 void Display::createTitle(void)
 {
   lv_obj_t * title =  lv_label_create(op_tab, NULL);
@@ -207,7 +207,7 @@ void Display::createScreen(void)
     lv_tabview_get_style(tabs, LV_TABVIEW_STYLE_INDIC);
     lv_tabview_set_anim_time(tabs, 0);
 
-    createImg();
+    //createImg();
     createBatteryMeter();
     createOpLEDs();
     createAutoSelector();

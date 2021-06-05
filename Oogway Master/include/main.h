@@ -72,6 +72,8 @@ extern Distance lLDR;
 extern Distance rbLDR;
 extern Distance lbLDR;
 extern Imu gyro;
+extern ADIPotentiometer autoPot;
+extern Optical colorSensor;
 
 //controller:
 extern Controller master;
