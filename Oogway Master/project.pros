@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "LeftAuto",
+        "project_name": "Intake Test",
         "target": "v5",
         "templates": {
             "kernel": {

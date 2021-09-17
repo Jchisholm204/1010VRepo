@@ -1,2 +1,0 @@
-This program uses voltage, while this is mostly accurate over a 15 second span, it is not recomended for use in skills auto
-Using voltage also means accuracy can be degraded by recording with a good battery and playing back with a bad one or one on a low charge

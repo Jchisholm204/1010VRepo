@@ -1,0 +1,270 @@
+#include "main.h"
+#include "drive.h"
+#include "display.h"
+
+#include <stdlib.h>
+
+// Define the Controllers
+Controller master(E_CONTROLLER_MASTER);
+Controller partner(E_CONTROLLER_PARTNER);
+
+//  Define the Motors - Drive
+Motor driveRB(8, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor driveRF(10, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor driveLB(7, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor driveLF(3, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+//  Define the Motors - Intakes
+Motor intakeL(4, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor intakeR(9, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+// Define the Motors - Internal Rollers / Top Roller
+Motor roller(2, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor flyWheel(1, E_MOTOR_GEARSET_06, false, E_MOTOR_ENCODER_DEGREES);
+
+// Define the limit switches for closing the intakes
+ADIDigitalIn LiR('a');
+ADIDigitalIn LiL('b');
+
+Chassis drivef;
+Display display;
+
+void initialize() {
+	//set brake modes of motors
+	driveLF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+	driveLB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+	driveRF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+	driveRB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+
+	roller.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+	flyWheel.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+
+	intakeL.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+	intakeR.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
+
+
+	display.createScreen();
+	display.refresh();	
+	
+	////Auton Initializers
+	printf("Selected Auto:...Unknown\t");
+	printf("GameMode: ...int\n");
+	switch (SelectedAuto) { //get the auto selected on the display
+		case 1:
+			autoLength = 14500;
+			break;
+		case 2:
+			autoLength = 14500;
+			break;
+		case 3:
+			autoLength = 59500;
+			break;
+		default:
+			autoLength = 14500;
+			break;
+	}
+}
+
+void disabled() {
+	/*
+	while(true){
+		display.refresh();
+		printf("Selected Auto:""%d\t", SelectedAuto);
+		printf("GameMode: Disabled\n");
+		switch (SelectedAuto) { //get the auto selected on the display
+			case 1:
+				autoLength = 14500;
+				break;
+			case 2:
+				autoLength = 14500;
+				break;
+			case 3:
+				autoLength = 59500;
+				break;
+			default:
+				autoLength = 10000;
+				break;
+		}
+		delay(800);//long delay as the robot should be disabled
+	}
+	*/
+}
+
+void competition_initialize() {}
+
+
+void autonomous() {
+
+}
+
+//make a get velocity return fuction..
+//because it doesent work normaly for some reason
+double getVelocity(Motor motor){
+	return motor.get_actual_velocity();
+}
+
+double getDeg(Motor motor){
+	return motor.get_position();
+}
+
+
+//ignore this
+//	return std::to_string(status).c_str();
+
+void opcontrol() {
+	int timer = 0;
+	FILE*file;
+	bool go = false;
+	bool ran = false;
+	int fwTarg = 0; // int Speed variable for controlling the top roller speed (0-600 rpm)
+
+	//wait until R1 is pressed to start recording
+	while(go == false){
+		display.refresh();
+		switch (SelectedAuto) { //get the auto selected on the display and open the corisponding file
+		case 1:
+			//FILE * file = fopen("/usd/red.txt", "w");
+			autoLength = 14500;
+			break;
+		case 2:
+			//FILE * file = fopen("/usd/blue.txt", "w");
+			autoLength = 14500;
+			break;
+		case 3:
+			//FILE * file = fopen("/usd/skills.txt", "w");
+			autoLength = 58000;
+			break;
+		default: //if there is not auto file selected, record to the test file
+			//FILE * file = fopen("/usd/record.txt", "w");
+			autoLength = 14500;
+			break;
+		};
+		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R1) && ran == false){
+			go = true;
+		};
+		/*
+		if(master.get_digital_n(E_CONTROLLER_DIGITAL_R1) && ran == true){
+					fclose(file);
+			printf("ended");
+			master.rumble("----");
+		}
+		*/
+	};
+	switch (SelectedAuto) { //get the auto selected on the display and open the corisponding file
+		case 1:
+			file = fopen("/usd/red.txt", "w");
+			autoLength = 14500;
+			break;
+		case 2:
+			file = fopen("/usd/blue.txt", "w");
+			autoLength = 14500;
+			break;
+		case 3:
+			file = fopen("/usd/skills.txt", "w");
+			autoLength = 58000;
+			break;
+		default: //if there is not auto file selected, record to the test file
+			file = fopen("/usd/record.txt", "w");
+			autoLength = 14500;
+			break;
+		};
+	//printf("%d\n", SelectedAuto);
+	//printf("recording\n");
+	//master.rumble("..");
+
+	while (timer < autoLength && go == true) {
+		//  Tell the top 	roller to move with the velocity of the speed variable
+		flyWheel.move_velocity(fwTarg);
+		//printf("%d\n",SelectedAuto );
+		drivef.operator_Chassis();
+		//calls to run the operator chassis subset of the chassis controller
+		display.refresh();
+		//calls to update display elements
+
+		//printf("L: %d", getDeg(intakeL));
+		//  Intake Control - R1 Closes / R2 Opens
+		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
+			intakeL.move_velocity(-200);
+			intakeR.move_velocity(-200);
+			roller.move_velocity(100);
+		}
+		else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){ //close toggle
+			intakeL.move_velocity(50 * (1-LiL.get_value()));
+			intakeR.move_velocity(50 * (1-LiR.get_value()));
+		}
+		else{
+			intakeL.move_velocity(0);
+			intakeR.move_velocity(0);			
+		}
+		//  Internal Roller Control - L1 Intakes / L2 Outtakes
+		if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
+			roller.move_velocity(200);
+		}
+		else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)){
+			roller.move_velocity(-200);
+		}
+		else{
+			roller.move_velocity(0);
+		}
+		//  Set up the Top roller speed control - Y = Stop / X = Full Speed / B = Slow Outtake (in case of jam)
+		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
+			fwTarg=0;
+		}
+		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
+			fwTarg=400;
+		}
+		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
+			fwTarg=-200;
+		}
+
+		/////////////////////////DATA COLECTION
+				//////drive
+		fprintf(file, "%f\n", getVelocity(driveRB));
+		fprintf(file, "%f\n", getVelocity(driveRF));
+		fprintf(file, "%f\n", getVelocity(driveLB));
+		fprintf(file, "%f\n", getVelocity(driveLF));
+				////roller
+		fprintf(file, "%f\n", getVelocity(roller));
+		fprintf(file, "%f\n", getVelocity(flyWheel));
+				///intakes
+		//fprintf(file, "%s\n", std::to_string(intakeStatus).c_str());
+		fprintf(file, "%f\n", getVelocity(intakeR));
+		fprintf(file, "%f\n", getVelocity(intakeL));
+		
+		delay(15);
+		timer += 15;
+	};
+
+	go = false;
+	ran = true;
+
+	driveLB.move_velocity(0);
+	driveLF.move_velocity(0);
+	driveRB.move_velocity(0);
+	driveRF.move_velocity(0);
+	flyWheel.move_velocity(0);
+	roller.move_velocity(0);
+
+	fprintf(file, "%f\n", getVelocity(driveRB));
+	fprintf(file, "%f\n", getVelocity(driveRF));
+	fprintf(file, "%f\n", getVelocity(driveLB));
+	fprintf(file, "%f\n", getVelocity(driveLF));
+			////roller
+	fprintf(file, "%f\n", getVelocity(roller));
+	fprintf(file, "%f\n", getVelocity(flyWheel));
+			///intakes
+	//fprintf(file, "%s\n", std::to_string(intakeStatus).c_str());
+	fprintf(file, "%f\n", getVelocity(intakeR));
+	fprintf(file, "%f\n", getVelocity(intakeL));
+	fprintf(file, "%f", timer);
+
+	fclose(file);
+	printf("finished");
+	master.rumble("----");
+
+		while(go == false){
+		if(master.get_digital(E_CONTROLLER_DIGITAL_R1) && ran == true){
+					fclose(file);
+			printf("ended");
+			master.rumble("----");
+		};
+	};
+}

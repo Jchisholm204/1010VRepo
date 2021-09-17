@@ -68,7 +68,7 @@ void competition_initialize() {
 
 void autonomous() {
 	//skills();
-	leftAuto();
+	//leftAuto();
 	//leftCycle();
 	//sadAuto();
 	//rightAuto();
@@ -87,14 +87,14 @@ void opcontrol() {
 		*/
 	
 	while (true) {
-		/*
+		
 		if(stupidButton.get_value() == 1){
 			intakeL.move_velocity(180 * (1 - LiL.get_value())); //stop intakes moving backwards if limit pressed
 			intakeR.move_velocity(180 * (1 - LiR.get_value()));
 		}
 		else{
 			intakes(autoPot.get_value()/20);
-		}*/
+		}/*
 		
 		//printf("%d\n",SelectedAuto );
 		printf("%d\n", autoPot.get_value());
@@ -127,7 +127,7 @@ void opcontrol() {
 			intakeR.move_velocity(partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y));
 		}
 		//else loop to control the intakes and roller
-		
+		*/
 		delay(20);
 		//visionLoop();
 	}
