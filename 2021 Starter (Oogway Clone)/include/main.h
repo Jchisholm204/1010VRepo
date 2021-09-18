@@ -65,15 +65,7 @@ extern ADIUltrasonic bULT;
 extern ADIUltrasonic lULT;
 extern ADIUltrasonic rULT;
 */
-extern Distance distance_sensor;
-extern ADIUltrasonic ballDetector;
-extern Distance rLDR;
-extern Distance lLDR;
-extern Distance rbLDR;
-extern Distance lbLDR;
 extern Imu gyro;
-extern ADIPotentiometer autoPot;
-extern Optical colorSensor;
 
 //controller:
 extern Controller master;
@@ -84,18 +76,6 @@ extern Motor driveRB;
 extern Motor driveRF;
 extern Motor driveLB;
 extern Motor driveLF;
-
-//low intakes that grab balls
-extern Motor intakeL;
-extern Motor intakeR;
-
-//Limit switches for Intakes
-extern ADIDigitalIn LiL;
-extern ADIDigitalIn LiR;
-
-//inner rollers and flywheel
-extern Motor roller;
-extern Motor flyWheel;
 
 //Drive Operators
 #define DIRECTION_FORWARD 1
@@ -113,7 +93,6 @@ extern Motor flyWheel;
  extern lv_obj_t * op_tab;
  extern lv_obj_t * sys_battery_meter;
  extern lv_obj_t * bat_meter_label;
- extern lv_obj_t * intakeLED;
 
 #ifdef __cplusplus
 extern "C" {

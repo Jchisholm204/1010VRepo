@@ -18,14 +18,6 @@ lv_obj_t * op_tab = lv_tabview_add_tab(tabs, "OperatorTab");
 lv_obj_t * diagnostics_tab = lv_tabview_add_tab(tabs, "Diagnostics");
 lv_obj_t * sys_battery_meter;
 lv_obj_t * bat_meter_label;
-lv_obj_t * lLED;
-lv_obj_t * rLED;
-lv_obj_t * blULTsts;
-lv_obj_t * brULTsts;
-lv_obj_t * lULTsts;
-lv_obj_t * rULTsts;
-lv_obj_t * IMUsts;
-lv_obj_t * IMUst2;
 
 //LV_IMG_DECLARE(dispimg);
 //lv_img_set_src(dispimg, "/usd/dispimg.bin");
@@ -49,24 +41,6 @@ void Display::createTitle(void)
   lv_obj_align(title, NULL, LV_ALIGN_IN_TOP_MID, 100, 0);
 }
 
-void Display::createOpLEDs(void){
-  lLED = lv_led_create(diagnostics_tab, NULL);
-  lv_obj_t * intakeLLabel = lv_label_create(diagnostics_tab, NULL);
-  lv_label_set_text(intakeLLabel, "L lmt");
-  lv_obj_align(lLED, NULL, LV_ALIGN_IN_TOP_RIGHT, -60, 0);
-  lv_obj_set_size(lLED, 80, 40);
-  //lv_obj_align(lv_obj_t *obj, const lv_obj_t *base, lv_align_t align, lv_coord_t x_mod, lv_coord_t y_mod)
-  lv_obj_align(intakeLLabel, lLED, LV_ALIGN_CENTER, 0, 0);
-
-  rLED = lv_led_create(diagnostics_tab, NULL);
-  lv_obj_t * intakeRLabel = lv_label_create(diagnostics_tab, NULL);
-  lv_label_set_text(intakeRLabel, "R lmt");
-  lv_obj_align(rLED, NULL, LV_ALIGN_IN_TOP_RIGHT, -60, 100);
-  lv_obj_set_size(rLED, 80, 40);
-  //lv_obj_align(lv_obj_t *obj, const lv_obj_t *base, lv_align_t align, lv_coord_t x_mod, lv_coord_t y_mod)
-  lv_obj_align(intakeRLabel, rLED, LV_ALIGN_CENTER, 0, 0);
-}
-
 void Display::createBatteryMeter(void){
   sys_battery_meter = lv_lmeter_create(lv_scr_act(), NULL);
   bat_meter_label = lv_label_create(sys_battery_meter, NULL);
@@ -80,30 +54,6 @@ void Display::createBatteryMeter(void){
   //lv_label_set_text(bat_meter_label, SYMBOL_BATTERY_2);
   lv_label_set_text(symbol_label, "Battery");
 //lv_obj_align(bat_meter_label, sys_battery_meter, LV
-}
-
-void Display::DistanceReadout(void){
-    blULTsts = lv_label_create(diagnostics_tab, NULL);
-    brULTsts = lv_label_create(diagnostics_tab, NULL);
-    lULTsts = lv_label_create(diagnostics_tab, NULL);
-    rULTsts = lv_label_create(diagnostics_tab, NULL);
-    IMUsts = lv_label_create(diagnostics_tab, NULL);
-    IMUst2 = lv_label_create(diagnostics_tab, NULL);
-
-    lv_obj_align(lULTsts, lLED, LV_ALIGN_CENTER, -190, -40);
-    lv_obj_align(rULTsts, lULTsts, LV_ALIGN_CENTER, 0, 20);
-    lv_obj_align(brULTsts, rULTsts, LV_ALIGN_CENTER, 0, 20);
-    lv_obj_align(blULTsts, brULTsts, LV_ALIGN_CENTER, 0, 20);
-    lv_obj_align(IMUsts, blULTsts, LV_ALIGN_CENTER, 0, 20);
-    lv_obj_align(IMUst2, IMUsts, LV_ALIGN_CENTER, 0, 20);
-
-    lv_label_set_text(blULTsts, "LIDAR BL: --");
-    lv_label_set_text(brULTsts, "LIDAR BR: --");
-    lv_label_set_text(lULTsts, "LIDAR L: --");
-    lv_label_set_text(rULTsts, "LIDAR R: --");
-    lv_label_set_text(IMUsts, "GYRO: -H-");
-    lv_label_set_text(IMUst2, "GYRO: -D-");
-
 }
 
 void Display::createAutoSelector(void){
@@ -132,86 +82,4 @@ void Display::refresh(void)
 
   lv_label_set_text(bat_meter_label, (std::to_string(level)+"%").c_str()); //Thanks to Caden H for coming up with this fix
 //lv_lmeter_set_value(bat_meter_label, level);
-  if(LiL.get_value() == 1){
-    lv_led_on(lLED);
-  }
-  else{
-    lv_led_off(lLED);
-  };
-  if(LiR.get_value() == 1){
-    lv_led_on(rLED);
-  }
-  else{
-    lv_led_off(rLED);
-  };
-
-  //int bULTtempdat = distance_sensor.get();
-  int lULTtempdat = lLDR.get()/10;
-  int rULTtempdat = rLDR.get()/10;
-  int blULTtempdat = lbLDR.get()/10;
-  int brULTtempdat = rbLDR.get()/10;
-  int headingTempDat = gyro.get_heading();
-  int roboDirTempdat = gyro.get_rotation();
-
-  lv_label_set_text(brULTsts, ("LDR BR: " + std::to_string(brULTtempdat) + "cm").c_str());
-  lv_label_set_text(blULTsts, ("LDR BL: " + std::to_string(blULTtempdat) + "cm").c_str());
-  lv_label_set_text(lULTsts, ("LDR FL: " + std::to_string(lULTtempdat) + "cm").c_str());
-  lv_label_set_text(rULTsts, ("LDR FR: " + std::to_string(rULTtempdat) + "cm").c_str());
-  lv_label_set_text(IMUsts, ("GYRO H: " + std::to_string(headingTempDat)).c_str());
-  lv_label_set_text(IMUst2, ("GYRO D: " + std::to_string(roboDirTempdat)).c_str());
-}
-void Display::disabledRefresh(void)
-{
-  int level = pros::battery::get_capacity();
-  lv_lmeter_set_value(sys_battery_meter, level);
-
-  lv_label_set_text(bat_meter_label, (std::to_string(level)+"%").c_str()); //Thanks to Caden H for coming up with this fix
-//lv_lmeter_set_value(bat_meter_label, level);
-  if(LiL.get_value() == 1){
-    lv_led_on(lLED);
-  }
-  else{
-    lv_led_off(lLED);
-  };
-  if(LiR.get_value() == 1){
-    lv_led_on(rLED);
-  }
-  else{
-    lv_led_off(rLED);
-  };
-
-  //int bULTtempdat = distance_sensor.get();
-  int lULTtempdat = lLDR.get()/10;
-  int rULTtempdat = rLDR.get()/10;
-  int blULTtempdat = lbLDR.get()/10;
-  int brULTtempdat = rbLDR.get()/10;
-  int headingTempDat = gyro.get_heading();
-  int roboDirTempdat = gyro.get_rotation();
-
-  lv_label_set_text(brULTsts, ("LDR BR: " + std::to_string(brULTtempdat) + "cm").c_str());
-  lv_label_set_text(blULTsts, ("LDR BL: " + std::to_string(blULTtempdat) + "cm").c_str());
-  lv_label_set_text(lULTsts, ("LDR FL: " + std::to_string(lULTtempdat) + "cm").c_str());
-  lv_label_set_text(rULTsts, ("LDR FR: " + std::to_string(rULTtempdat) + "cm").c_str());
-  lv_label_set_text(IMUsts, ("GYRO H: " + std::to_string(headingTempDat)).c_str());
-  lv_label_set_text(IMUst2, ("GYRO D: " + std::to_string(roboDirTempdat)).c_str());
-}
-void Display::setActiveTab(int tab){
-  lv_tabview_set_tab_act(tabs, tab, LV_ANIM_NONE);
-}
-
-void Display::createScreen(void)
-{
-    lv_theme_t *th = lv_theme_night_init(0, NULL); //60 For TTYellow
-    lv_theme_set_current(th);
-    lv_tabview_set_sliding(tabs, false);
-    lv_tabview_get_style(tabs, LV_TABVIEW_STYLE_INDIC);
-    lv_tabview_set_anim_time(tabs, 0);
-
-    //createImg();
-    createBatteryMeter();
-    createOpLEDs();
-    createAutoSelector();
-    createTitle();
-    DistanceReadout();
-    //createTabs();
 }
