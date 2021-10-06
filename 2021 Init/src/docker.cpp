@@ -1,5 +1,7 @@
 #include "main.h"
-#include "docker.h"
+#include "ixl.h"
+
+int dock_state;
 
 void Docker_Task_fn(void*param){
 	float stackKP = 0.8; //was .7
@@ -16,7 +18,6 @@ void Docker_Task_fn(void*param){
    float i = 0;
    float d;
    int targetValue;
-   int dock_state;
 
    int MAXUP = 100;
    int MAXDOWN = -100;
