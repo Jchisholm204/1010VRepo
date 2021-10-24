@@ -1,6 +1,8 @@
 #ifndef _PORTS_H_
 #define _PORTS_H_
 
+extern const std::string TEAM_NAME;
+
 #define GYRO_PORT 0
 #define Docker_Endstop_Min_Port 1
 
