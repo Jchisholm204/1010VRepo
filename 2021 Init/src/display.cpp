@@ -89,3 +89,11 @@ void Display::createScreen(void){
   createAutoSelector();
   createBatteryMeter();
 }
+
+void Display_Task_fn(void*param){
+  display.createScreen();
+  while(true){
+    display.refresh();
+    pros::delay(500);
+  }
+}

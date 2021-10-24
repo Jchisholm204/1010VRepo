@@ -57,6 +57,7 @@
 // using namespace okapi;
 
 extern Chassis drivef;
+extern Display display;
 
 //ADI Devies Miscellaneous
 //extern ADIGyro gyro;

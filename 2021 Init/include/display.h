@@ -7,6 +7,8 @@
 #define NO_AUTO_SELECTED 0
 extern int SelectedAuto;
 
+extern Task display_Task;
+void Display_Task_fn(void*param);
 
 class Display{
 public:

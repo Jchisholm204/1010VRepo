@@ -35,9 +35,7 @@ void initialize() {
 	driveLB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveRF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveRB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
-	//Operators - Initialization
-	display.createScreen();
-	display.refresh();
+
 	//	Sensors - Initialization
 	gyro.reset();
 
@@ -47,32 +45,36 @@ void initialize() {
 		TASK_STACK_DEPTH_DEFAULT, //Default Depth (data it stores)
 		"MOBO Dock Task" //Task Name
 	);
+
+	pros::Task display_Task(
+		Display_Task_fn, (void*)"PROS",
+		TASK_PRIORITY_MIN,
+		TASK_STACK_DEPTH_DEFAULT,
+		"Display Task"
+	);
 }
 
 void disabled() {
-	while(true){
-		//allows the display to be used while robot is disabled
-		display.refresh();
-	}
 }
 
 void competition_initialize() {
 	gyro.reset();
+	Docker_Task.resume();
 }
 
 void autonomous() {
+	Docker_Task.resume();
 
 }
 
 
 void opcontrol() {
+	Docker_Task.resume();
 	bool intakeDeSync = false;
 	bool conveyerDeSync = false;
 	while (true) {
 		drivef.operator_Chassis();
 		//calls to run the operator chassis subset of the chassis controller
-		display.refresh();
-		//calls to update display elements
 
 		if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
 			dock_state = POS_UP;
