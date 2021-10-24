@@ -2,8 +2,10 @@
 #include "drive.h"
 #include "display.h"
 #include "autons.h"
-#include "ports.h"
+#include "setup.h"
 #include "ext.h"
+
+const std::string TEAM_NAME = "1010V";
 //	CONTROLLERS
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
@@ -59,19 +61,17 @@ void disabled() {
 
 void competition_initialize() {
 	gyro.reset();
-	Docker_Task.resume();
 }
 
 void autonomous() {
-	Docker_Task.resume();
 
 }
 
 
 void opcontrol() {
-	Docker_Task.resume();
 	bool intakeDeSync = false;
 	bool conveyerDeSync = false;
+
 	while (true) {
 		drivef.operator_Chassis();
 		//calls to run the operator chassis subset of the chassis controller

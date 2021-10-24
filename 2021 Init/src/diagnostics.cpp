@@ -8,7 +8,7 @@ Meant to be used in combination with PY debug
 */
 
 #include "main.h"
-#include "ports.h"
+#include "setup.h"
 #include "ext.h"
 #include "autons.h"
 #include "display.h"
@@ -16,11 +16,11 @@ Meant to be used in combination with PY debug
 #include <string>
 #include <iostream>
 
-void Diagnostics::report(auto error, auto subsystem, auto print){
+void Diagnostics::report(std::string error, int subsystem, std::string print){
     printf("ERROR:", error, "\t SUBSYSTEM:", subsystem, "\t INFO", print);
 };
 
-void Diagnostics::fatal(auto error, auto subsystem){
+void Diagnostics::fatal(std::string error, int subsystem){
     printf("FATAL ERROR: \n", error, "\n", subsystem);
     printf("STOPPING DOCKER TASK");
     //suspend docker task

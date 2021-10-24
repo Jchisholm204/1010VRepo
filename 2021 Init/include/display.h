@@ -23,4 +23,6 @@ public:
   void refresh(void);
 };
 
+extern Display display;
+
 #endif
