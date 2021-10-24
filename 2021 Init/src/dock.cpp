@@ -1,6 +1,6 @@
 #include "main.h"
-#include "ixl.h"
-
+#include "ext.h"
+bool Docker_Homing_Complete = false;
 int dock_state;
 
 void Docker_Task_fn(void*param){
@@ -9,7 +9,7 @@ void Docker_Task_fn(void*param){
    //same PID Logic as turnValue
    int motorPower;
    int startTime = millis();
-   int currentValue = dockerPOT.get_value();
+   int currentValue;
    int err = 0;
    int derr = 0;
    int err_last = 0;
@@ -22,21 +22,43 @@ void Docker_Task_fn(void*param){
    int MAXUP = 100;
    int MAXDOWN = -100;
 
+   //HOMING SEQUENCE
+   while(Docker_Homing_Complete == false  && Docker_Endstop_Min.get_value() == 0){
+      dockerMOBO.move_velocity(-100);
+      if(Docker_Endstop_Min.get_value() == 1){
+         dockerMOBO.move_velocity(0);
+         dockerMOBO.tare_position();
+         currentValue = dockerMOBO.get_position();
+         Docker_Homing_Complete = true;
+      }
+   };
+
    while(true){
+      //Docker Position Controller
       switch(dock_state){
          case 1:
             //pot value when dock down
-            targetValue = 100;
+            targetValue = 500;
             break;
          case 0:
             //pos value when dock up
             targetValue = 0;
+            Docker_Homing_Complete = false;
             break;
          default:
+            Docker_Homing_Complete = false;
             break;
-      }
+      };
 
-      currentValue = dockerPOT.get_value();
+      if(Docker_Endstop_Min.get_value() == 1){
+         currentValue = dockerMOBO.get_position();
+         Docker_Homing_Complete = true;
+      }
+      else if(Docker_Homing_Complete == false && Docker_Endstop_Min.get_value() == 0){
+         dockerMOBO.move_velocity(-100);
+      };
+
+      currentValue = dockerMOBO.get_position();
       err = targetValue - currentValue;
       err_last = err;
       derr = (err - err_last);
@@ -50,5 +72,5 @@ void Docker_Task_fn(void*param){
     //  motorPower = (motorPower > 1 ? 1 : motorPower < -1 ? -1 : motorPower);
       dockerMOBO.move(motorPower);
       delay(20);
-   }
+   };
 }

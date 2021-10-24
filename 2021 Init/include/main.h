@@ -66,7 +66,7 @@ extern ADIUltrasonic lULT;
 extern ADIUltrasonic rULT;
 */
 extern Imu gyro;
-extern ADIAnalogIn dockerPOT;
+extern ADIDigitalIn Docker_Endstop_Min;
 
 //controller:
 extern Controller master;
