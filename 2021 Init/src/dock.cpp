@@ -3,6 +3,10 @@
 bool Docker_Homing_Complete = false;
 int dock_state;
 
+void Dock(int state){
+   dock_state = state;
+}
+
 void Docker_Task_fn(void*param){
 	float stackKP = 0.8; //was .7
 	float stackKD = 1.2;  //was .02
@@ -71,6 +75,6 @@ void Docker_Task_fn(void*param){
       if(motorPower < MAXDOWN){motorPower = MAXDOWN;}
     //  motorPower = (motorPower > 1 ? 1 : motorPower < -1 ? -1 : motorPower);
       dockerMOBO.move(motorPower);
-      delay(20);
+      pros::delay(20);
    };
 }

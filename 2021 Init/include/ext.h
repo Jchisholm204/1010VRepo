@@ -6,6 +6,8 @@ extern int dock_state;
 #define POS_DOWN 1
 #define POS_UP 0
 
+extern void Dock(int state);
+
 void Docker_Task_fn(void*param);
 extern Task Docker_Task;
 
