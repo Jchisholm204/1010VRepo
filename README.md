@@ -1,5 +1,5 @@
 # TESTING BRANCH - 1010V repository
-This is our testing branch where we put anything that isnt fully ready yet..
+This is our testing branch where we put all of our latest (and mostly untested) code...
 
 # Members
 ## Main Builder --- Jacob Chisholm
