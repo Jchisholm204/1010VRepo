@@ -10,12 +10,12 @@ https://github.com/cadenhewlett/CHPersonal/tree/master/ScreenStuff
 #include "display.h"
 #include <string.h>
 #include "display/lvgl.h"
+#include "setup.h"
 int SelectedAuto;
 
 lv_obj_t * tabs = lv_tabview_create(lv_scr_act(), NULL);
 lv_obj_t * disabled_tab = lv_tabview_add_tab(tabs, "Disabled");
 lv_obj_t * op_tab = lv_tabview_add_tab(tabs, "OperatorTab");
-lv_obj_t * diagnostics_tab = lv_tabview_add_tab(tabs, "Diagnostics");
 lv_obj_t * sys_battery_meter;
 lv_obj_t * bat_meter_label;
 
@@ -36,9 +36,16 @@ void Display::createImg(void){
 }*/
 void Display::createTitle(void)
 {
-  lv_obj_t * title =  lv_label_create(op_tab, NULL);
-  lv_label_set_text(title, "Ten Ton - 1010V" );
-  lv_obj_align(title, NULL, LV_ALIGN_IN_TOP_MID, 100, 0);
+  lv_obj_t * teamOrg = lv_label_create(op_tab, NULL);
+  lv_obj_t * teamName =  lv_label_create(op_tab, NULL);
+  lv_obj_t * creator = lv_label_create(op_tab, NULL);
+  lv_label_set_text(teamOrg, TEAM_ORG);
+  lv_label_set_text(teamName, TEAM_NAME);
+  lv_label_set_text(creator, "Property of 1010V"); //DO NOT CHANGE
+  //You are welcome to use this code, but people must know who it belongs to
+  lv_obj_align(teamOrg, NULL, LV_ALIGN_CENTER, 100, -20);
+  lv_obj_align(teamName, teamOrg, LV_ALIGN_CENTER, 0, 20);
+  lv_obj_align(creator, NULL, LV_ALIGN_IN_BOTTOM_RIGHT, 0, -80);
 }
 
 void Display::createBatteryMeter(void){
@@ -58,17 +65,7 @@ void Display::createBatteryMeter(void){
 
 void Display::createAutoSelector(void){
   lv_obj_t * autoSelector = lv_roller_create(disabled_tab, NULL); //create auto selector
-  lv_roller_set_options(autoSelector, "Red\nBlue\nSkills\nNoAuto"); //set options for the array
-  /*
-  * Some Notes about the auto selector:
-  * The auto selector works by setting a numeral value to the variable "SelectedAuto"
-  * The first value is zero, and the values increase by 1 every time
-  * This value then controls a switch case in the autoRun function.
-  * To add new autos, they must be added in three places;
-  * First here, after the last auto, but they must go before NoAuto
-  * Then, there also needs to be a new case added to the autoselector in the autoRun function
-  * Finaly, a text file with the name you gave it within the switch case needs to be set up on the SD card
-  */
+  lv_roller_set_options(autoSelector, autoOptions); //set options for the array
   lv_obj_set_width(autoSelector, 80);
   lv_roller_set_visible_row_count(autoSelector, 4);
   lv_roller_set_action(autoSelector, autoSelect_action);
