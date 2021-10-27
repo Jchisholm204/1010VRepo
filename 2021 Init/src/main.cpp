@@ -5,7 +5,6 @@
 #include "setup.h"
 #include "ext.h"
 
-const std::string TEAM_NAME = "1010V";
 //	CONTROLLERS
 Controller master(E_CONTROLLER_MASTER);
 Controller partner(E_CONTROLLER_PARTNER);
@@ -41,11 +40,12 @@ void initialize() {
 	//	Sensors - Initialization
 	gyro.reset();
 
+	//	Start tasks	//
 	pros::Task Docker_Task(
 		Docker_Task_fn, (void*)"PROS", //PROS Constant Value
 		TASK_PRIORITY_DEFAULT, //Default Priority
 		TASK_STACK_DEPTH_DEFAULT, //Default Depth (data it stores)
-		"MOBO Dock Task" //Task Name
+		"Mobile Goal Dock Task" //Task Name
 	);
 
 	pros::Task display_Task(
@@ -64,7 +64,16 @@ void competition_initialize() {
 }
 
 void autonomous() {
-	testAuto();
+	switch(RunningAuto){
+		case 1:
+			testAuto();
+			break;
+		case 2:
+			ExampleAuto();
+			break;
+		default:
+			pros::delay(100);
+	}
 }
 
 
@@ -84,14 +93,14 @@ void opcontrol() {
 			dock_state = POS_DOWN;
 		}
 
-		if(master.get_digital(E_CONTROLLER_DIGITAL_X)){
+		if(master.get_digital(E_CONTROLLER_DIGITAL_UP) && Intake_DeSync_Enable){
 			intakeDeSync = true;
 		}
 		else{
 			intakeDeSync = false;
 		}
 
-		if(master.get_digital(E_CONTROLLER_DIGITAL_UP)){
+		if(master.get_digital(E_CONTROLLER_DIGITAL_X) && Conveyer_DeSync_Enable){
 			conveyerDeSync = true;
 		}
 		else{
@@ -99,12 +108,12 @@ void opcontrol() {
 		}
 
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
-			intakeMotor.move_velocity(200*(1-conveyerDeSync));
-			conveyerMotor.move_velocity(200*(1-intakeDeSync));
+			intakeMotor.move_velocity(200*(1-intakeDeSync));
+			conveyerMotor.move_velocity(200*(1-conveyerDeSync));
 		}
 		else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
-			intakeMotor.move_velocity(-200*(1-conveyerDeSync));
-			conveyerMotor.move_velocity(-200*(1-intakeDeSync));
+			intakeMotor.move_velocity(-200*(1-intakeDeSync));
+			conveyerMotor.move_velocity(-200*(1-conveyerDeSync));
 		}
 		else{
 			intakeMotor.move_velocity(0);

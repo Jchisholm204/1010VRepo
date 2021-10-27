@@ -20,9 +20,7 @@ void Diagnostics::report(std::string error, int subsystem, std::string print){
     printf("ERROR:", error, "\t SUBSYSTEM:", subsystem, "\t INFO", print);
 };
 
-void Diagnostics::fatal(std::string error, int subsystem){
-    printf("FATAL ERROR: \n", error, "\n", subsystem);
-    printf("STOPPING DOCKER TASK");
-    //suspend docker task
-    Docker_Task.suspend();
+void Diagnostics::reportSR(int subsystem, std::string displayError){
+    //create lv_label
+    //position lv_label
 };

@@ -3,10 +3,16 @@
 
 //////////DOCKER///////////////////
 extern int dock_state;
+//Lowest Dock Position
 #define POS_DOWN 1
+//Highest Dock Position
 #define POS_UP 0
 
+//Adjust Dock Position
 extern void Dock(int state);
+
+//Run Intakes (speed)
+extern void Intake(int speed);
 
 void Docker_Task_fn(void*param);
 extern Task Docker_Task;
@@ -24,7 +30,8 @@ class Diagnostics{
     public:
     //report system errors
     void report(std::string error, int subsystem, std::string print);
-    void fatal(std::string error, int subsystem);
+    // report errors to the brain screen
+    void reportSR(int subsystem, std::string displayError);
 };
 
 

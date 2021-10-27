@@ -1,10 +1,16 @@
 #include "main.h"
 #include "ext.h"
+#include "setup.h"
 bool Docker_Homing_Complete = false;
 int dock_state;
 
 void Dock(int state){
    dock_state = state;
+}
+
+void Intake(int velocity){
+   intakeMotor.move_velocity(velocity);
+   conveyerMotor.move_velocity(velocity);
 }
 
 void Docker_Task_fn(void*param){
@@ -42,7 +48,7 @@ void Docker_Task_fn(void*param){
       switch(dock_state){
          case 1:
             //pot value when dock down
-            targetValue = 500;
+            targetValue = Dock_PID_MaxVal;
             break;
          case 0:
             //pos value when dock up
