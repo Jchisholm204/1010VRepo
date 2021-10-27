@@ -1,5 +1,6 @@
 #include "main.h"
 #include "drive.h"
+#include "setup.h"
 
 int exponential(int joystickVal, float driveExp, int joydead, int motorMin){
   int joySign;
@@ -16,7 +17,7 @@ void Chassis::operator_Chassis(void){
   int Yval = exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y), 1.5 /*DriveExp*/, 8 /*JoyDead*/, 15 /*MotorMin*/);
   int Xval = exponential(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X), 1.3, 8, 10);
   //remove "= 0" and comment if you wish to use mechanum drive
-  int Zval = 0; //exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_X), 2.2, 20, 15);
+  int Zval = (exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_X), 2.2, 20, 15)*Mechanum_Wheels_Enable);
 
   driveLB.move(Yval + Xval - Zval);
   driveLF.move(Yval + Xval + Zval);

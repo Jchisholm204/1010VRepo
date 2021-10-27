@@ -31,7 +31,10 @@ static const char* autoOptions = "No Auto\nTest\nExample";
 //Used to select a default Auto
 static const int RunningAuto = NO_AUTO;//Select an auto from above
 
+//////Drive Configuration////////////////////
 
+//Mechanum Wheels -- Set to 1 to Enable
+static const int Mechanum_Wheels_Enable = 0
 
 //////Port Configuration/////////////////////
 
