@@ -81,6 +81,6 @@ void Docker_Task_fn(void*param){
       if(motorPower < MAXDOWN){motorPower = MAXDOWN;}
     //  motorPower = (motorPower > 1 ? 1 : motorPower < -1 ? -1 : motorPower);
       dockerMOBO.move(motorPower);
-      pros::delay(20);
+      pros::delay(DOCK_TASK_LOOP_DELAY);
    };
 }

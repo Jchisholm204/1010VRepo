@@ -11,6 +11,7 @@
 **Configure Auto Selections
 **Select Autos
 **Reverse Motors
+**Configure System Tasking*
 */
 
 //////Team Name Configuration//////////////////
@@ -34,7 +35,7 @@ static const int RunningAuto = NO_AUTO;//Select an auto from above
 //////Drive Configuration////////////////////
 
 //Mechanum Wheels -- Set to 1 to Enable
-static const int Mechanum_Wheels_Enable = 0
+static const int Mechanum_Wheels_Enable = 0;
 
 //////Port Configuration/////////////////////
 
@@ -55,7 +56,6 @@ static const int Mechanum_Wheels_Enable = 0
 #define MOBO_2_PORT 5 //Side mobo (1-21)
 
 
-
 //////Motor Configuration////////////////
 
 #define INTAKE_REVERSED true
@@ -63,7 +63,6 @@ static const int Mechanum_Wheels_Enable = 0
 
 #define MOBO_1_REVERSED false //Docker Reversed?
 #define MOBO_2_REVERSED false //Side Mobo Reversed?
-
 
 
 //////De_Sync Configuration/////////////
@@ -83,12 +82,51 @@ const bool Conveyer_DeSync_Enable = ON;
 //Allows the Intake motor to Be stopped
 const bool Intake_DeSync_Enable = ON;
 
-////Dock Maximum/Mimimum PID Values/////////
+//////Dock Maximum/Mimimum PID Values/////////
+/*
+* Notes about this section:
+*   The dock may be used for the dock on Amogo, or alternatively, for some other lift where a PID controller is needed
+*   This means that the "dock" function can be used for almost any type of lift provided it uses one (1) motor
+*
+*   In order for this function to operate properly, there must be a limit switch installed in the MIN (minimum/lowest)
+*   position on your dock/arm
+*   The limit switch port is configured as "Docker_Endstop_Min_Port" under the "Ports" section of this file
+*
+*   If you fail to corectly install or configure the limit switch, your robot may break
+*   I am not responsible for broken motors/gearboxes
+*/
+
 //Dock Maximum Value = Make this where you want the dock to go when it is down
 static const int Dock_PID_MaxVal = 500;
 //Dock Minimun Value = Do NOT mess with this value unless you knwo what you are doing
 static const int Dock_PID_MinVal = 0;
 //Dock_PID_MinVal should do nothing provided you have a limit switch the dock clicks in its upwards position
 //Messing with this value can mess up the docks homing sequence
+
+
+//////Configure System Tasking//////////////
+/*
+* This section of the configuration file is used to disable the initalization of the display and docker tasks
+* This would only be nessasary to use if you need to free up brain reasources
+* The Screen task should never be disabled unless there is a need to replace it with another task
+*   If the screen task is disabled, the LCD will fail to function, showing only a black screen
+* The dock task may be disabled to conserve system reasources provided your robot does not have a dock or lift of any kind
+*/
+
+//Dock Task -- set to true to enable
+const bool Dock_Task_Enable = true;
+
+//Dock Task Delay -- set to 20 ms for best results
+#define DOCK_TASK_LOOP_DELAY 20
+
+//Display Task -- set to true to enable
+const bool Display_Task_Enable = true;
+
+//Display refresh rate -- Set to larger value to save system reasources or smaller value to make screen more responcive
+#define DISPLAY_REFRESH_RATE 500 //defined in (ms) delay
+//For best results, use values between 20 and 500, values over 500 may become unresponcive, values under will use more processing power
+
+//Main Loop Delay -- set to 20 ms for best results
+#define MAIN_LOOP_DELAY 20
 
 #endif

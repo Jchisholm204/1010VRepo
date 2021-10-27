@@ -40,20 +40,23 @@ void initialize() {
 	//	Sensors - Initialization
 	gyro.reset();
 
-	//	Start tasks	//
-	pros::Task Docker_Task(
-		Docker_Task_fn, (void*)"PROS", //PROS Constant Value
-		TASK_PRIORITY_DEFAULT, //Default Priority
-		TASK_STACK_DEPTH_DEFAULT, //Default Depth (data it stores)
-		"Mobile Goal Dock Task" //Task Name
-	);
-
-	pros::Task display_Task(
-		Display_Task_fn, (void*)"PROS",
-		TASK_PRIORITY_MIN,
-		TASK_STACK_DEPTH_DEFAULT,
-		"Display Task"
-	);
+	//	Start tasks	//  Task starts can be configured in "setup.h"
+	if(Dock_Task_Enable){
+		pros::Task Docker_Task(
+			Docker_Task_fn, (void*)"PROS", //PROS Constant Value
+			TASK_PRIORITY_DEFAULT, //Default Priority
+			TASK_STACK_DEPTH_DEFAULT, //Default Depth (data it stores)
+			"Mobile Goal Dock Task" //Task Name
+		);
+	}
+	if(Display_Task_Enable){
+		pros::Task display_Task(
+			Display_Task_fn, (void*)"PROS",
+			TASK_PRIORITY_MIN,
+			TASK_STACK_DEPTH_DEFAULT,
+			"Display Task"
+		);
+	}
 }
 
 void disabled() {
@@ -120,7 +123,7 @@ void opcontrol() {
 			conveyerMotor.move_velocity(0);
 		}
 		
-		delay(20);
+		delay(MAIN_LOOP_DELAY);
 	}
 	
 }
