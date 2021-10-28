@@ -14,6 +14,12 @@ extern void Dock(int state);
 //Run Intakes (speed)
 extern void Intake(int speed);
 
+//Dock Information Options
+#define IS_TOWER 0
+
+//Get Dock Information
+extern int Docker_Tower_Info(int req);
+
 void Docker_Task_fn(void*param);
 extern Task Docker_Task;
 

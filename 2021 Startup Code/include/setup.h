@@ -43,6 +43,8 @@ static const int Mechanum_Wheels_Enable = 0;
 #define GYRO_PORT 0 //0=undefined, (1-21)
 //Docker Min Limit Switch/Bumper/Endstop should be installed such that the dock clicks it when it comes up
 #define Docker_Endstop_Min_Port 1 //1-8 ('A'-'H')
+//Docker Tower Detection Sensor (Optical)
+#define Docker_Optical_Port 0 //(0-21)
 
 //Lidars (Distance Sensors)//
 #define FL_LIDAR_PORT 20 //(1-21)
@@ -51,6 +53,7 @@ static const int Mechanum_Wheels_Enable = 0;
 #define BL_LIDAR_PORT 2 //(1-21)
 #define BR_LIDAR_PORT 1 //(1-21)
 
+//Motors
 #define driveRB_PORT 10 //(1-21)
 #define driveRF_PORT 9 //(1-21)
 #define driveLB_PORT 11 //(1-21)
@@ -136,6 +139,12 @@ const bool Dock_Task_Enable = true;
 //Dock Task Delay -- set to 20 ms for best results
 #define DOCK_TASK_LOOP_DELAY 20
 
+//Dock Tower Detection -- detects if there is a tower in the dock
+const bool Dock_Tower_Detection_Enable = false;
+static const int Dock_Tower_Detection_Trigger_Value = 100;
+static const int Dock_Tower_Loaded_MAXDOWN = 80;
+static const int Dock_Tower_Loaded_MAXUP = 100;
+
 //Display Task -- set to true to enable
 const bool Display_Task_Enable = true;
 
@@ -148,6 +157,9 @@ const bool Display_Task_Enable = true;
 
 //Arm Task - used for the front or side arm
 const bool Arm_Task_Enable = false;
+
+//Arm Task Override
+const bool Arm_Task_Override = false;
 
 //Arm Task Delay -- set to 20 ms for best results
 #define ARM_LOOP_DELAY 1000

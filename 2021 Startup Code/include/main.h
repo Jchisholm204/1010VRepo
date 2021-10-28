@@ -68,6 +68,12 @@ extern ADIUltrasonic rULT;
 */
 extern Imu gyro;
 extern ADIDigitalIn Docker_Endstop_Min;
+extern pros::Optical Docker_Optical;
+extern pros::Distance lidarFL;
+extern pros::Distance lidarFR;
+extern pros::Distance lidarBL;
+extern pros::Distance lidarBR;
+
 
 //controller:
 extern Controller master;

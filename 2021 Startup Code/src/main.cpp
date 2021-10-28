@@ -26,6 +26,7 @@ Motor dockerMOBO(MOBO_2_PORT, E_MOTOR_GEARSET_36, MOBO_2_REVERSED, E_MOTOR_ENCOD
 //	Sensors
 pros::Imu gyro(GYRO_PORT);
 pros::ADIDigitalIn Docker_Endstop_Min(Docker_Endstop_Min_Port);
+pros::Optical Docker_Optical(Docker_Optical_Port);
 pros::Distance lidarFL(FL_LIDAR_PORT);
 pros::Distance lidarFR(FR_LIDAR_PORT);
 pros::Distance lidarBL(BL_LIDAR_PORT);
@@ -100,6 +101,7 @@ void opcontrol() {
 	bool conveyerDeSync = false;
 
 	while (true) {
+		std::cout << Docker_Optical.get_proximity();
 		drivef.operator_Chassis();
 		//calls to run the operator chassis subset of the chassis controller
 
