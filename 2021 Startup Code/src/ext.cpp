@@ -14,9 +14,6 @@ void Intake(int velocity){
 }
 
 void Docker_Task_fn(void*param){
-	float stackKP = 0.8; //was .7
-	float stackKD = 1.2;  //was .02
-   //same PID Logic as turnValue
    int motorPower;
    int startTime = millis();
    int currentValue;
@@ -27,10 +24,7 @@ void Docker_Task_fn(void*param){
    float p;
    float i = 0;
    float d;
-   int targetValue;
-
-   int MAXUP = 100;
-   int MAXDOWN = -100;
+   int targetValue = 0;
 
    //HOMING SEQUENCE
    while(Docker_Homing_Complete == false  && Docker_Endstop_Min.get_value() == 0){
@@ -64,7 +58,7 @@ void Docker_Task_fn(void*param){
          currentValue = dockerMOBO.get_position();
          Docker_Homing_Complete = true;
       }
-      else if(Docker_Homing_Complete == false && Docker_Endstop_Min.get_value() == 0){
+      else if(Docker_Homing_Complete == false){
          dockerMOBO.move_velocity(-100);
       };
 
@@ -72,15 +66,19 @@ void Docker_Task_fn(void*param){
       err = targetValue - currentValue;
       err_last = err;
       derr = (err - err_last);
-      p = (stackKP * err);
-      d = stackKD * derr;
+      p = (DOCK_PID_KP * err);
+      d = DOCK_PID_KD * derr;
 
       motorPower = p+i+d;
 
-      if(motorPower > MAXUP){motorPower = MAXUP;}
-      if(motorPower < MAXDOWN){motorPower = MAXDOWN;}
+      if(motorPower > DOCK_MAX_UP){motorPower = DOCK_MAX_UP;}
+      if(motorPower < DOCK_MAX_DOWN){motorPower = DOCK_MAX_DOWN;}
     //  motorPower = (motorPower > 1 ? 1 : motorPower < -1 ? -1 : motorPower);
       dockerMOBO.move(motorPower);
       pros::delay(DOCK_TASK_LOOP_DELAY);
    };
+}
+
+void Arm_Task_fn(void*param){
+   pros::delay(ARM_LOOP_DELAY);
 }

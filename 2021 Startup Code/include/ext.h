@@ -17,6 +17,9 @@ extern void Intake(int speed);
 void Docker_Task_fn(void*param);
 extern Task Docker_Task;
 
+void Arm_Task_fn(void*param);
+extern Task Arm_Task;
+
 ////////MAIN-SYSTEMS///////////
 #define SYS_MAIN 0
 #define SYS_DOCKER 1

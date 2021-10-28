@@ -23,9 +23,15 @@ Motor conveyerMotor(CONVEYER_PORT, E_MOTOR_GEARSET_18, CONVEYER_REVERSED, E_MOTO
 Motor sideMOBO(MOBO_1_PORT, E_MOTOR_GEARSET_36, MOBO_1_REVERSED, E_MOTOR_ENCODER_DEGREES);
 Motor dockerMOBO(MOBO_2_PORT, E_MOTOR_GEARSET_36, MOBO_2_REVERSED, E_MOTOR_ENCODER_DEGREES);
 
-//	Sensors - Gyro
-Imu gyro(GYRO_PORT);
+//	Sensors
+pros::Imu gyro(GYRO_PORT);
 pros::ADIDigitalIn Docker_Endstop_Min(Docker_Endstop_Min_Port);
+pros::Distance lidarFL(FL_LIDAR_PORT);
+pros::Distance lidarFR(FR_LIDAR_PORT);
+pros::Distance lidarBL(BL_LIDAR_PORT);
+pros::Distance lidarBR(BR_LIDAR_PORT);
+
+
 //	Operators - Chassis / Display
 Chassis drivef;
 Display display;
@@ -57,6 +63,15 @@ void initialize() {
 			"Display Task"
 		);
 	}
+	if(Arm_Task_Enable){
+		pros::Task Arm_Task(
+			Arm_Task_fn, (void*)"PROS",
+			TASK_PRIORITY_DEFAULT,
+			TASK_STACK_DEPTH_DEFAULT,
+			"Arm Task"
+		);
+	}
+	
 }
 
 void disabled() {

@@ -44,16 +44,23 @@ static const int Mechanum_Wheels_Enable = 0;
 //Docker Min Limit Switch/Bumper/Endstop should be installed such that the dock clicks it when it comes up
 #define Docker_Endstop_Min_Port 1 //1-8 ('A'-'H')
 
-#define driveRB_PORT 20 //(1-21)
-#define driveRF_PORT 19 //(1-21)
-#define driveLB_PORT 16 //(1-21)
-#define driveLF_PORT 17 //(1-21)
+//Lidars (Distance Sensors)//
+#define FL_LIDAR_PORT 20 //(1-21)
+#define FR_LIDAR_PORT 0 //(1-21)
 
-#define CONVEYER_PORT 7 //(1-21)
-#define INTAKE_PORT 6 //(1-21)
+#define BL_LIDAR_PORT 2 //(1-21)
+#define BR_LIDAR_PORT 1 //(1-21)
 
-#define MOBO_1_PORT 0 //Docker (1-21) (0=undefined)
-#define MOBO_2_PORT 5 //Side mobo (1-21)
+#define driveRB_PORT 10 //(1-21)
+#define driveRF_PORT 9 //(1-21)
+#define driveLB_PORT 11 //(1-21)
+#define driveLF_PORT 16 //(1-21)
+
+#define CONVEYER_PORT 15 //(1-21)
+#define INTAKE_PORT 12 //(1-21)
+
+#define MOBO_1_PORT 0 //Side (1-21) (0=undefined)
+#define MOBO_2_PORT 3 //Docker mobo (1-21)
 
 
 //////Motor Configuration////////////////
@@ -82,7 +89,7 @@ const bool Conveyer_DeSync_Enable = ON;
 //Allows the Intake motor to Be stopped
 const bool Intake_DeSync_Enable = ON;
 
-//////Dock Maximum/Mimimum PID Values/////////
+//////Dock Configuration Values/////////
 /*
 * Notes about this section:
 *   The dock may be used for the dock on Amogo, or alternatively, for some other lift where a PID controller is needed
@@ -97,11 +104,21 @@ const bool Intake_DeSync_Enable = ON;
 */
 
 //Dock Maximum Value = Make this where you want the dock to go when it is down
-static const int Dock_PID_MaxVal = 500;
+static const int Dock_PID_MaxVal = 440; //500 to much
 //Dock Minimun Value = Do NOT mess with this value unless you knwo what you are doing
 static const int Dock_PID_MinVal = 0;
 //Dock_PID_MinVal should do nothing provided you have a limit switch the dock clicks in its upwards position
 //Messing with this value can mess up the docks homing sequence
+
+//Dock max movement settings//
+// (0) to (127)
+static const int DOCK_MAX_UP = 127;
+// (0) to (-127)
+static const int DOCK_MAX_DOWN = -127;
+
+//Dock PID Settings//
+static const float DOCK_PID_KP = 1.2;
+static const float DOCK_PID_KD = 1.6;
 
 
 //////Configure System Tasking//////////////
@@ -128,5 +145,11 @@ const bool Display_Task_Enable = true;
 
 //Main Loop Delay -- set to 20 ms for best results
 #define MAIN_LOOP_DELAY 20
+
+//Arm Task - used for the front or side arm
+const bool Arm_Task_Enable = false;
+
+//Arm Task Delay -- set to 20 ms for best results
+#define ARM_LOOP_DELAY 1000
 
 #endif
