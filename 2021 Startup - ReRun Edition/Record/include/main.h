@@ -42,7 +42,6 @@
 #include "okapi/api.hpp"
 #include "pros/apix.h"
 #include "drive.h"
-#include "display.h"
 //#include "pros/api_legacy.h"
 
 /**
@@ -59,8 +58,6 @@
 
 
 extern Chassis drivef;
-//extern display
-extern Display display;
 
 //ADI Devies Miscellaneous
 //extern ADIGyro gyro;

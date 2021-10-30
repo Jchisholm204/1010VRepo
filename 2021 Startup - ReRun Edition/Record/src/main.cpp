@@ -1,7 +1,5 @@
 #include "main.h"
 #include "drive.h"
-#include "display.h"
-#include "autons.h"
 #include "setup.h"
 #include "ext.h"
 
@@ -36,10 +34,7 @@ pros::Distance lidarBR(BR_LIDAR_PORT);
 
 //	Operators - Chassis / Display
 Chassis drivef;
-Display display;
 void initialize() {
-	display.createScreen();
-	display.refresh();
 	//	Brake Modes - Drive
 	driveLF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveLB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
@@ -58,15 +53,6 @@ void initialize() {
 			"Mobile Goal Dock Task" //Task Name
 		);
 	}
-	/*
-	if(Display_Task_Enable == true){
-		pros::Task display_Task(
-			Display_Task_fn, (void*)"PROS",
-			TASK_PRIORITY_MIN,
-			TASK_STACK_DEPTH_DEFAULT,
-			"Display Task"
-		);
-	}*/
 	if(Arm_Task_Enable == true){
 		pros::Task Arm_Task(
 			Arm_Task_fn, (void*)"PROS",
@@ -84,37 +70,22 @@ void competition_initialize() {
 }
 
 void autonomous() {
-	//Know What Source to get the selected Auto from
-	int AutoSelectionVariable;
-	if(Use_Screen_Auto_Selection == true){
-		AutoSelectionVariable = SelectedAuto; //select the auto with the V5 display
-	}
-	else{
-		AutoSelectionVariable = RunningAuto; //select the auto in code
-	}
-
-	//Switch Case Runs Auto//
-	switch(AutoSelectionVariable){
-		case 1:
-			rightAuto();
-			break;
-		case 2:
-			leftAuto();
-			break;
-		default:
-			pros::delay(100);
-	}
+//no auto needed for rerun record
 }
 
 ////////RECORD OPCOTNROL/////////////////////////////////////
 void opcontrol() {
 	bool intakeDeSync = false;
 	bool conveyerDeSync = false;
+	bool endEarly = false;
 
 	int millis = pros::millis();
 
-	while ((pros::millis()-15000) < millis) {
-		display.refresh();
+
+	FILE * file = fopen("/usd/NewRecord.txt", "w");
+
+
+	while ((pros::millis()-15*1000) < millis && endEarly == false) {
 		//std::cout << Docker_Optical.get_proximity();
 		drivef.operator_Chassis();
 		//calls to run the operator chassis subset of the chassis controller
@@ -125,20 +96,6 @@ void opcontrol() {
 		else if (master.get_digital(E_CONTROLLER_DIGITAL_L2))
 		{
 			dock_state = POS_DOWN;
-		}
-
-		if(master.get_digital(E_CONTROLLER_DIGITAL_UP) && Intake_DeSync_Enable){
-			intakeDeSync = true;
-		}
-		else{
-			intakeDeSync = false;
-		}
-
-		if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN) && Conveyer_DeSync_Enable){
-			conveyerDeSync = true;
-		}
-		else{
-			conveyerDeSync = false;
 		}
 
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
@@ -164,7 +121,25 @@ void opcontrol() {
 			arm_state = 2;
 		}
 
-		delay(MAIN_LOOP_DELAY);
+		if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN)){
+			endEarly = true;
+		}
+
+		fprintf(file, "%f\n", driveRB.get_target_velocity());
+		fprintf(file, "%f\n", driveRF.get_target_velocity());
+		fprintf(file, "%f\n", driveLB.get_target_velocity());
+		fprintf(file, "%f\n", driveLF.get_target_velocity());
+
+		fprintf(file, "%f\n", intakeMotor.get_target_velocity());
+		fprintf(file, "%f\n", conveyerMotor.get_target_velocity());
+
+		fprintf(file, "%d\n", arm_state);
+		fprintf(file, "%d\n", dock_state);
+
+		delay(20);
+
 	}
-	
+	fprintf(file, "0\n0\n0\n0\n0\n0\n0\n0\n");
+	fclose(file);
+	master.rumble(".-.");
 }

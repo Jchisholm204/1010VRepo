@@ -18,9 +18,11 @@ extern void Arm(int state);
 //Run Intakes (speed)
 extern void Intake(int speed);
 
+//Dock Information Options
+#define IS_TOWER 0
+
 void Docker_Task_fn(void*param);
 
 void Arm_Task_fn(void*param);
-
 
 #endif

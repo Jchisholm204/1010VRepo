@@ -18,24 +18,6 @@
 static const char* TEAM_ORG = "Ten Ton Robotics";
 static const char* TEAM_NAME = "1010V";
 
-//////Auto Configuration///////////////////////
-
-//This will declare auto selections avaible on the brain screen
-static const char* autoOptions = "No Auto\nRight";
-//Display Auto selection does not work is Use_Screen_Auto_Selection = false
-
-//Define Autos here in numerical order
-#define NO_AUTO 0
-#define Right_AUTO 1
-#define Left_Auto 2
-
-//Used to select a default Auto
-static const int RunningAuto = Right_AUTO;//Select an auto from above
-//does not work if Use_Screen_Auto_Selection = true
-
-//Set to true to use the display auto selector // False to set auto with "RunningAuto" variable
-const bool Use_Screen_Auto_Selection = false;
-
 //////Drive Configuration////////////////////
 
 //Mechanum Wheels -- Set to 1 to Enable
