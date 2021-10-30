@@ -87,10 +87,10 @@ void Display::createScreen(void){
   createBatteryMeter();
 }
 
-void Display_Task_fn(void*param){
+void Display_Task_fn(void*param){/*
   display.createScreen();
   while(true){
     display.refresh();
     pros::delay(DISPLAY_REFRESH_RATE);
-  }
+  }*/
 }

@@ -7,14 +7,14 @@
 #define NO_AUTO_SELECTED 0
 extern int SelectedAuto;
 
-extern Task display_Task;
 extern void Display_Task_fn(void*param);
-
+//display class
 class Display{
 public:
   void createImg(void);
   void createTabs(void);
   void setActiveTab(int tab);
+  //create screen elements
   void createScreen(void);
   void createOpLEDs(void);
   void createTitle(void);

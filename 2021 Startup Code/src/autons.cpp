@@ -18,3 +18,22 @@ void ExampleAuto(void){
     drivef.turn(45/*degrees to turn*/, 1000/*timeout*/); //turns the drivebase 45deg clockwise (+) with a timeout of 1000ms
 
 }
+
+void rightAuto(void){
+    Dock(POS_DOWN);
+    drivef.drive(200, 1200, Back);
+    Dock(POS_UP);
+    drivef.turn(135, 1000);
+    drivef.move(100, 1000);
+    drivef.turn(45, 1000);
+    intakeMotor.move_velocity(200);
+    conveyerMotor.move_velocity(200);
+    drivef.move(400, 2000);
+    Arm(1);
+    drivef.move(-800, 4000);
+
+}
+
+void leftAuto(void){
+    
+}

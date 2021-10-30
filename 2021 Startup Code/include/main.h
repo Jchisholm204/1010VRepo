@@ -42,6 +42,7 @@
 #include "okapi/api.hpp"
 #include "pros/apix.h"
 #include "drive.h"
+#include "display.h"
 //#include "pros/api_legacy.h"
 
 /**
@@ -56,8 +57,10 @@
 // using namespace pros::literals;
 // using namespace okapi;
 
+
 extern Chassis drivef;
-//extern Display display;
+//extern display
+extern Display display;
 
 //ADI Devies Miscellaneous
 //extern ADIGyro gyro;
@@ -68,6 +71,7 @@ extern ADIUltrasonic rULT;
 */
 extern Imu gyro;
 extern ADIDigitalIn Docker_Endstop_Min;
+extern ADIDigitalIn Arm_Endstop_Min;
 extern pros::Optical Docker_Optical;
 extern pros::Distance lidarFL;
 extern pros::Distance lidarFR;

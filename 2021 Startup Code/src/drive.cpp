@@ -97,6 +97,74 @@ void Chassis::move(int targetValue, int timeout){
 	}
 }
 
+void Chassis::drive(int targetValue, int timeout, int sensorCase){
+	int startMillis = pros::millis();
+
+    float KP = 0.6;
+	float KD = 1.2;
+	int errL = 0; //error value init
+	int derrL = 0;//error difference
+	int err_lastL = 0; //last error
+	int err_sumL = 0; //sum of errors
+	float pL; //p value normally 0.8
+	float dL; //d value normally 0.7
+
+	int errR = 0; //error value init
+	int derrR = 0;//error difference
+	int err_lastR = 0; //last error
+	int err_sumR = 0; //sum of errors
+	float pR; //p value normally 0.8
+	float dR; //d value normally 0.7
+
+	int dPowR;
+	int dPowL;
+
+	int sensorReading_L;
+	int sensorReading_R;
+
+
+    while((pros::millis()-startMillis) < timeout){
+		if(sensorCase == Front){
+			sensorReading_L = lidarFL.get();
+			sensorReading_R = lidarFR.get();
+		}
+		else{
+			sensorReading_L = lidarBL.get();
+			sensorReading_R = lidarBR.get();
+		}
+
+		errL = targetValue - sensorReading_L;
+		err_lastL = errL; 
+		derrL = (errL - err_lastL); 
+		pL = (KP * errL); 
+		err_sumL += errL;
+		dL = KD * derrL;
+
+		errR = targetValue - sensorReading_R;
+		err_lastR = errR; 
+		derrR = (errR - err_lastR); 
+		pR = (KP * errR); 
+		err_sumL += errR;
+		dR = KD * derrR;
+
+		dPowL = (pL+dL);
+		dPowR = (pR+dR);
+
+		//dPowL = (dPowL > 100 ? 100 : dPowL < -100 ? -100 : dPowL);
+		//dPowR = (dPowR > 100 ? 100 : dPowR < -100 ? -100 : dPowR);
+		if(dPowL > 100){dPowL=100;};
+		if(dPowL < -100){dPowL=-100;};
+		if(dPowR > 100){dPowR=100;};
+		if(dPowR < -100){dPowR=-100;};
+
+
+		driveRF.move(dPowR);
+      	driveLB.move(dPowL);
+      	driveRB.move(dPowR);
+      	driveLF.move(dPowL);
+	}
+}
+
 void Chassis::turn(int targetValue, int timeout){
 	gyro.tare_rotation(); //returns (+) or (-) rotation values in deg
 	int startMillis = pros::millis();

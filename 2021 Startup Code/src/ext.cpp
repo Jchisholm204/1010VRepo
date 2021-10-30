@@ -3,26 +3,19 @@
 #include "setup.h"
 bool Docker_Homing_Complete = false;
 int dock_state;
+int arm_state;
 
 void Dock(int state){
    dock_state = state;
 }
 
+void Arm(int state){
+   arm_state = state;
+}
+
 void Intake(int velocity){
    intakeMotor.move_velocity(velocity);
    conveyerMotor.move_velocity(velocity);
-}
-
-int Docker_Tower_Info(int req){
-   if(req == IS_TOWER){
-      int dockProx = Docker_Optical.get_proximity();
-      if(dockProx < Dock_Tower_Detection_Trigger_Value){
-         return true;
-      }
-      else{
-         return false;
-      }
-   }
 }
 
 void Docker_Task_fn(void*param){
@@ -50,6 +43,10 @@ void Docker_Task_fn(void*param){
          Docker_Homing_Complete = true;
       }
    };
+   dockerMOBO.move_velocity(0);
+   dockerMOBO.tare_position();
+   currentValue = dockerMOBO.get_position();
+   Docker_Homing_Complete = true;
 /////DOCK HOMING SEQUENCE///////////////////
 
    while(true){
@@ -62,7 +59,7 @@ void Docker_Task_fn(void*param){
             break;
          case 0:
             //pos value when dock up
-            targetValue = 0;
+            targetValue = Dock_PID_MinVal;
             Docker_Homing_Complete = false;
             break;
          default:
@@ -83,11 +80,11 @@ void Docker_Task_fn(void*param){
 
 
 ////////Change Max Dock Speed Depending on if there is a tower///////
-      if(Docker_Tower_Info(IS_TOWER) == true && Dock_Tower_Detection_Enable == true){
+      if(Docker_Optical.get_proximity() < Dock_Tower_Detection_Trigger_Value && Dock_Tower_Detection_Enable == true){
          MAXDOWN = Dock_Tower_Loaded_MAXDOWN;
          MAXUP = Dock_Tower_Loaded_MAXUP;
       }
-      else{
+      else if(dock_state == POS_UP){
          MAXDOWN = DOCK_MAX_DOWN;
          MAXUP = DOCK_MAX_UP;
       }
@@ -103,8 +100,8 @@ void Docker_Task_fn(void*param){
 
       motorPower = p+i+d;
 
-      if(motorPower > MAXUP){motorPower = MAXUP;}
-      if(motorPower < MAXDOWN){motorPower = MAXDOWN;}
+      if(motorPower < MAXUP){motorPower = MAXUP;}
+      if(motorPower > MAXDOWN){motorPower = MAXDOWN;}
     //  motorPower = (motorPower > 1 ? 1 : motorPower < -1 ? -1 : motorPower);
       dockerMOBO.move(motorPower);
 /////////PID LOGIC//////////////////////////////////
@@ -126,27 +123,61 @@ void Arm_Task_fn(void*param){
    float i = 0;
    float d;
    int targetValue = 0;
-   int MAXUP = 127;
-   int MAXDOWN = 127;
+   int MAXUP = ARM_MAX_UP;
+   int MAXDOWN = ARM_MAX_DOWN;
+   bool Arm_Homing_Complete = false;
 
+
+//////ARM HOMING SEQUENCE/////////////////
+//copied from docker
+   while(Arm_Homing_Complete == false  && Arm_Endstop_Min.get_value() == 0){
+      sideMOBO.move_velocity(-40);
+      if(Arm_Endstop_Min.get_value()==1){
+         Arm_Homing_Complete = true;
+         sideMOBO.move_velocity(0);
+      }
+   };
+   sideMOBO.move_velocity(0);
    sideMOBO.tare_position();
+   currentValue = sideMOBO.get_position();
+   Arm_Homing_Complete = true;
+/////ARM HOMING SEQUENCE///////////////////
 
    while(true){
-   ////////PID LOGIC//////////////////////////////////////
+      ///////Arm Position Controller/////////////
+      switch(arm_state){
+         case 0:
+            targetValue = Arm_PID_Zero;
+            break;
+         case 1:
+            //pos value when dock up
+            targetValue = Arm_PID_Val_Tower;
+            break;
+         case 2:
+            targetValue = Arm_PID_Val_Platform;
+            break;
+         default:
+            arm_state = 0;
+            break;
+      };
+///////Arm Position Controller/////////////
+
+////////PID LOGIC//////////////////////////////////////
       currentValue = sideMOBO.get_position();
       err = targetValue - currentValue;
       err_last = err;
       derr = (err - err_last);
-      p = (DOCK_PID_KP * err);
-      d = DOCK_PID_KD * derr;
+      p = (ARM_PID_KP * err);
+      d = ARM_PID_KD * derr;
 
       motorPower = p+i+d;
 
-      if(motorPower > MAXUP){motorPower = MAXUP;}
-      if(motorPower < MAXDOWN){motorPower = MAXDOWN;}
+      if(motorPower < MAXUP){motorPower = MAXUP;}
+      if(motorPower > MAXDOWN){motorPower = MAXDOWN;}
     //  motorPower = (motorPower > 1 ? 1 : motorPower < -1 ? -1 : motorPower);
       sideMOBO.move(motorPower);
 /////////PID LOGIC//////////////////////////////////
+
    }
    pros::delay(ARM_LOOP_DELAY);
 }

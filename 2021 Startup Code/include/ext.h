@@ -3,6 +3,7 @@
 
 //////////DOCKER///////////////////
 extern int dock_state;
+extern int arm_state;
 //Lowest Dock Position
 #define POS_DOWN 1
 //Highest Dock Position
@@ -11,20 +12,18 @@ extern int dock_state;
 //Adjust Dock Position
 extern void Dock(int state);
 
+//adjust arm state
+extern void Arm(int state);
+
 //Run Intakes (speed)
 extern void Intake(int speed);
 
 //Dock Information Options
 #define IS_TOWER 0
 
-//Get Dock Information
-extern int Docker_Tower_Info(int req);
-
 void Docker_Task_fn(void*param);
-extern Task Docker_Task;
 
 void Arm_Task_fn(void*param);
-extern Task Arm_Task;
 
 ////////MAIN-SYSTEMS///////////
 #define SYS_MAIN 0
