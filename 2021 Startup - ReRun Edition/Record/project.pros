@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "RR Ed - Record",
+        "project_name": "record.txt",
         "target": "v5",
         "templates": {
             "kernel": {

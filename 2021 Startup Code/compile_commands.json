@@ -30,11 +30,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/display.cpp.o",
-            "src\\display.cpp"
+            "bin/autons.cpp.o",
+            "src\\autons.cpp"
         ],
         "directory": "C:\\Users\\Jacob\\Documents\\GitHub\\1010VRepo\\2021 Startup Code",
-        "file": "src\\display.cpp"
+        "file": "src\\autons.cpp"
     },
     {
         "arguments": [
@@ -67,11 +67,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/autons.cpp.o",
-            "src\\autons.cpp"
+            "bin/ext.cpp.o",
+            "src\\ext.cpp"
         ],
         "directory": "C:\\Users\\Jacob\\Documents\\GitHub\\1010VRepo\\2021 Startup Code",
-        "file": "src\\autons.cpp"
+        "file": "src\\ext.cpp"
     },
     {
         "arguments": [
@@ -141,11 +141,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/main.cpp.o",
-            "src\\main.cpp"
+            "bin/display.cpp.o",
+            "src\\display.cpp"
         ],
         "directory": "C:\\Users\\Jacob\\Documents\\GitHub\\1010VRepo\\2021 Startup Code",
-        "file": "src\\main.cpp"
+        "file": "src\\display.cpp"
     },
     {
         "arguments": [
@@ -178,10 +178,10 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/ext.cpp.o",
-            "src\\ext.cpp"
+            "bin/main.cpp.o",
+            "src\\main.cpp"
         ],
         "directory": "C:\\Users\\Jacob\\Documents\\GitHub\\1010VRepo\\2021 Startup Code",
-        "file": "src\\ext.cpp"
+        "file": "src\\main.cpp"
     }
 ]

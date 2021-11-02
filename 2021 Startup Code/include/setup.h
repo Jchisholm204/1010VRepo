@@ -112,7 +112,7 @@ const bool Intake_DeSync_Enable = ON;
 */
 
 //Dock Maximum Value = Make this where you want the dock to go when it is down
-static const int Dock_PID_MaxVal = 520; //440 without elastics
+static const int Dock_PID_MaxVal = 480; //440 without elastics // 520 with 2
 //Dock Minimun Value = Do NOT mess with this value unless you knwo what you are doing
 static const int Dock_PID_MinVal = 0;
 //Dock_PID_MinVal should do nothing provided you have a limit switch the dock clicks in its upwards position

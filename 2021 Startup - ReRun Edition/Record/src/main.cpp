@@ -78,14 +78,16 @@ void opcontrol() {
 	bool intakeDeSync = false;
 	bool conveyerDeSync = false;
 	bool endEarly = false;
+	int intakeTarget = 0;
 
 	int millis = pros::millis();
+	int timer = 0;
 
 
-	FILE * file = fopen("/usd/NewRecord.txt", "w");
+	FILE * file = fopen("/usd/record.txt", "w");
 
 
-	while ((pros::millis()-15*1000) < millis && endEarly == false) {
+	while (timer < (14000) && endEarly == false) {
 		//std::cout << Docker_Optical.get_proximity();
 		drivef.operator_Chassis();
 		//calls to run the operator chassis subset of the chassis controller
@@ -101,14 +103,17 @@ void opcontrol() {
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
 			intakeMotor.move_velocity(200*(1-intakeDeSync));
 			conveyerMotor.move_velocity(200*(1-conveyerDeSync));
+			intakeTarget = 200;
 		}
 		else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
 			intakeMotor.move_velocity(-200*(1-intakeDeSync));
 			conveyerMotor.move_velocity(-200*(1-conveyerDeSync));
+			intakeTarget = -200;
 		}
 		else{
 			intakeMotor.move_velocity(0);
 			conveyerMotor.move_velocity(0);
+			intakeTarget = 0;
 		};
 
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
@@ -125,20 +130,22 @@ void opcontrol() {
 			endEarly = true;
 		}
 
-		fprintf(file, "%f\n", driveRB.get_target_velocity());
-		fprintf(file, "%f\n", driveRF.get_target_velocity());
-		fprintf(file, "%f\n", driveLB.get_target_velocity());
-		fprintf(file, "%f\n", driveLF.get_target_velocity());
+		fprintf(file, "%f\n", driveRB.get_actual_velocity());
+		fprintf(file, "%f\n", driveRF.get_actual_velocity());
+		fprintf(file, "%f\n", driveLB.get_actual_velocity());
+		fprintf(file, "%f\n", driveLF.get_actual_velocity());
 
-		fprintf(file, "%f\n", intakeMotor.get_target_velocity());
-		fprintf(file, "%f\n", conveyerMotor.get_target_velocity());
+		fprintf(file, "%d\n", intakeTarget);
+		fprintf(file, "%d\n", intakeTarget);
 
 		fprintf(file, "%d\n", arm_state);
 		fprintf(file, "%d\n", dock_state);
 
 		delay(20);
+		timer += 20;
 
 	}
+
 	fprintf(file, "0\n0\n0\n0\n0\n0\n0\n0\n");
 	fclose(file);
 	master.rumble(".-.");

@@ -5,9 +5,10 @@
 
 void runtime(void){
 
-    FILE * runFile = fopen("/usd/right.txt", "r");
+    FILE * runFile = fopen("/usd/left.txt", "r");
 
-    static float drb, drf, dlb, dlf, intm, cnvm, ams, dks;
+    static float drb, drf, dlb, dlf, intm, cnvm;
+    static int ams, dks;
 
     while(true){
         if(feof(runFile)){

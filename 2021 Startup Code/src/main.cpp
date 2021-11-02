@@ -155,10 +155,10 @@ void opcontrol() {
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
 			arm_state = 0;
 		}
-		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
+		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
 			arm_state = 1;
 		}
-		else if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
+		else if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
 			arm_state = 2;
 		}
 

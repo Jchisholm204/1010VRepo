@@ -80,6 +80,7 @@ void opcontrol() {
 	bool conveyerDeSync = false;
 
 	while (true) {
+		drivef.operator_Chassis();
 		//calls to run the operator chassis subset of the chassis controller
 
 		if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
@@ -120,10 +121,10 @@ void opcontrol() {
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
 			arm_state = 0;
 		}
-		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
+		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
 			arm_state = 1;
 		}
-		else if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
+		else if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
 			arm_state = 2;
 		}
 
