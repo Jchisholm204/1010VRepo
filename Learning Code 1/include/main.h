@@ -54,9 +54,12 @@
 // using namespace pros::literals;
 // using namespace okapi;
 
+//extern int controllers
 extern pros::Controller master;
 extern pros::Controller partner;
 
+
+//extern int motors
 extern pros::Motor driveRB;
 extern pros::Motor driveLB;
 extern pros::Motor driveRF;
@@ -68,6 +71,7 @@ extern pros::Motor intake;
 extern pros::Motor towerMotorR;
 extern pros::Motor towerMotorL;
 
+//extern int sensors
 extern pros::ADIDigitalIn tower_limit_lower;
 extern pros::ADIDigitalIn tower_limit_upper;
 

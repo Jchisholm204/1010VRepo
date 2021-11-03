@@ -1,8 +1,10 @@
 #include "main.h"
 
+//int controllers
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Controller parter(pros::E_CONTROLLER_PARTNER);
 
+//int motors
 pros::Motor driveRB(1, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor driveRF(2, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor driveLB(3, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
@@ -14,6 +16,7 @@ pros::Motor towerMotorL(6, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODE
 pros::Motor conveyor(7, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor intake(8, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 
+//int sensors
 pros::ADIDigitalIn tower_limit_lower(1);
 pros::ADIDigitalIn tower_limit_upper('b');
 
@@ -24,6 +27,7 @@ pros::ADIDigitalIn tower_limit_upper('b');
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+	//set motor brake modes
 	driveLF.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	driveLB.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	driveRF.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
@@ -77,8 +81,11 @@ void autonomous() {}
  */
 void opcontrol() {
 	while (true) {
+		//drive power
 		int Y = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+		//drive turning
 		int X = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+		//drive mechanum
 		int Z = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
 
 		driveLB.move(Y + X);
@@ -86,6 +93,7 @@ void opcontrol() {
 		driveRB.move(Y - X);
 		driveRF.move(Y - X);
 
+//////////code to run your tower
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
 			towerMotorL.move_velocity(100);
 			towerMotorR.move_velocity(100);
@@ -98,6 +106,9 @@ void opcontrol() {
 			towerMotorL.move_velocity(0);
 			towerMotorR.move_velocity(0);
 		};
+
+
+///////while true delay
 		pros::delay(20);
 	}
 }
