@@ -53,6 +53,18 @@ void disabled() {}
  */
 void competition_initialize() {}
 
+void drive(int velocity, int time){
+	driveLB.move_velocity(velocity);
+	driveLF.move_velocity(velocity);
+	driveRB.move_velocity(velocity);
+	driveRF.move_velocity(velocity);
+	pros::delay(time*1000);
+	driveLB.move_velocity(0);
+	driveLF.move_velocity(0);
+	driveRB.move_velocity(0);
+	driveRF.move_velocity(0);
+}
+
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -64,7 +76,9 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+void autonomous() {
+	drive(200, 1.5);
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -80,13 +94,20 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+	int b;
+	int x = 0;
+	int y = 10;
+	int jabba = 0;
+	bool having_a_good_day;
+	having_a_good_day = true;
+	having_a_good_day = 0;
 	while (true) {
 		//drive power
 		int Y = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		//drive turning
 		int X = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
 		//drive mechanum
-		int Z = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
+		//int Z = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
 
 		driveLB.move(Y + X);
 		driveLF.move(Y + X);
@@ -105,6 +126,15 @@ void opcontrol() {
 		else{
 			towerMotorL.move_velocity(0);
 			towerMotorR.move_velocity(0);
+		};
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)){
+			intake.move_velocity(200);
+		}
+		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)){
+			intake.move_velocity(-200);
+		}
+		else{
+			intake.move_velocity(0);
 		};
 
 
