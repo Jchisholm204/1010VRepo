@@ -4,6 +4,9 @@
 #define Back 0
 #define Front 1
 
+#define ORIGIN_RIGHT 0
+#define ORIGIN_LEFT 1
+
 class Chassis{
 public:
   //operator drive
@@ -12,16 +15,20 @@ public:
   void timeDrive(int time, int leftPow, int rightPow);
   //encoder based drivebase movement
   void move(int targetValue, int timeout);
+  //encoder based drivebase movement with driveDiff
+  void LineDrive(int targetValue, int timeout);
   //Lidar based drivebase movement
-  void drive(int targetValue, int timeout, int sensorCase);
-  //gyro based drivebase turning
+  void drive(int targetValue, int timeout, pros::Distance leftSensor, pros::Distance rightSensor);
+  //gyro based drivebase turning with center origins
   void turn(int targetValue, int timeout);
-  //time driven drivebase movement
-  void time(int time, int velocity);
-  //gyro based turning with abs values (0-360)
+  //gyro based turning with abs values (0-360) with center origins
   void heading(int targHeading, int offset, int timeout);
+  //gyro based turning around a fixed point
+  void pointTurn(int targetValue, int timeout, int origins);
   //stops all drivebase movement
   void stop(void);
+  //time driven drivebase movement
+  void time(int time, int velocity);
 
 };
 

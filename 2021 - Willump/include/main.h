@@ -71,13 +71,14 @@ extern ADIUltrasonic rULT;
 */
 extern Imu gyro;
 extern ADIDigitalIn Docker_Endstop_Min;
-extern ADIDigitalIn Arm_Endstop_Min;
+extern ADIDigitalIn Lift_Endstop_Min;
 extern pros::Optical Docker_Optical;
 extern pros::Distance lidarFL;
 extern pros::Distance lidarFR;
 extern pros::Distance lidarBL;
 extern pros::Distance lidarBR;
 
+extern pros::ADIDigitalOut LiftPiston;
 
 //controller:
 extern Controller master;
@@ -90,8 +91,8 @@ extern Motor driveLB;
 extern Motor driveLF;
 
 //other Motors
-extern Motor dockerMOBO;
-extern Motor sideMOBO;
+extern Motor dockerMotor;
+extern Motor liftMotor;
 extern Motor intakeMotor;
 extern Motor conveyerMotor;
 

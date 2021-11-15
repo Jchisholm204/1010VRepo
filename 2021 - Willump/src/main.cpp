@@ -2,8 +2,10 @@
 #include "drive.h"
 #include "display.h"
 #include "autons.h"
-#include "setup.h"
-#include "ext.h"
+#include "lift.h"
+#include "dock.h"
+#include "ports.h"
+#include "helpers.h"
 
 //	CONTROLLERS
 Controller master(E_CONTROLLER_MASTER);
@@ -20,24 +22,28 @@ Motor intakeMotor(INTAKE_PORT, E_MOTOR_GEARSET_18, INTAKE_REVERSED, E_MOTOR_ENCO
 Motor conveyerMotor(CONVEYER_PORT, E_MOTOR_GEARSET_18, CONVEYER_REVERSED, E_MOTOR_ENCODER_DEGREES);
 
 //	Define the Motors - Mobile Goal Pickups (MOBO)
-Motor sideMOBO(MOBO_1_PORT, E_MOTOR_GEARSET_36, MOBO_1_REVERSED, E_MOTOR_ENCODER_DEGREES);
-Motor dockerMOBO(MOBO_2_PORT, E_MOTOR_GEARSET_36, MOBO_2_REVERSED, E_MOTOR_ENCODER_DEGREES);
+Motor liftMotor(LIFT_PORT, E_MOTOR_GEARSET_36, MOBO_1_REVERSED, E_MOTOR_ENCODER_DEGREES);
+Motor dockerMotor(DOCKER_PORT, E_MOTOR_GEARSET_36, MOBO_2_REVERSED, E_MOTOR_ENCODER_DEGREES);
 
 //	Sensors
 pros::Imu gyro(GYRO_PORT);
 pros::ADIDigitalIn Docker_Endstop_Min(Docker_Endstop_Min_Port);
-pros::ADIDigitalIn Arm_Endstop_Min(Arm_Endstop_Min_Port);
+pros::ADIDigitalIn Lift_Endstop_Min(Arm_Endstop_Min_Port);
 pros::Optical Docker_Optical(Docker_Optical_Port);
 pros::Distance lidarFL(FL_LIDAR_PORT);
 pros::Distance lidarFR(FR_LIDAR_PORT);
 pros::Distance lidarBL(BL_LIDAR_PORT);
 pros::Distance lidarBR(BR_LIDAR_PORT);
 
+//	Pneumatics
+pros::ADIDigitalOut LiftPiston(LIFT_INTAKE_PORT);
+
 
 //	Operators - Chassis / Display
 Chassis drivef;
 Display display;
 void initialize() {
+
 	display.createScreen();
 	display.refresh();
 	//	Brake Modes - Drive
@@ -49,7 +55,7 @@ void initialize() {
 	//	Sensors - Initialization
 	//gyro.reset(); //broken
 
-	//	Start tasks	//  Task starts can be configured in "setup.h"
+	//	Start tasks
 	if(Dock_Task_Enable == true){
 		pros::Task Docker_Task(
 			Docker_Task_fn, (void*)"PROS", //PROS Constant Value
@@ -58,21 +64,12 @@ void initialize() {
 			"Mobile Goal Dock Task" //Task Name
 		);
 	}
-	/*
-	if(Display_Task_Enable == true){
-		pros::Task display_Task(
-			Display_Task_fn, (void*)"PROS",
-			TASK_PRIORITY_MIN,
-			TASK_STACK_DEPTH_DEFAULT,
-			"Display Task"
-		);
-	}*/
-	if(Arm_Task_Enable == true){
-		pros::Task Arm_Task(
-			Arm_Task_fn, (void*)"PROS",
+	if(Lift_Task_Enable == true){
+		pros::Task Lift_Task(
+			Lift_Task_fn, (void*)"PROS",
 			TASK_PRIORITY_DEFAULT,
 			TASK_STACK_DEPTH_DEFAULT,
-			"Arm Task"
+			"Lift Task"
 		);
 	}
 }
@@ -84,14 +81,7 @@ void competition_initialize() {
 }
 
 void autonomous() {
-	//Know What Source to get the selected Auto from
-	int AutoSelectionVariable;
-	if(Use_Screen_Auto_Selection == true){
-		AutoSelectionVariable = SelectedAuto; //select the auto with the V5 display
-	}
-	else{
-		AutoSelectionVariable = RunningAuto; //select the auto in code
-	}
+	int AutoSelectionVariable = 0;
 
 	//Switch Case Runs Auto//
 	switch(AutoSelectionVariable){
@@ -118,21 +108,21 @@ void opcontrol() {
 		//calls to run the operator chassis subset of the chassis controller
 
 		if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
-			dock_state = POS_UP;
+			Dock(UP);
 		}
 		else if (master.get_digital(E_CONTROLLER_DIGITAL_L2))
 		{
-			dock_state = POS_DOWN;
+			Dock(DOWN);
 		}
 
-		if(master.get_digital(E_CONTROLLER_DIGITAL_UP) && Intake_DeSync_Enable){
+		if(master.get_digital(E_CONTROLLER_DIGITAL_UP)){
 			intakeDeSync = true;
 		}
 		else{
 			intakeDeSync = false;
 		}
 
-		if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN) && Conveyer_DeSync_Enable){
+		if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN)){
 			conveyerDeSync = true;
 		}
 		else{
@@ -153,16 +143,13 @@ void opcontrol() {
 		};
 
 		if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
-			arm_state = 0;
+			Lift(DOWN);
 		}
 		else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
-			arm_state = 1;
-		}
-		else if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
-			arm_state = 2;
+			Lift(UP);
 		}
 
-		delay(MAIN_LOOP_DELAY);
+		delay(20);
 	}
 	
 }
