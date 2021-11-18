@@ -19,6 +19,7 @@ void Docker_Task_fn(void*param){
    int targetValue = 0;
    int MAXUP = -127;
    int MAXDOWN = 127;
+   dock_state = 3; //make dock reset upon startup
 
    while(true){
 
@@ -32,6 +33,7 @@ void Docker_Task_fn(void*param){
             //pos value when dock up
             targetValue = 0;
             currentValue = home_tare(dockerMotor, Docker_Endstop_Min, -100);
+            //targetValue = currentValue;
             break;
          default:
             currentValue = home_tare(dockerMotor, Docker_Endstop_Min, -80);
