@@ -1,9 +1,11 @@
 #ifndef _AUTONS_H_
 #define _AUTONS_H_
 
-extern void testAuto(void);
+extern void skillsAuto(void);
 
-extern void rightAuto(void);
-extern void leftAuto(void);
+
+
+#define EXIT_CODE_0 0
+int reRunAuto(int reRunFile);
 
 #endif

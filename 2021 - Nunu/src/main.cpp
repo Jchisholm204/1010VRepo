@@ -75,24 +75,18 @@ void initialize() {
 }
 
 void disabled() {
+	display.setActiveTab(TAB_DISABLED);
 }
 
 void competition_initialize() {
 }
 
 void autonomous() {
-	int AutoSelectionVariable = 0;
-
-	//Switch Case Runs Auto//
-	switch(AutoSelectionVariable){
-		case 1:
-			rightAuto();
-			break;
-		case 2:
-			leftAuto();
-			break;
-		default:
-			pros::delay(100);
+	if(SelectedAuto == 3){
+		skillsAuto();
+	}
+	else{
+		reRunAuto(SelectedAuto);
 	}
 }
 

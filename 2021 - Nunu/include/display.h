@@ -7,21 +7,24 @@
 #define NO_AUTO_SELECTED 0
 extern int SelectedAuto;
 
-extern void Display_Task_fn(void*param);
+#define TAB_OP 1
+#define TAB_DISABLED 0
+#define TAB_RERUN 2
+
 //display class
 class Display{
 public:
-  void createImg(void);
-  void createTabs(void);
   void setActiveTab(int tab);
-  //create screen elements
-  void createScreen(void);
-  void createOpLEDs(void);
+  void createReRunOps(void);
   void createTitle(void);
-  void createAutoSelector(void);
   void createBatteryMeter(void);
+  void createAutoSelector(void);
   void refresh(void);
+    //create screen elements
+  void createScreen(void);
 };
+
+extern void Display_Task_fn(void*param);
 
 extern Display display;
 

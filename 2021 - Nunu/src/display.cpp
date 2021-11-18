@@ -14,7 +14,8 @@ int SelectedAuto;
 
 lv_obj_t * tabs = lv_tabview_create(lv_scr_act(), NULL);
 lv_obj_t * disabled_tab = lv_tabview_add_tab(tabs, "Disabled");
-lv_obj_t * op_tab = lv_tabview_add_tab(tabs, "OperatorTab");
+lv_obj_t * op_tab = lv_tabview_add_tab(tabs, "Op");
+lv_obj_t * rerun_tab = lv_tabview_add_tab(tabs, "ReRun");
 lv_obj_t * sys_battery_meter;
 lv_obj_t * bat_meter_label;
 
@@ -33,18 +34,32 @@ void Display::createImg(void){
   lv_obj_align(oogway, NULL, LV_ALIGN_CENTER, 100, 0);
   lv_img_set_auto_size(oogway, true);
 }*/
+
+void Display::setActiveTab(int tab){
+  lv_tabview_set_tab_act(tabs, tab, false);
+}
+
+void Display::createReRunOps(){
+  lv_obj_t * recording_enabled = lv_btn_create(rerun_tab, NULL);
+  lv_obj_t * recording_enabled_label = lv_label_create(rerun_tab, NULL);
+  lv_label_set_text(recording_enabled_label, "RECORDING");
+  lv_obj_align(recording_enabled, NULL, LV_ALIGN_CENTER, 50, 0);
+  lv_obj_align(recording_enabled_label, recording_enabled, LV_ALIGN_CENTER, 0, 0);
+  lv_btn_set_toggle(recording_enabled, true);
+  lv_btn_set_state(recording_enabled, false);
+}
+
 void Display::createTitle(void)
 {
   lv_obj_t * teamOrg = lv_label_create(op_tab, NULL);
   lv_obj_t * teamName =  lv_label_create(op_tab, NULL);
-  lv_obj_t * creator = lv_label_create(op_tab, NULL);
+  //lv_obj_t * creator = lv_label_create(op_tab, NULL);
   lv_label_set_text(teamOrg, "Ten Ton");
   lv_label_set_text(teamName, "1010V");
-  lv_label_set_text(creator, "Property of 1010V"); //DO NOT CHANGE
-  //You are welcome to use this code, but people must know who it belongs to
+  //lv_label_set_text(creator, "Property of 1010V"); //DO NOT CHANGE
   lv_obj_align(teamOrg, NULL, LV_ALIGN_CENTER, 100, -20);
   lv_obj_align(teamName, teamOrg, LV_ALIGN_CENTER, 0, 20);
-  lv_obj_align(creator, NULL, LV_ALIGN_IN_BOTTOM_RIGHT, 0, -80);
+  //lv_obj_align(creator, NULL, LV_ALIGN_IN_BOTTOM_RIGHT, 0, -80);
 }
 
 void Display::createBatteryMeter(void){
