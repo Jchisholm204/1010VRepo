@@ -44,3 +44,51 @@ int VelocityCalc(pros::Motor motor, int percent_actual){
     float returnVel = (actualVel * percent_actual) + (targetVel * (1-percent_actual));
     return returnVel;
 }
+
+void mainDrive(void){
+	bool intakeDeSync = false;
+	bool conveyerDeSync = false;
+
+	drivef.operator_Chassis();
+
+	if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
+		Dock(UP);
+	}
+	else if (master.get_digital(E_CONTROLLER_DIGITAL_L2)){
+		Dock(DOWN);
+	}
+
+	if(master.get_digital(E_CONTROLLER_DIGITAL_UP)){
+		intakeDeSync = true;
+	}
+	else{
+		intakeDeSync = false;
+	}
+
+	if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN)){
+		conveyerDeSync = true;
+	}
+	else{
+		conveyerDeSync = false;
+	}
+
+	if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
+		intakeMotor.move_velocity(200*(1-intakeDeSync));
+		conveyerMotor.move_velocity(200*(1-conveyerDeSync));
+	}
+	else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
+		intakeMotor.move_velocity(-200*(1-intakeDeSync));
+		conveyerMotor.move_velocity(-200*(1-conveyerDeSync));
+	}
+	else{
+		intakeMotor.move_velocity(0);
+		conveyerMotor.move_velocity(0);
+	};
+
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
+		Lift(DOWN);
+	}
+	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
+		Lift(UP);
+	}
+}

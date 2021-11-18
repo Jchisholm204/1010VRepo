@@ -15,9 +15,9 @@ int SelectedAuto;
 lv_obj_t * tabs = lv_tabview_create(lv_scr_act(), NULL);
 lv_obj_t * disabled_tab = lv_tabview_add_tab(tabs, "Disabled");
 lv_obj_t * op_tab = lv_tabview_add_tab(tabs, "Op");
-lv_obj_t * rerun_tab = lv_tabview_add_tab(tabs, "ReRun");
 lv_obj_t * sys_battery_meter;
 lv_obj_t * bat_meter_label;
+lv_obj_t * recording_enabled_btn;
 
 //LV_IMG_DECLARE(dispimg);
 //lv_img_set_src(dispimg, "/usd/dispimg.bin");
@@ -39,14 +39,30 @@ void Display::setActiveTab(int tab){
   lv_tabview_set_tab_act(tabs, tab, false);
 }
 
+void Display::createAutoSelector(void){
+  lv_obj_t * autoSelector = lv_roller_create(disabled_tab, NULL); //create auto selector
+  lv_roller_set_options(autoSelector, "None\nRight\nLeft\nSkills\n60Sec\nTest"); //set options for the array
+  lv_obj_set_width(autoSelector, 80);
+  lv_roller_set_visible_row_count(autoSelector, 6);
+  lv_roller_set_action(autoSelector, autoSelect_action);
+  lv_obj_align(autoSelector, NULL , LV_ALIGN_CENTER, 100, -40);
+}
+
 void Display::createReRunOps(){
-  lv_obj_t * recording_enabled = lv_btn_create(rerun_tab, NULL);
-  lv_obj_t * recording_enabled_label = lv_label_create(rerun_tab, NULL);
-  lv_label_set_text(recording_enabled_label, "RECORDING");
-  lv_obj_align(recording_enabled, NULL, LV_ALIGN_CENTER, 50, 0);
-  lv_obj_align(recording_enabled_label, recording_enabled, LV_ALIGN_CENTER, 0, 0);
-  lv_btn_set_toggle(recording_enabled, true);
-  lv_btn_set_state(recording_enabled, false);
+  recording_enabled_btn = lv_btn_create(disabled_tab, NULL);
+  lv_obj_t * recording_enabled_label = lv_label_create(disabled_tab, NULL);
+  lv_label_set_text(recording_enabled_label, "Enable Recording");
+  lv_obj_set_size(recording_enabled_btn, 140, 40);
+  lv_obj_align(recording_enabled_btn, NULL, LV_ALIGN_CENTER, 100, 40);
+  lv_obj_align(recording_enabled_label, recording_enabled_btn, LV_ALIGN_CENTER, 0, 0);
+  lv_btn_set_toggle(recording_enabled_btn, true);
+  lv_btn_set_state(recording_enabled_btn, false);
+}
+
+void Display::createErrorBox(const char *error){
+  lv_obj_t * errorBox = lv_mbox_create(NULL, NULL);
+  lv_mbox_set_text(errorBox, error);
+  lv_obj_align(errorBox, NULL, LV_ALIGN_CENTER, 0, 0);
 }
 
 void Display::createTitle(void)
@@ -75,15 +91,6 @@ void Display::createBatteryMeter(void){
   //lv_label_set_text(bat_meter_label, SYMBOL_BATTERY_2);
   lv_label_set_text(symbol_label, "Battery");
 //lv_obj_align(bat_meter_label, sys_battery_meter, LV
-}
-
-void Display::createAutoSelector(void){
-  lv_obj_t * autoSelector = lv_roller_create(disabled_tab, NULL); //create auto selector
-  lv_roller_set_options(autoSelector, "None\n"); //set options for the array
-  lv_obj_set_width(autoSelector, 80);
-  lv_roller_set_visible_row_count(autoSelector, 4);
-  lv_roller_set_action(autoSelector, autoSelect_action);
-  lv_obj_align(autoSelector, NULL , LV_ALIGN_CENTER, 100, 0);
 }
 
 void Display::refresh(void)

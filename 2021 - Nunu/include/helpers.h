@@ -35,4 +35,7 @@ extern int home_tare(pros::Motor motor, pros::ADIDigitalIn limit_switch, int hom
 // 0 percent_actual = use target velocity only
 extern int VelocityCalc(pros::Motor motor, int percent_actual = 0.5);
 
+//  Main Drive Function
+extern void mainDrive(void);
+
 #endif

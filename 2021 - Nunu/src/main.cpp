@@ -6,6 +6,7 @@
 #include "dock.h"
 #include "ports.h"
 #include "helpers.h"
+#include "display/lvgl.h"
 
 //	CONTROLLERS
 Controller master(E_CONTROLLER_MASTER);
@@ -42,10 +43,13 @@ pros::ADIDigitalOut LiftPiston(LIFT_INTAKE_PORT);
 //	Operators - Chassis / Display
 Chassis drivef;
 Display display;
+
 void initialize() {
 
-	display.createScreen();
-	display.refresh();
+	display.createScreen(); // Create all of the basic screen elements
+	display.refresh(); // Update battery data to the display for the first time
+	lv_btn_set_toggle(recording_enabled_btn, false); //make sure recording is OFF
+
 	//	Brake Modes - Drive
 	driveLF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 	driveLB.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
@@ -76,87 +80,67 @@ void initialize() {
 
 void disabled() {
 	display.setActiveTab(TAB_DISABLED);
+	lv_btn_set_toggle(recording_enabled_btn, false);
+	while(true){
+		display.refresh(); // updates battery capacity - yes thats all I checked
+		pros::delay(100);
+	}
 }
 
 void competition_initialize() {
 }
 
 void autonomous() {
-	if(SelectedAuto == 3){
+	if(SelectedAuto == 3){ // run normal skills if selected
 		skillsAuto();
 	}
-	else{
-		reRunAuto(SelectedAuto);
-	}
-}
-
-void driveCommands(void){
-	bool intakeDeSync = false;
-	bool conveyerDeSync = false;
-	if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
-		Dock(UP);
-	}
-	else if (master.get_digital(E_CONTROLLER_DIGITAL_L2)){
-		Dock(DOWN);
-	}
-
-	if(master.get_digital(E_CONTROLLER_DIGITAL_UP)){
-		intakeDeSync = true;
+	else if(SelectedAuto == 0){
+		pros::delay(100); //dont run an auto
 	}
 	else{
-		intakeDeSync = false;
-	}
-
-	if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN)){
-		conveyerDeSync = true;
-	}
-	else{
-		conveyerDeSync = false;
-	}
-
-	if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
-		intakeMotor.move_velocity(200*(1-intakeDeSync));
-		conveyerMotor.move_velocity(200*(1-conveyerDeSync));
-	}
-	else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
-		intakeMotor.move_velocity(-200*(1-intakeDeSync));
-		conveyerMotor.move_velocity(-200*(1-conveyerDeSync));
-	}
-	else{
-		intakeMotor.move_velocity(0);
-		conveyerMotor.move_velocity(0);
-	};
-
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
-		Lift(DOWN);
-	}
-	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
-		Lift(UP);
+		reRunAuto(SelectedAuto); //run rerun auto
 	}
 }
 
 
 void opcontrol() {
-	bool driver_failsafe = false;
-	bool driver_enabled = true;
-	bool rerun_recording = false;
-	bool rerun_enabled = false;
-	int startMillis = pros::millis();
-	int autoLength = 15 * 1000;
+	bool recording_enabled = lv_btn_get_toggle(recording_enabled_btn); //true if recording is enabled by display toggle
+	int autoLength; // length to record auto for
+	int exitStatus; // for displaying exit codes
 
-	while (driver_enabled == true) {
-		if(rerun_enabled && (pros::millis() - startMillis) < autoLength){
-			driver_enabled = false;
+	if(SelectedAuto == 4){
+		autoLength = 60*1000; // 60 sec for skills rerun
+	}
+	else{
+		autoLength = 15*1000; // 15 sec for match autos
+	}
+	if(pros::usd::is_installed() == 0 && recording_enabled){
+		printf("NO SD CARD");
+		display.createErrorBox("No SD Card Detected\nUnable to Record");
+	}
+	else if(recording_enabled && SelectedAuto/*Do NOT allow recording if no auto selected*/ != 0 && SelectedAuto/*or if norm skills selected*/ != 3){
+		//run the record program
+		exitStatus = recordAuto(SelectedAuto, false, autoLength);
+		printf("%d\t", exitStatus);
+	}
+	else if(recording_enabled && SelectedAuto == 0){ // error for no auto
+		exitStatus = EXIT_FAILURE;
+		printf("NO AUTO SELECTED");
+		display.createErrorBox("No Auto Has Been Selected\nDisable Bot to Continue");
+
+	}
+	else if(recording_enabled && SelectedAuto == 3){ // error for norm skills selected
+		exitStatus = EXIT_FAILURE;
+		printf("NORM SKILLS SELECTED");
+		display.createErrorBox("Non ReRun Auto Selected\nDisable Bot to Continue");
+	}
+	else{ // Not trying to record? Run mainDrive without recording
+		exitStatus = EXIT_CODE_0;
+		printf("%d\t", exitStatus);
+		while(true){
+			display.refresh(); //update battery capacity
+			mainDrive();
+			pros::delay(20);
 		}
-
-		display.refresh();
-		//std::cout << Docker_Optical.get_proximity();
-		drivef.operator_Chassis();
-		//calls to run the operator chassis subset of the chassis controller
-		driveCommands();
-		//call to run main drive commands
-		
-		delay(20);
-
 	}
 }
