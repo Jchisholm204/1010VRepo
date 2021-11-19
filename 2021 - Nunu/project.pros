@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "1010V Nunu",
+        "project_name": "Nunu&Willump",
         "target": "v5",
         "templates": {
             "kernel": {

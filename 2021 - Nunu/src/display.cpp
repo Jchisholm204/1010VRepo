@@ -43,26 +43,34 @@ void Display::createAutoSelector(void){
   lv_obj_t * autoSelector = lv_roller_create(disabled_tab, NULL); //create auto selector
   lv_roller_set_options(autoSelector, "None\nRight\nLeft\nSkills\n60Sec\nTest"); //set options for the array
   lv_obj_set_width(autoSelector, 80);
-  lv_roller_set_visible_row_count(autoSelector, 6);
+  lv_roller_set_visible_row_count(autoSelector, 4);
   lv_roller_set_action(autoSelector, autoSelect_action);
-  lv_obj_align(autoSelector, NULL , LV_ALIGN_CENTER, 100, -40);
+  lv_obj_align(autoSelector, NULL , LV_ALIGN_CENTER, 160, 0);
 }
 
 void Display::createReRunOps(){
-  recording_enabled_btn = lv_btn_create(disabled_tab, NULL);
-  lv_obj_t * recording_enabled_label = lv_label_create(disabled_tab, NULL);
+  recording_enabled_btn = lv_btn_create(lv_scr_act(), NULL);
+  lv_obj_t * recording_enabled_label = lv_label_create(lv_scr_act(), NULL);
   lv_label_set_text(recording_enabled_label, "Enable Recording");
-  lv_obj_set_size(recording_enabled_btn, 140, 40);
-  lv_obj_align(recording_enabled_btn, NULL, LV_ALIGN_CENTER, 100, 40);
+  lv_obj_set_size(recording_enabled_btn, 150, 40);
+  lv_obj_align(recording_enabled_btn, NULL, LV_ALIGN_CENTER, 20, -20);
   lv_obj_align(recording_enabled_label, recording_enabled_btn, LV_ALIGN_CENTER, 0, 0);
   lv_btn_set_toggle(recording_enabled_btn, true);
   lv_btn_set_state(recording_enabled_btn, false);
 }
 
-void Display::createErrorBox(const char *error){
-  lv_obj_t * errorBox = lv_mbox_create(NULL, NULL);
-  lv_mbox_set_text(errorBox, error);
+void Display::createErrorBox(const char *errorMessage){
+  lv_obj_t * errorBox = lv_mbox_create(lv_scr_act(), NULL);
+  lv_mbox_set_text(errorBox, errorMessage);
   lv_obj_align(errorBox, NULL, LV_ALIGN_CENTER, 0, 0);
+  lv_mbox_start_auto_close(errorBox, 3000);
+}
+
+void Display::Msg(const char *displayMsg, int MsgTimeout){
+  lv_obj_t * MsgBox = lv_mbox_create(lv_scr_act(), NULL);
+  lv_mbox_set_text(MsgBox, displayMsg);
+  lv_obj_align(MsgBox, NULL, LV_ALIGN_CENTER, 0, 0);
+  lv_mbox_start_auto_close(MsgBox, MsgTimeout);
 }
 
 void Display::createTitle(void)
@@ -73,7 +81,7 @@ void Display::createTitle(void)
   lv_label_set_text(teamOrg, "Ten Ton");
   lv_label_set_text(teamName, "1010V");
   //lv_label_set_text(creator, "Property of 1010V"); //DO NOT CHANGE
-  lv_obj_align(teamOrg, NULL, LV_ALIGN_CENTER, 100, -20);
+  lv_obj_align(teamOrg, NULL, LV_ALIGN_CENTER, 140, -20);
   lv_obj_align(teamName, teamOrg, LV_ALIGN_CENTER, 0, 20);
   //lv_obj_align(creator, NULL, LV_ALIGN_IN_BOTTOM_RIGHT, 0, -80);
 }
@@ -99,6 +107,9 @@ void Display::refresh(void)
   lv_lmeter_set_value(sys_battery_meter, level);
 
   lv_label_set_text(bat_meter_label, (std::to_string(level)+"%").c_str()); //Thanks to Caden H for coming up with this fix
+
+  //remember to add label change for recording button
+
 //lv_lmeter_set_value(bat_meter_label, level);
 }
 
@@ -106,6 +117,7 @@ void Display::createScreen(void){
   createTitle();
   createAutoSelector();
   createBatteryMeter();
+  createReRunOps();
 }
 
 void Display_Task_fn(void*param){/*

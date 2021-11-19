@@ -17,7 +17,8 @@ class Display{
 public:
   void setActiveTab(int tab);
   void createReRunOps(void);
-  void createErrorBox(const char *error);
+  void createErrorBox(const char *errorMessage);
+  void Msg(const char *displayMsg, int MsgTimeout);
   void createTitle(void);
   void createBatteryMeter(void);
   void createAutoSelector(void);

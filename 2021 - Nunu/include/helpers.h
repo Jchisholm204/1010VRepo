@@ -3,9 +3,9 @@
 #include "lift.h"
 
 //also resets - look to dock/lift.cpp for more details
-#define DOWN 0
+#define DOWN 1
 
-#define UP 1
+#define UP 0
 
 #define RESET 2
 
@@ -33,7 +33,7 @@ extern int home_tare(pros::Motor motor, pros::ADIDigitalIn limit_switch, int hom
 //(motor, percent_actual) // percent_actual = 0.5 default
 //0.4 percent_actual = 40% actual + 60% target (velocities)
 // 0 percent_actual = use target velocity only
-extern int VelocityCalc(pros::Motor motor, int percent_actual = 0.5);
+extern int VelocityCalc(pros::Motor motor, float percent_actual = 0.5);
 
 //  Main Drive Function
 extern void mainDrive(void);

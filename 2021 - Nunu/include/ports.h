@@ -8,7 +8,7 @@
 #define GYRO_PORT 17 //0=undefined, (1-21)
 //Min Limit Switch/Bumper/Endstop should be installed such that the dock/arm clicks it when it comes up
 #define Docker_Endstop_Min_Port 1 //1-8 ('A'-'H')
-#define Arm_Endstop_Min_Port 2 //1-8 ('A'-'H')
+#define Lift_POT_Port 2 //1-8 ('A'-'H')
 //Docker Tower Detection Sensor (Optical)
 #define Docker_Optical_Port 1 //(1-21)
 

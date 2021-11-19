@@ -4,7 +4,7 @@
 #include "dock.h"
 #include "lift.h"
 
-int lift_state;
+int lift_state = 2;
 
 void Lift_Task_fn(void*param){
    int motorPower;
@@ -18,31 +18,29 @@ void Lift_Task_fn(void*param){
    float p;
    float i = 0;
    float d;
-   int targetValue = 0;
-   int MAXUP = 400;
-   int MAXDOWN = 0;
+   int targetValue;
+   int MAXUP = -127;
+   int MAXDOWN = 127;
 
    while(true){
       ///////Tower Lift Position Controller/////////////
       switch(lift_state){
          case 0:
-            targetValue = 0;
+            targetValue = 1900;
             break;
          case 1:
-            //pos value when dock up
-            targetValue = 400;
-            break;
-         case 2:
-            currentValue = home_tare(liftMotor, Lift_Endstop_Min, -100);
+            //pos value when dock down
+            targetValue = 200;
             break;
          default:
-            lift_state = 2;
+            lift_state = 0;
             break;
       };
 ///////Arm Position Controller/////////////
 
 ////////PID LOGIC//////////////////////////////////////
-      currentValue = liftMotor.get_position();
+      currentValue = Lift_POT.get_value();
+      printf("%d\n", currentValue);
       err = targetValue - currentValue;
       err_last = err;
       derr = (err - err_last);

@@ -35,9 +35,9 @@ int home_tare(pros::Motor motor, pros::ADIDigitalIn limit_switch, int homeSpeed)
     return motor.get_position();
 }
 
-int VelocityCalc(pros::Motor motor, int percent_actual){
+int VelocityCalc(pros::Motor motor, float percent_actual){
     //get actual velocity of the motor
-    float actualVel = motor.get_actual_velocity();
+    int actualVel = motor.get_actual_velocity();
     //get target velocity of the motor
     int targetVel = motor.get_target_velocity();
     //calculate % of actual velocity + fill remaining with actual target
@@ -73,12 +73,12 @@ void mainDrive(void){
 	}
 
 	if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
-		intakeMotor.move_velocity(200*(1-intakeDeSync));
-		conveyerMotor.move_velocity(200*(1-conveyerDeSync));
+		intakeMotor.move_velocity(600*(1-intakeDeSync));
+		conveyerMotor.move_velocity(600*(1-conveyerDeSync));
 	}
 	else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
-		intakeMotor.move_velocity(-200*(1-intakeDeSync));
-		conveyerMotor.move_velocity(-200*(1-conveyerDeSync));
+		intakeMotor.move_velocity(-600*(1-intakeDeSync));
+		conveyerMotor.move_velocity(-600*(1-conveyerDeSync));
 	}
 	else{
 		intakeMotor.move_velocity(0);

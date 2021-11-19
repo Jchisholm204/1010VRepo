@@ -25,11 +25,11 @@ void Docker_Task_fn(void*param){
 
 ///////Docker Position Controller/////////////
       switch(dock_state){
-         case 0:
+         case 1:
             //pot value when dock down
             targetValue = 480;
             break;
-         case 1:
+         case 0:
             //pos value when dock up
             targetValue = 0;
             currentValue = home_tare(dockerMotor, Docker_Endstop_Min, -100);

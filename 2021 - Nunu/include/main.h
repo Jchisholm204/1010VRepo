@@ -71,7 +71,8 @@ extern ADIUltrasonic rULT;
 */
 extern Imu gyro;
 extern ADIDigitalIn Docker_Endstop_Min;
-extern ADIDigitalIn Lift_Endstop_Min;
+//liftpot
+extern ADIAnalogIn Lift_POT;
 extern pros::Optical Docker_Optical;
 extern pros::Distance lidarFL;
 extern pros::Distance lidarFR;

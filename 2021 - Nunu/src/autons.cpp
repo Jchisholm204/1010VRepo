@@ -82,9 +82,10 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
     int timer = 0;
     bool endEarly  = false;
 
-    if(recording_disabled){
+    if(recording_disabled == true){
         return EXIT_CODE_ERROR;
     }
+    //printf("starting recording\n");
 
 
     FILE * recFile;
@@ -92,21 +93,23 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
     switch(reRunFile){
         case 1:
             //right auto
-            recFile = fopen("/usd/right.txt", "r");
+            recFile = fopen("/usd/right.txt", "w");
+            //printf("rightAutoSelected");
             break;
 
         case 2:
             //left auto
-            recFile = fopen("/usd/left.txt", "r");
+            recFile = fopen("/usd/left.txt", "w");
             break;
 
         case 4:
             //rerun skills auto
-            recFile = fopen("/usd/skills.txt", "r");
+            recFile = fopen("/usd/skills.txt", "w");
             break;
 
         case 5:
-            recFile = fopen("/usd/testAuto.txt", "r");
+            recFile = fopen("/usd/testAuto.txt", "w");
+            //printf("testAuto Selected\n");
             break;
 
         default:
@@ -114,11 +117,14 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
             break;
     }//endswitch
 
+
     while(timer < allottedTime && endEarly == false){
+        //printf("while loop engaged\n");
 
         mainDrive();
 
     	fprintf(recFile, "%f\n", VelocityCalc(driveRB, 0.8));
+        //printf("first line printed\n");
 		fprintf(recFile, "%f\n", VelocityCalc(driveRF, 0.8));
 		fprintf(recFile, "%f\n", VelocityCalc(driveLB, 0.8));
 		fprintf(recFile, "%f\n", VelocityCalc(driveLF, 0.8));
@@ -139,7 +145,9 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
         //Ends while loop and immediately closes file
 
     }
+    //printf("closing file now\n");
     fprintf(recFile, "0\n0\n0\n0\n0\n0\n0\n0");
     fclose(recFile);
+    //printf("about to exit function\n");
     return EXIT_CODE_SUCCESS;
 }
