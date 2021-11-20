@@ -13,8 +13,8 @@ void Lift_Task_fn(void*param){
    int derr = 0;
    int err_last = 0;
    float KI = 0;
-   float KP = 1.2;
-   float KD = 1.6;
+   float KP = 1;
+   float KD = 1.55;
    float p;
    float i = 0;
    float d;
@@ -30,7 +30,10 @@ void Lift_Task_fn(void*param){
             break;
          case 1:
             //pos value when dock down
-            targetValue = 200;
+            targetValue = 300;
+            break;
+         case 5:
+            targetValue = 525;
             break;
          default:
             lift_state = 0;
@@ -42,8 +45,8 @@ void Lift_Task_fn(void*param){
       currentValue = Lift_POT.get_value();
       printf("%d\n", currentValue);
       err = targetValue - currentValue;
-      err_last = err;
       derr = (err - err_last);
+      err_last = err;
       p = (KP * err);
       d = KD * derr;
 

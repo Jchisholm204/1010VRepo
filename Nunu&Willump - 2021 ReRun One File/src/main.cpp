@@ -149,6 +149,7 @@ void opcontrol() {
 		display.Msg("Driver Control Enabled", 1000);
 		while(true){
 			display.refresh(); //update battery capacity
+			//printf("%d\t%d\t%d\t%d\n", VelocityCalc(driveRB, 1), VelocityCalc(driveRF, 1), VelocityCalc(driveLB, 1), VelocityCalc(driveLF, 1));
 			mainDrive();
 			pros::delay(20);
 		}

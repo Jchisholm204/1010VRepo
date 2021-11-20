@@ -58,20 +58,6 @@ void mainDrive(void){
 		Dock(DOWN);
 	}
 
-	if(master.get_digital(E_CONTROLLER_DIGITAL_UP)){
-		intakeDeSync = true;
-	}
-	else{
-		intakeDeSync = false;
-	}
-
-	if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN)){
-		conveyerDeSync = true;
-	}
-	else{
-		conveyerDeSync = false;
-	}
-
 	if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
 		intakeMotor.move_velocity(600*(1-intakeDeSync));
 		conveyerMotor.move_velocity(600*(1-conveyerDeSync));
@@ -90,5 +76,8 @@ void mainDrive(void){
 	}
 	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
 		Lift(UP);
+	}
+	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)){
+		Lift(TOWER);
 	}
 }

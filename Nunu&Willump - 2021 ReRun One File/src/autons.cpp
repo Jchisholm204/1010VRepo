@@ -13,7 +13,7 @@
 #include "helpers.h"
 
 void skillsAuto(void){
-
+    drivef.timeDrive(1000, -200, 200);
 }
 
 int rec_loop_delay = 20; // ReRun loop delay in [ms]

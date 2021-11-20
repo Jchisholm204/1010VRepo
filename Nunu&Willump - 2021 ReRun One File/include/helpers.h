@@ -9,6 +9,8 @@
 
 #define RESET 2
 
+#define TOWER 5
+
 //Spin the intakes with a given velocity (max 600)
 //Desync - Only spin the conveyer motor
 extern void intake(int velocity, bool desync = false);

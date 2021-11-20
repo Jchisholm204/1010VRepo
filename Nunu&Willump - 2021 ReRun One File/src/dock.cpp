@@ -44,8 +44,8 @@ void Docker_Task_fn(void*param){
 ////////PID LOGIC//////////////////////////////////////
       currentValue = dockerMotor.get_position();
       err = targetValue - currentValue;
-      err_last = err;
       derr = (err - err_last);
+      err_last = err;
       p = (KP * err);
       d = (KD * derr);
 
