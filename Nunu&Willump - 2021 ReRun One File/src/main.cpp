@@ -92,7 +92,11 @@ void competition_initialize() {
 }
 
 void autonomous() {
-	if(SelectedAuto == 3){ // run normal skills if selected
+	if(SelectedAuto != 3 && pros::usd::is_installed() == 0){
+		printf("NO SD CARD\nCannot Run ReRun Auto\nNot Running Auto");
+		display.createErrorBox("No SD Card Detected\nUnable to Playback Auto");
+	}
+	else if(SelectedAuto == 3){ // run normal skills if selected
 		skillsAuto();
 		display.Msg("Skills Auto", 1000);
 	}
