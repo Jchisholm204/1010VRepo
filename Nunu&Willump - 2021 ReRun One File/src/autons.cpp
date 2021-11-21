@@ -52,11 +52,11 @@ int reRunAuto(int reRunFile){
             break;
     }//endswitch
 
-    static float drb/*drive right back*/, drf, dlb, dlf, intm/*intake Motor*/, cnvm/*conveyer motor*/;
+    static int drb/*drive right back*/, drf, dlb, dlf, intm/*intake Motor*/, cnvm/*conveyer motor*/;
     static int lms/*lift motor state*/, dks/*dock motor state*/, lps/*lift pnumatic state*/;
 
     while(feof(runFile) == false){
-        fscanf(runFile, "%f %f %f %f %f %f %d %d", &drb, &drf, &dlb, &dlf, &intm, &cnvm, &lms, &dks);
+        fscanf(runFile, "%d %d %d %d %d %d %d %d", &drb, &drf, &dlb, &dlf, &intm, &cnvm, &lms, &dks);
         driveRB.move_velocity(drb);
         driveRF.move_velocity(drf);
         driveLB.move_velocity(dlb);
@@ -123,11 +123,11 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
 
         mainDrive();
 
-    	fprintf(recFile, "%f\n", VelocityCalc(driveRB, 0.8));
-        //printf("first line printed\n");
-		fprintf(recFile, "%f\n", VelocityCalc(driveRF, 0.8));
-		fprintf(recFile, "%f\n", VelocityCalc(driveLB, 0.8));
-		fprintf(recFile, "%f\n", VelocityCalc(driveLF, 0.8));
+    	fprintf(recFile, "%d\n", VelocityCalc(driveRB, 0.95));
+        //printf("first line printed");
+		fprintf(recFile, "%d\n", VelocityCalc(driveRF, 0.95));
+		fprintf(recFile, "%d\n", VelocityCalc(driveLB, 0.95));
+		fprintf(recFile, "%d\n", VelocityCalc(driveLF, 0.95));
 
 		fprintf(recFile, "%d\n", VelocityCalc(intakeMotor, 0));
 		fprintf(recFile, "%d\n", VelocityCalc(conveyerMotor, 0));

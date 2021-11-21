@@ -49,8 +49,10 @@ void mainDrive(void){
 	bool intakeDeSync = false;
 	bool conveyerDeSync = false;
 
+//DriveBase/////////////////////////////////////////
 	drivef.operator_Chassis();
 
+//Dock//////////////////////////////////////////////
 	if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
 		Dock(UP);
 	}
@@ -58,6 +60,7 @@ void mainDrive(void){
 		Dock(DOWN);
 	}
 
+//Intakes//////////////////////////////////////////
 	if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
 		intakeMotor.move_velocity(600*(1-intakeDeSync));
 		conveyerMotor.move_velocity(600*(1-conveyerDeSync));
@@ -71,6 +74,7 @@ void mainDrive(void){
 		conveyerMotor.move_velocity(0);
 	};
 
+//Lift//////////////////////////////////////////////////////
 	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
 		Lift(DOWN);
 	}

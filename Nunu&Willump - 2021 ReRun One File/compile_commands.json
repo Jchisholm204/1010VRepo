@@ -548,11 +548,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/autons.cpp.o",
-            "src\\autons.cpp"
+            "bin/drive.cpp.o",
+            "src\\drive.cpp"
         ],
         "directory": "C:\\Users\\Jacob\\Documents\\GitHub\\1010VRepo\\Nunu&Willump - 2021 ReRun One File",
-        "file": "src\\autons.cpp"
+        "file": "src\\drive.cpp"
     },
     {
         "arguments": [
@@ -585,11 +585,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/lift.cpp.o",
-            "src\\lift.cpp"
+            "bin/dock.cpp.o",
+            "src\\dock.cpp"
         ],
         "directory": "C:\\Users\\Jacob\\Documents\\GitHub\\1010VRepo\\Nunu&Willump - 2021 ReRun One File",
-        "file": "src\\lift.cpp"
+        "file": "src\\dock.cpp"
     },
     {
         "arguments": [
@@ -659,11 +659,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/drive.cpp.o",
-            "src\\drive.cpp"
+            "bin/autons.cpp.o",
+            "src\\autons.cpp"
         ],
         "directory": "C:\\Users\\Jacob\\Documents\\GitHub\\1010VRepo\\Nunu&Willump - 2021 ReRun One File",
-        "file": "src\\drive.cpp"
+        "file": "src\\autons.cpp"
     },
     {
         "arguments": [
@@ -696,10 +696,10 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/dock.cpp.o",
-            "src\\dock.cpp"
+            "bin/lift.cpp.o",
+            "src\\lift.cpp"
         ],
         "directory": "C:\\Users\\Jacob\\Documents\\GitHub\\1010VRepo\\Nunu&Willump - 2021 ReRun One File",
-        "file": "src\\dock.cpp"
+        "file": "src\\lift.cpp"
     }
 ]

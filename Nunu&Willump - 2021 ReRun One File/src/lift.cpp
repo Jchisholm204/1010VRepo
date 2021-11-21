@@ -26,6 +26,7 @@ void Lift_Task_fn(void*param){
       ///////Tower Lift Position Controller/////////////
       switch(lift_state){
          case 0:
+            //default state
             targetValue = 1900;
             break;
          case 1:
@@ -33,9 +34,11 @@ void Lift_Task_fn(void*param){
             targetValue = 300;
             break;
          case 5:
-            targetValue = 525;
+            //pos value for grabbing mobo's
+            targetValue = 470;
             break;
          default:
+            //restore case 0
             lift_state = 0;
             break;
       };
