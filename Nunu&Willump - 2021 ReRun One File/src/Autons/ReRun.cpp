@@ -1,6 +1,5 @@
-/*  AUTONS.cpp
-* Used for everything to do with autos:
-*   Regular Skills Auto
+/*  ReRun.cpp
+* Used for everything to do with ReRun autos:
 *   ReRun Autos Playback
 *   ReRun Auto Recording
 */
@@ -12,8 +11,15 @@
 #include "dock.h"
 #include "helpers.h"
 
-void skillsAuto(void){
-    drivef.timeDrive(1000, -200, 200);
+//Velocity Calculator Function
+int VelocityCalc(pros::Motor motor, float percent_actual){
+    //get actual velocity of the motor
+    int actualVel = motor.get_actual_velocity();
+    //get target velocity of the motor
+    int targetVel = motor.get_target_velocity();
+    //calculate % of actual velocity + fill remaining with actual target
+    float returnVel = (actualVel * percent_actual) + (targetVel * (1-percent_actual));
+    return returnVel;
 }
 
 int rec_loop_delay = 20; // ReRun loop delay in [ms]
