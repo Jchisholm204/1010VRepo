@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "Nunu&Willump",
+        "project_name": "N&W Skills",
         "target": "v5",
         "templates": {
             "kernel": {

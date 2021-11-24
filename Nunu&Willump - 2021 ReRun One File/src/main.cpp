@@ -92,6 +92,7 @@ void competition_initialize() {
 }
 
 void autonomous() {
+	SelectedAuto = 3;
 	if(SelectedAuto != 3 && pros::usd::is_installed() == 0){
 		printf("NO SD CARD\nCannot Run ReRun Auto\nNot Running Auto");
 		display.createErrorBox("No SD Card Detected\nUnable to Playback Auto");

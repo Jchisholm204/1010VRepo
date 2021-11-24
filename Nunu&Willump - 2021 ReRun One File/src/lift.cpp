@@ -46,7 +46,7 @@ void Lift_Task_fn(void*param){
 
 ////////PID LOGIC//////////////////////////////////////
       currentValue = Lift_POT.get_value();
-      printf("%d\n", currentValue);
+      //printf("%d\n", currentValue);
       err = targetValue - currentValue;
       derr = (err - err_last);
       err_last = err;
