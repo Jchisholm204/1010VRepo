@@ -1,6 +1,17 @@
 #include "main.h"
 #include "drive.h"
 
+//what direction is forwards?
+int forwardsDrive = Front;
+int getDist(){
+	if(forwardsDrive == Front){
+		return lidarBL.get(), lidarBR.get();
+	}
+	if(forwardsDrive == Back){
+		return lidarFR.get(), lidarFL.get();
+	}
+}
+
 int exponential(int joystickVal, float driveExp, int joydead, int motorMin){
   int joySign;
   int joyMax = 128 - joydead;
@@ -25,18 +36,22 @@ void Chassis::operator_Chassis(void){
 }
 
 
-void Chassis::timeDrive(int time, int leftPow, int rightPow){
-	driveRF.move_velocity(rightPow);
-    driveLB.move_velocity(leftPow);
-    driveRB.move_velocity(rightPow);
-    driveLF.move_velocity(leftPow);
+void Chassis::flip(int NewFront, bool swapLidars){
+	forwardsDrive = NewFront;
+}
+
+void Chassis::timeDrive(int time, int leftPow, int rightPow, bool use_NewFront){
+	driveRF.move_velocity(forwardsDrive * rightPow);
+    driveLB.move_velocity(forwardsDrive * leftPow);
+    driveRB.move_velocity(forwardsDrive * rightPow);
+    driveLF.move_velocity(forwardsDrive * leftPow);
 	pros::delay(time);
 	driveRF.move(0);
     driveLB.move(0);
     driveRB.move(0);
     driveLF.move(0);
 }
-void Chassis::driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRight, int timeout){
+void Chassis::driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRight, int timeout, bool use_NewFront){
 	driveLF.tare_position();
 	driveRF.tare_position();
 	int startMillis = pros::millis();
@@ -79,8 +94,14 @@ void Chassis::driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRig
 		err_sumL += errR;
 		dR = KD * derrR;
 
-		dPowL = (pL+dL);
-		dPowR = (pR+dR);
+		if(use_NewFront){
+			dPowL = (pL+dL)*forwardsDrive;
+			dPowR = (pR+dR)*forwardsDrive;
+		}
+		else{
+			dPowL = (pL+dL);
+			dPowR = (pR+dR);			
+		}
 
 		//dPowL = (dPowL > 100 ? 100 : dPowL < -100 ? -100 : dPowL);
 		//dPowR = (dPowR > 100 ? 100 : dPowR < -100 ? -100 : dPowR);
@@ -96,7 +117,7 @@ void Chassis::driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRig
 	}
 }
 
-void Chassis::move(int targetValue, int timeout){
+void Chassis::move(int targetValue, int timeout, bool use_NewFront){
 	driveLF.tare_position();
 	driveRF.tare_position();
 	int startMillis = pros::millis();
@@ -139,15 +160,21 @@ void Chassis::move(int targetValue, int timeout){
 		err_sumL += errR;
 		dR = KD * derrR;
 
-		dPowL = (pL+dL);
-		dPowR = (pR+dR);
+		if(use_NewFront){
+			dPowL = (pL+dL)*forwardsDrive;
+			dPowR = (pR+dR)*forwardsDrive;
+		}
+		else{
+			dPowL = (pL+dL);
+			dPowR = (pR+dR);			
+		}
 
 		//dPowL = (dPowL > 100 ? 100 : dPowL < -100 ? -100 : dPowL);
 		//dPowR = (dPowR > 100 ? 100 : dPowR < -100 ? -100 : dPowR);
-		if(dPowL > 100){dPowL=100;};
-		if(dPowL < -100){dPowL=-100;};
-		if(dPowR > 100){dPowR=100;};
-		if(dPowR < -100){dPowR=-100;};
+		if(dPowL > 200){dPowL=200;};
+		if(dPowL < -200){dPowL=-200;};
+		if(dPowR > 200){dPowR=200;};
+		if(dPowR < -200){dPowR=-200;};
 
 		driveRF.move(dPowR);
       	driveLB.move(dPowL);
@@ -220,7 +247,7 @@ void Chassis::LineDrive(int targetValue, int timeout){
 	}
 }
 
-void Chassis::drive(int targetValue, int timeout, pros::Distance leftSensor, pros::Distance rightSensor){
+void Chassis::drive(int targetValue, int timeout, bool use_NewFront){
 	int startMillis = pros::millis();
 
     float KP = 0.6;
@@ -242,16 +269,29 @@ void Chassis::drive(int targetValue, int timeout, pros::Distance leftSensor, pro
 	int dPowR;
 	int dPowL;
 
+	int driveReversedMultiplication = 1; //not reversed
+	int curLeft;
+	int curRight;
+
 	while((pros::millis()-startMillis) < timeout){
 
-		errL = targetValue - leftSensor.get();
+		if(use_NewFront){
+			driveReversedMultiplication = forwardsDrive;
+			curLeft, curRight = getDist();
+		}
+		else{
+			curLeft = lidarBL.get();
+			curRight = lidarBR.get();	
+		}
+
+		errL = targetValue - curLeft;
 		err_lastL = errL; 
 		derrL = (errL - err_lastL); 
 		pL = (KP * errL); 
 		err_sumL += errL;
 		dL = KD * derrL;
 
-		errR = targetValue - rightSensor.get();
+		errR = targetValue - curRight;
 		err_lastR = errR; 
 		derrR = (errR - err_lastR); 
 		pR = (KP * errR); 
@@ -269,10 +309,10 @@ void Chassis::drive(int targetValue, int timeout, pros::Distance leftSensor, pro
 		if(dPowR < -100){dPowR=-100;};
 
 
-		driveRF.move(dPowR);
-      	driveLB.move(dPowL);
-      	driveRB.move(dPowR);
-      	driveLF.move(dPowL);
+		driveRF.move(dPowR*driveReversedMultiplication);
+      	driveLB.move(dPowL*driveReversedMultiplication);
+      	driveRB.move(dPowR*driveReversedMultiplication);
+      	driveLF.move(dPowL*driveReversedMultiplication);
 	}
 }
 
@@ -349,7 +389,7 @@ void Chassis::heading(int targHeading, int offset, int timeout){
 	}
 }
 
-void Chassis::pointTurn(int targetValue, int timeout, int origins){
+void Chassis::turnDrive(int turnDeg, int innerPower, int outterPower, int timeout, bool use_NewFront){
 	gyro.tare_rotation(); //reset gyro zero value
 	int startMillis = pros::millis();
 
@@ -363,25 +403,62 @@ void Chassis::pointTurn(int targetValue, int timeout, int origins){
 	float d; //d value normally 0.7
 	int dPow;
 
+	int rPow;
+	int lPow;
+
     while((pros::millis()-startMillis) < timeout){
 
-		err = targetValue - gyro.get_rotation();
-		err_last = err; 
+		err = turnDeg - gyro.get_rotation();
 		derr = (err - err_last); 
+		err_last = err;
 		p = (KP * err); 
 		err_sum += err;
 		d = KD * derr;
 
 		dPow = (p+d);
 
-		//dPow = (dPow > 100 ? 100 : dPow < -100 ? -100 : dPow);
-		if(dPow > 100){dPow=100;};
-		if(dPow < -100){dPow=-100;};
+		if(turnDeg > 0 && use_NewFront && forwardsDrive == Front){
+			rPow = dPow;
+			lPow = dPow;
 
-		driveRF.move(-dPow*(origins));
-      	driveLB.move(dPow*(1-origins));
-      	driveRB.move(-dPow*(origins));
-      	driveLF.move(dPow*(1-origins));
+			if(rPow > innerPower){rPow=innerPower;};
+			if(rPow < -innerPower){rPow=-innerPower;};
+			if(lPow > outterPower){lPow=outterPower;};
+			if(lPow < -outterPower){lPow=-outterPower;};
+		}
+		if(turnDeg < 0 && use_NewFront && forwardsDrive == Front){
+			rPow = dPow;
+			lPow = dPow;
+
+			if(rPow > outterPower){rPow=outterPower;};
+			if(rPow < -outterPower){rPow=-outterPower;};
+			if(lPow > innerPower){lPow=innerPower;};
+			if(lPow < -innerPower){lPow=-innerPower;};
+		}
+		if(turnDeg < 0 && use_NewFront && forwardsDrive == Back){
+			rPow = -dPow;
+			lPow = -dPow;
+
+			if(rPow > innerPower){rPow=innerPower;};
+			if(rPow < -innerPower){rPow=-innerPower;};
+			if(lPow > outterPower){lPow=outterPower;};
+			if(lPow < -outterPower){lPow=-outterPower;};
+		}
+		if(turnDeg > 0 && use_NewFront && forwardsDrive == Back){
+			rPow = -dPow;
+			lPow = -dPow;
+
+			if(rPow > outterPower){rPow=outterPower;};
+			if(rPow < -outterPower){rPow=-outterPower;};
+			if(lPow > innerPower){lPow=innerPower;};
+			if(lPow < -innerPower){lPow=-innerPower;};
+		}
+		//dPow = (dPow > 100 ? 100 : dPow < -100 ? -100 : dPow);
+
+		driveRF.move(rPow);
+      	driveLB.move(lPow);
+      	driveRB.move(rPow);
+      	driveLF.move(lPow);
 	}
 }
 
