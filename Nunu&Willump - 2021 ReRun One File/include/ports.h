@@ -5,7 +5,7 @@
 //pnumatic controller port for lift claw
 #define LIFT_INTAKE_PORT 3
 //Gyro should be installed somewhere close to the center of the robot
-#define GYRO_PORT 17 //0=undefined, (1-21)
+#define GYRO_PORT 15 //0=undefined, (1-21)
 //Min Limit Switch/Bumper/Endstop should be installed such that the dock/arm clicks it when it comes up
 #define Docker_Endstop_Min_Port 1 //1-8 ('A'-'H')
 #define Lift_POT_Port 2 //1-8 ('A'-'H')
@@ -25,10 +25,10 @@
 #define driveLB_PORT 16 //(1-21)
 #define driveLF_PORT 11 //(1-21)
 
-#define CONVEYER_PORT 15 //(1-21)
+#define CONVEYER_PORT 13 //(1-21)
 #define INTAKE_PORT 12 //(1-21)
 
-#define LIFT_PORT 18 //Side (1-21) (0=undefined)
+#define LIFT_PORT 17 //Side (1-21) (0=undefined)
 #define DOCKER_PORT 3 //Docker mobo (1-21)
 
 

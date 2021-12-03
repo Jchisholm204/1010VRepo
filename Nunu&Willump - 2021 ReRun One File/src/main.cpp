@@ -82,6 +82,7 @@ void disabled() {
 	display.Msg("Robot Disabled", 1000);
 	display.setActiveTab(TAB_DISABLED);
 	lv_btn_set_state(recording_enabled_btn, false);
+	//lift_state = START_POS;
 	while(true){
 		display.refresh(); // updates battery capacity - yes thats all I checked
 		pros::delay(100);
@@ -118,6 +119,7 @@ void opcontrol() {
 	int autoLength; // length to record auto for
 	int exitStatus; // for displaying exit codes
 	//printf("%d", recording_enabled);
+	lift_state = DOWN;
 
 	display.setActiveTab(TAB_OP);
 
@@ -155,6 +157,7 @@ void opcontrol() {
 		while(true){
 			display.refresh(); //update battery capacity
 			//printf("%d\t%d\t%d\t%d\n", VelocityCalc(driveRB, 1), VelocityCalc(driveRF, 1), VelocityCalc(driveLB, 1), VelocityCalc(driveLF, 1));
+			//printf("%d\n", Lift_POT.get_value());
 			mainDrive();
 			pros::delay(20);
 		}

@@ -9,7 +9,7 @@
 
 #define RESET 2
 
-#define TOWER 5
+#define START_POS 5
 
 //Spin the intakes with a given velocity (max 600)
 //Desync - Only spin the conveyer motor
