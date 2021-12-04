@@ -4,20 +4,32 @@
 #include "dock.h"
 #include "lift.h"
 
-
+bool Once;
 
 void mainDrive(void){
-	bool Once;
 
 //DriveBase/////////////////////////////////////////
 	drivef.operator_Chassis();
 
 //Dock//////////////////////////////////////////////
-	if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_UP)){
 		Dock(UP);
+		dock_state_prev = 9;
 	}
-	else if (master.get_digital(E_CONTROLLER_DIGITAL_L2)){
+	else if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)){
 		Dock(DOWN);
+		dock_state_prev = 9;
+	}
+	if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
+		dock_manual_exemption = true;
+		dockerMotor.move_velocity(100);
+	}
+	else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)){
+		dock_manual_exemption = true;
+		dockerMotor.move_velocity(-100);
+	}
+	else{
+		dock_manual_exemption = false;
 	}
 
 //Intakes//////////////////////////////////////////
@@ -43,27 +55,30 @@ void mainDrive(void){
 		Lift(UP);
 		lift_state_prev = 9;
 	}
-	
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_A)){
-		int oldPistonstate = LiftPiston.get_value();
-		LiftPiston.set_value(1-oldPistonstate);
+
+	if(master.get_digital(E_CONTROLLER_DIGITAL_LEFT) && lpState == false){
+		lpState = true;
 	}
-	
+
+	if(master.get_digital(E_CONTROLLER_DIGITAL_LEFT) && lpState == true){
+		lpState = false;
+	}
+
 	if(master.get_digital(E_CONTROLLER_DIGITAL_Y)){
 		lift_manual_exemption = true;
 		liftMotor.move_velocity(80);
 		Once = false;
 	}
-	else if(master.get_digital(E_CONTROLLER_DIGITAL_A) && Lift_POT.get_value() < 3900){
+	else if(master.get_digital(E_CONTROLLER_DIGITAL_A)){
 		lift_manual_exemption = true;
 		liftMotor.move_velocity(-80);
 		Once = false;
-	}/*
+	}
 	else if((master.get_digital(E_CONTROLLER_DIGITAL_A) != 1 && master.get_digital(E_CONTROLLER_DIGITAL_Y) != 1) && Once == false){
 		Once = true;
 		liftMotor.move_velocity(0);
 		lift_manual_exemption = false;
-	}*/
+	}
 	else{
 		lift_manual_exemption = false;
 	}

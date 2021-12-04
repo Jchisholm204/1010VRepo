@@ -41,7 +41,6 @@ pros::Distance lidarBR(BR_LIDAR_PORT);
 //	Pneumatics
 pros::ADIDigitalOut LiftPiston(LIFT_INTAKE_PORT);
 
-
 //	Operators - Chassis / Display
 Chassis drivef;
 Display display;
@@ -160,6 +159,7 @@ void opcontrol() {
 			display.refresh(); //update battery capacity
 			//printf("%d\t%d\t%d\t%d\n", VelocityCalc(driveRB, 1), VelocityCalc(driveRF, 1), VelocityCalc(driveLB, 1), VelocityCalc(driveLF, 1));
 			//printf("%d\n", Lift_POT.get_value());
+			printf("%d\t%i\n", Lift_POT.get_value(), dockerMotor.get_position());
 			mainDrive();
 			pros::delay(20);
 		}

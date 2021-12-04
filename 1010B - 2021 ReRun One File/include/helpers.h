@@ -2,7 +2,7 @@
 #define _HELPERS_H_
 #include "lift.h"
 
-//also resets - look to dock/lift.cpp for more details
+//no longer resets - look to dock/lift.cpp for more details
 #define DOWN 1
 
 #define UP 0
@@ -10,6 +10,7 @@
 #define RESET 2
 
 #define START_POS 5
+
 
 //Spin the intakes with a given velocity (max 600)
 //Desync - Only spin the conveyer motor
@@ -31,7 +32,8 @@ extern void Lift(int Liftstate);
 //3D Printer Style Homing for lifts
 extern int home_tare(pros::Motor motor, pros::ADIDigitalIn limit_switch, int homeSpeed);
 
-//  Main Drive Function
+//  Main Drive Function:
+//Contains all controller drive code
 extern void mainDrive(void);
 
 #endif

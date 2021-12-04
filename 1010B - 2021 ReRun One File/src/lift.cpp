@@ -7,8 +7,10 @@
 int lift_state = 5;
 int lift_state_prev;
 bool lift_manual_exemption = false;
+bool lpState;
 
 void Lift_Task_fn(void*param){
+   lpState = false;
    int motorPower;
    int currentValue;
    int err = 0;
@@ -23,8 +25,9 @@ void Lift_Task_fn(void*param){
    int targetValue;
    int MAXUP = -127;
    int MAXDOWN = 127;
-
+   //LiftPiston.set_config(E_ADI_DIGITAL_OUT);
    while(true){
+      LiftPiston.set_value(lpState);
       if(lift_manual_exemption == true){
          targetValue = Lift_POT.get_value();
       }
@@ -34,15 +37,15 @@ void Lift_Task_fn(void*param){
             switch(lift_state){
                case 5:
                   //starting position (all the way up [impacts intakes])
-                  targetValue = 580;
+                  targetValue = 57;
                   break;
                case 0:
                   //pos value when holding holding mogo (half way up)
-                  targetValue = 3000;
+                  targetValue = 1300;
                   break;
                case 1:
                   //pos value for grabbing mobo's (when all the way down)
-                  targetValue = 3900;
+                  targetValue = 57;
                   break;
                default:
                   //restore case 0

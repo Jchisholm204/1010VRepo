@@ -59,10 +59,11 @@ int reRunAuto(int reRunFile){
     }//endswitch
 
     static int drb/*drive right back*/, drf, dlb, dlf, intm/*intake Motor*/, cnvm/*conveyer motor*/;
-    static int lms/*lift motor state*/, dks/*dock motor state*/, lps/*lift pnumatic state*/;
+    static int lms/*lift motor state*/, dks/*dock motor state*/;
+    static bool lps/*lift pnumatic state*/;
 
     while(feof(runFile) == false){
-        fscanf(runFile, "%d %d %d %d %d %d %d %d", &drb, &drf, &dlb, &dlf, &intm, &cnvm, &lms, &dks);
+        fscanf(runFile, "%d %d %d %d %d %d %d %d %d", &drb, &drf, &dlb, &dlf, &intm, &cnvm, &lms, &dks, &lps);
         driveRB.move_velocity(drb);
         driveRF.move_velocity(drf);
         driveLB.move_velocity(dlb);
@@ -77,6 +78,10 @@ int reRunAuto(int reRunFile){
         if ( dock_state != dks ){
             dock_state = dks;
         }
+        if( lpState != lps){
+            lpState = lps;
+        }
+
         pros::delay(rec_loop_delay);
         //same as opcontrol
     }
@@ -127,7 +132,7 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
     while(timer < allottedTime && endEarly == false){
         //printf("while loop engaged\n");
 
-        mainDrive();
+        mainDrive(); //run controller drive code
 
     	fprintf(recFile, "%d\n", VelocityCalc(driveRB, 0.95));
         //printf("first line printed");
@@ -140,6 +145,8 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
 
 		fprintf(recFile, "%d\n", lift_state);
 		fprintf(recFile, "%d\n", dock_state);
+
+        fprintf(recFile, "%d\n", lpState);
 
         timer += rec_loop_delay;
         pros::delay(rec_loop_delay);

@@ -4,6 +4,10 @@
 
 int dock_state;
 
+bool dock_manual_exemption = false;
+
+int dock_state_prev;
+
 void Docker_Task_fn(void*param){
    int motorPower;
    int currentValue;
@@ -22,41 +26,48 @@ void Docker_Task_fn(void*param){
    dock_state = 3; //make dock reset upon startup
 
    while(true){
+      if(dock_manual_exemption == true){
+         targetValue = dockerMotor.get_position();
+      }
+      else{
+         if(dock_state != dock_state_prev){
+      ///////Docker Position Controller/////////////
+            switch(dock_state){
+               case 1:
+                  //pot value when dock down
+                  targetValue = -510;
+                  break;
+               case 0:
+                  //pos value when dock up
+                  targetValue = -410;
+                  //currentValue = home_tare(dockerMotor, Docker_Endstop_Min, -100);
+                  //targetValue = currentValue;
+                  break;
+               default:
+                  //currentValue = home_tare(dockerMotor, Docker_Endstop_Min, -80);
+                  dock_state = 0;
+                  break;
+            };
+         }
+         dock_state_prev = dock_state;
+   ///////Docker Position Controller/////////////
 
-///////Docker Position Controller/////////////
-      switch(dock_state){
-         case 1:
-            //pot value when dock down
-            targetValue = 480;
-            break;
-         case 0:
-            //pos value when dock up
-            targetValue = 0;
-            currentValue = home_tare(dockerMotor, Docker_Endstop_Min, -100);
-            //targetValue = currentValue;
-            break;
-         default:
-            currentValue = home_tare(dockerMotor, Docker_Endstop_Min, -80);
-            break;
-      };
-///////Docker Position Controller/////////////
+   ////////PID LOGIC//////////////////////////////////////
+         currentValue = dockerMotor.get_position();
+         err = targetValue - currentValue;
+         derr = (err - err_last);
+         err_last = err;
+         p = (KP * err);
+         d = (KD * derr);
 
-////////PID LOGIC//////////////////////////////////////
-      currentValue = dockerMotor.get_position();
-      err = targetValue - currentValue;
-      derr = (err - err_last);
-      err_last = err;
-      p = (KP * err);
-      d = (KD * derr);
+         motorPower = p+i+d;
 
-      motorPower = p+i+d;
-
-      if(motorPower < MAXUP){motorPower = MAXUP;}
-      if(motorPower > MAXDOWN){motorPower = MAXDOWN;}
-    //  motorPower = (motorPower > 1 ? 1 : motorPower < -1 ? -1 : motorPower);
-      dockerMotor.move(motorPower);
-/////////PID LOGIC//////////////////////////////////
-
+         if(motorPower < MAXUP){motorPower = MAXUP;}
+         if(motorPower > MAXDOWN){motorPower = MAXDOWN;}
+      //  motorPower = (motorPower > 1 ? 1 : motorPower < -1 ? -1 : motorPower);
+         dockerMotor.move(motorPower);
+   /////////PID LOGIC//////////////////////////////////
+      }
       pros::delay(20);
 
    };
