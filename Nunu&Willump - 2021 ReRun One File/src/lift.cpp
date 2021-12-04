@@ -46,7 +46,7 @@ void Lift_Task_fn(void*param){
                   break;
                default:
                   //restore case 0
-                  lift_state = 5;
+                  lift_state = 1;
                   break;
             };
    ///////Arm Position Controller/////////////
@@ -70,6 +70,6 @@ void Lift_Task_fn(void*param){
          liftMotor.move(-motorPower);
    /////////PID LOGIC//////////////////////////////////
       }
-   pros::delay(10);
+   pros::delay(20);
    }
 }
