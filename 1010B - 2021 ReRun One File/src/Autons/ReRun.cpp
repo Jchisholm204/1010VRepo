@@ -159,7 +159,7 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
 
     }
     //printf("closing file now\n");
-    fprintf(recFile, "0\n0\n0\n0\n0\n0\n0\n0");
+    fprintf(recFile, "0\n0\n0\n0\n0\n0\n");
     fclose(recFile);
     //printf("about to exit function\n");
     return EXIT_CODE_SUCCESS;

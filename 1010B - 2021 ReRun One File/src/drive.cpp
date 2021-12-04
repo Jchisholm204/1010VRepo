@@ -24,15 +24,15 @@ int exponential(int joystickVal, float driveExp, int joydead, int motorMin){
 }
 
 void Chassis::operator_Chassis(void){
-  int Yval = exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y), 1.5 /*DriveExp*/, 8 /*JoyDead*/, 15 /*MotorMin*/);
-  int Xval = exponential(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X), 1.3, 8, 15);
+  int Lval = exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y), 1.5 /*DriveExp*/, 8 /*JoyDead*/, 15 /*MotorMin*/);
+  int Rval = exponential(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y), 1.3, 8, 15);
   //remove "= 0" and comment if you wish to use mechanum drive
   int Zval = 0;//(exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_X), 2.2, 20, 15)*0);
 
-  driveLB.move(Yval + Xval - Zval);
-  driveLF.move(Yval + Xval + Zval);
-  driveRB.move(Yval - Xval + Zval);
-  driveRF.move(Yval - Xval - Zval);
+  driveLB.move(Lval);
+  driveLF.move(Lval);
+  driveRB.move(Rval);
+  driveRF.move(Rval);
 }
 
 

@@ -15,7 +15,7 @@ void Docker_Task_fn(void*param){
    int derr = 0;
    int err_last = 0;
    float KI = 0;
-   float KP = 1.5;
+   float KP = 2.6;
    float KD = 0.5;
    float p;
    float i = 0;

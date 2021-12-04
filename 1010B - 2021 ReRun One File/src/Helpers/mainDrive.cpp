@@ -57,12 +57,8 @@ void mainDrive(void){
 	}
 
 	//lift piston toggle
-	if(master.get_digital(E_CONTROLLER_DIGITAL_LEFT) && lpState == false){
-		lpState = true;
-	}
-
-	if(master.get_digital(E_CONTROLLER_DIGITAL_LEFT) && lpState == true){
-		lpState = false;
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT)){
+		lpState = !lpState;
 	}
 
 	if(master.get_digital(E_CONTROLLER_DIGITAL_Y)){
