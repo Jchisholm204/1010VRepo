@@ -22,11 +22,11 @@ void mainDrive(void){
 	}
 	if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
 		dock_manual_exemption = true;
-		dockerMotor.move_velocity(100);
+		dockerMotor.move_velocity(80);
 	}
 	else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)){
 		dock_manual_exemption = true;
-		dockerMotor.move_velocity(-100);
+		dockerMotor.move_velocity(-80);
 	}
 	else{
 		dock_manual_exemption = false;
@@ -34,12 +34,12 @@ void mainDrive(void){
 
 //Intakes//////////////////////////////////////////
 	if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
-		intakeMotor.move_velocity(600);
-		conveyerMotor.move_velocity(600);
+		intakeMotor.move_velocity(200);
+		conveyerMotor.move_velocity(200);
 	}
 	else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
-		intakeMotor.move_velocity(-400);
-		conveyerMotor.move_velocity(-400);
+		intakeMotor.move_velocity(-200);
+		conveyerMotor.move_velocity(-200);
 	}
 	else{
 		intakeMotor.move_velocity(0);
@@ -56,6 +56,7 @@ void mainDrive(void){
 		lift_state_prev = 9;
 	}
 
+	//lift piston toggle
 	if(master.get_digital(E_CONTROLLER_DIGITAL_LEFT) && lpState == false){
 		lpState = true;
 	}

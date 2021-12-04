@@ -2,6 +2,7 @@
 #define _AUTONS_H_
 
 extern void skillsAuto(void);
+extern void fnTestAuto(void);
 
 //exit codes
 #define EXIT_CODE_SUCCESS 2

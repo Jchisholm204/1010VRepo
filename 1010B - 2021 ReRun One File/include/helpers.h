@@ -12,7 +12,7 @@
 #define START_POS 5
 
 
-//Spin the intakes with a given velocity (max 600)
+//Spin the intakes with a given velocity (max 200)
 //Desync - Only spin the conveyer motor
 extern void intake(int velocity, bool desync = false);
 

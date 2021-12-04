@@ -100,8 +100,9 @@ void autonomous() {
 		display.createErrorBox("No SD Card Detected\nUnable to Playback Auto");
 	}
 	else if(SelectedAuto == 3){ // run normal skills if selected
-		skillsAuto();
-		display.Msg("Skills Auto", 1000);
+		//skillsAuto();
+		//display.Msg("Skills Auto", 1000);
+		fnTestAuto();
 	}
 	else if(SelectedAuto == 0){
 		display.Msg("No Auto Selected", 1000);

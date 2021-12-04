@@ -24,10 +24,14 @@ void Docker_Task_fn(void*param){
    int MAXUP = -127;
    int MAXDOWN = 127;
    dock_state = 3; //make dock reset upon startup
-
+   bool Oncelocal = false;
    while(true){
       if(dock_manual_exemption == true){
+         Oncelocal = false;
+      }
+      else if(dock_manual_exemption == false && Oncelocal == false){
          targetValue = dockerMotor.get_position();
+         Oncelocal = true;
       }
       else{
          if(dock_state != dock_state_prev){

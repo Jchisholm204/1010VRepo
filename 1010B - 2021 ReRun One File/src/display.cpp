@@ -41,7 +41,7 @@ void Display::setActiveTab(int tab){
 
 void Display::createAutoSelector(void){
   lv_obj_t * autoSelector = lv_roller_create(disabled_tab, NULL); //create auto selector
-  lv_roller_set_options(autoSelector, "None\nRight\nLeft\nSkills\n60Sec\nTest"); //set options for the array
+  lv_roller_set_options(autoSelector, "None\nRight\nLeft\nfnTest\n60Sec\nTest"); //set options for the array
   lv_obj_set_width(autoSelector, 80);
   lv_roller_set_visible_row_count(autoSelector, 4);
   lv_roller_set_action(autoSelector, autoSelect_action);
