@@ -49,6 +49,7 @@ void initialize() {
 	display.createScreen(); // Create all of the basic screen elements
 	display.refresh(); // Update battery data to the display for the first time
 	//lv_btn_set_toggle(recording_enabled_btn, false); //make sure recording is OFF
+	display.Msg("Display Initialized", 800);
 
 	//	Brake Modes - Drive
 	driveLF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
@@ -76,6 +77,7 @@ void initialize() {
 			"Lift Task"
 		);
 	}
+	display.Msg("Robot Initialized", 800);
 }
 
 void disabled() {
@@ -115,7 +117,7 @@ void autonomous() {
 
 
 void opcontrol() {
-	bool recording_enabled = lv_btn_get_state(recording_enabled_btn); //true if recording is enabled by display toggle
+	bool recording_enabled = display.recordingSelected(); //true if recording is enabled by display toggle
 	int autoLength; // length to record auto for
 	int exitStatus; // for displaying exit codes
 	//printf("%d", recording_enabled);
@@ -137,7 +139,7 @@ void opcontrol() {
 		//run the record program
 		recordAuto(SelectedAuto, false, autoLength);
 		//printf("%d\t", exitStatus);
-		display.createErrorBox("Auto Recorded");
+		display.Msg("Auto Recorded", 3000);
 	}
 	else if(recording_enabled && SelectedAuto == 0){ // error for no auto
 		exitStatus = EXIT_FAILURE;

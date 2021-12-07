@@ -17,7 +17,9 @@ class Display{
 public:
   void setActiveTab(int tab);
   void createReRunOps(void);
+  //display an error popup on the brain screen (Msg v0.1)
   void createErrorBox(const char *errorMessage);
+  //display a popup message on the brain screen
   void Msg(const char *displayMsg, int MsgTimeout);
   void createTitle(void);
   void createBatteryMeter(void);
@@ -25,6 +27,8 @@ public:
   void refresh(void);
     //create screen elements
   void createScreen(void);
+  //return "true" if recording enabed by display button
+  bool recordingSelected(void);
 };
 
 extern void Display_Task_fn(void*param);

@@ -120,6 +120,11 @@ void Display::createScreen(void){
   createReRunOps();
 }
 
+bool Display::recordingSelected(void){
+  bool btnState = lv_btn_get_state(recording_enabled_btn);
+  return btnState;
+}
+
 void Display_Task_fn(void*param){/*
   display.createScreen();
   while(true){

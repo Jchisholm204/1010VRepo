@@ -1,7 +1,7 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "N&W Skills",
+        "project_name": "Yodle Skills",
         "target": "v5",
         "templates": {
             "kernel": {
