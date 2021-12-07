@@ -41,8 +41,8 @@
  */
 #include "okapi/api.hpp"
 #include "pros/apix.h"
-#include "drive.h"
-#include "display.h"
+#include "robot/drive.h"
+#include "robot/display.h"
 //#include "pros/api_legacy.h"
 
 /**

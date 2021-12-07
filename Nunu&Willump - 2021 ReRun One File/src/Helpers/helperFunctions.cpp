@@ -1,10 +1,10 @@
 //Made to Make Programming Easier
 
 #include "main.h"
-#include "helpers.h"
-#include "drive.h"
-#include "dock.h"
-#include "lift.h"
+#include "robot/helpers.h"
+#include "robot/drive.h"
+#include "tasking/dock.h"
+#include "tasking/lift.h"
 
 int IntakeStateStorage;
 

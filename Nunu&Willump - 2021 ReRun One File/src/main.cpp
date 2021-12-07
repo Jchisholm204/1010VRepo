@@ -1,11 +1,11 @@
 #include "main.h"
-#include "drive.h"
-#include "display.h"
+#include "robot/drive.h"
+#include "robot/display.h"
 #include "autons.h"
-#include "lift.h"
-#include "dock.h"
+#include "tasking/lift.h"
+#include "tasking/dock.h"
 #include "ports.h"
-#include "helpers.h"
+#include "robot/helpers.h"
 #include "display/lvgl.h"
 
 //	CONTROLLERS

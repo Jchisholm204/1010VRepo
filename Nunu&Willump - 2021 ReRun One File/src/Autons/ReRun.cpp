@@ -6,10 +6,10 @@
 
 #include "main.h"
 #include "autons.h"
-#include "drive.h"
-#include "lift.h"
-#include "dock.h"
-#include "helpers.h"
+#include "robot/drive.h"
+#include "tasking/lift.h"
+#include "tasking/dock.h"
+#include "robot/helpers.h"
 
 //Velocity Calculator Function
 int VelocityCalc(pros::Motor motor, float percent_actual){

@@ -1,5 +1,5 @@
-#ifndef _DRIVE_H_
-#define _DRIVE_H_
+#ifndef DRIVE_H
+#define DRIVE_H
 
 #define Back -1
 #define Front 1

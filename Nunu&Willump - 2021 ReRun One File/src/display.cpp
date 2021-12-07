@@ -7,7 +7,7 @@ https://github.com/cadenhewlett/CHPersonal/tree/master/ScreenStuff
 
 
 #include "main.h"
-#include "display.h"
+#include "robot/display.h"
 #include <string.h>
 #include "display/lvgl.h"
 int SelectedAuto;

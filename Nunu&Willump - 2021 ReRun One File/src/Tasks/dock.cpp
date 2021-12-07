@@ -1,6 +1,6 @@
 #include "main.h"
-#include "dock.h"
-#include "helpers.h"
+#include "tasking/dock.h"
+#include "robot/helpers.h"
 
 int dock_state;
 
