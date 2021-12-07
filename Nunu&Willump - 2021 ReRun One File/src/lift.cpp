@@ -23,10 +23,15 @@ void Lift_Task_fn(void*param){
    int targetValue;
    int MAXUP = -127;
    int MAXDOWN = 127;
+   bool Oncelocal = false;
 
    while(true){
       if(lift_manual_exemption == true){
+         Oncelocal = false;
+      }
+      else if(lift_manual_exemption == false && Oncelocal == false){
          targetValue = Lift_POT.get_value();
+         Oncelocal = true;
       }
       else{
          if(lift_state != lift_state_prev){
