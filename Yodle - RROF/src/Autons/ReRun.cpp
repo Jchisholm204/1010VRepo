@@ -138,8 +138,9 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
 		fprintf(recFile, "%d\n", VelocityCalc(intakeMotor, 0));
 		fprintf(recFile, "%d\n", VelocityCalc(conveyerMotor, 0));
 
-		fprintf(recFile, "%d\n", lift_state);
-		fprintf(recFile, "%d\n", dock_state);
+        //Record pid states (Manual Does NOT record)
+		fprintf(recFile, "%d\n", lift_state); //records lift state (manual control has no effect)
+		fprintf(recFile, "%d\n", dock_state); //records dock state (manual control has no effect)
 
         timer += rec_loop_delay;
         pros::delay(rec_loop_delay);
