@@ -70,6 +70,7 @@ extern ADIUltrasonic lULT;
 extern ADIUltrasonic rULT;
 */
 extern Imu gyro;
+extern ADIGyro giro;
 extern ADIDigitalIn Docker_Endstop_Min;
 //liftpot
 extern ADIAnalogIn Lift_POT;

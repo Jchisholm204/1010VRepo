@@ -13,8 +13,8 @@
 #define Docker_Optical_Port 1 //(1-21)
 
 //Lidars (Distance Sensors)//
-#define FL_LIDAR_PORT 20 //(1-21)
-#define FR_LIDAR_PORT 21 //(1-21)
+#define FL_LIDAR_PORT 21 //(1-21)
+#define FR_LIDAR_PORT 1 //(1-21)
 
 #define BL_LIDAR_PORT 6 //(1-21)
 #define BR_LIDAR_PORT 8 //(1-21)

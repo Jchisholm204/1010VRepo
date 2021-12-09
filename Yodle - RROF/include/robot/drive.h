@@ -3,6 +3,8 @@
 
 #define Back -1
 #define Front 1
+#define Right 0
+#define Left 1
 
 #define ORIGIN_RIGHT 0
 #define ORIGIN_LEFT 1

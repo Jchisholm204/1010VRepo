@@ -3,13 +3,25 @@
 
 //what direction is forwards?
 int forwardsDrive = Front;
-int getDist(){
+int getDist(int side){
+	int out;
 	if(forwardsDrive == Front){
-		return lidarBL.get(), lidarBR.get();
+		if(side == Right){
+			out = lidarBR.get();
+		}
+		if(side == Left){
+			out = lidarBL.get();
+		}
 	}
 	if(forwardsDrive == Back){
-		return lidarFR.get(), lidarFL.get();
+		if(side == Right){
+			out = lidarFL.get();
+		}
+		if(side == Left){
+			out = lidarFR.get();
+		}
 	}
+	return out;
 }
 
 int exponential(int joystickVal, float driveExp, int joydead, int motorMin){
@@ -56,8 +68,8 @@ void Chassis::driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRig
 	driveRF.tare_position();
 	int startMillis = pros::millis();
 
-    float KP = 0.8;
-	float KD = 1.2;
+    float KP = 1.2;
+	float KD = 1.4;
 	int errL = 0; //error value init
 	int derrL = 0;//error difference
 	int err_lastL = 0; //last error
@@ -80,16 +92,16 @@ void Chassis::driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRig
     while((pros::millis()-startMillis) < timeout){
 		//Left PID
 		errL = leftTarget - driveLF.get_position();
-		err_lastL = errL; 
 		derrL = (errL - err_lastL); 
+		err_lastL = errL; 
 		pL = (KP * errL); 
 		err_sumL += errL;
 		dL = KD * derrL;
 
 		//Right PID
 		errR = rightTarget - driveRF.get_position();
-		err_lastR = errR; 
 		derrR = (errR - err_lastR); 
+		err_lastR = errR; 
 		pR = (KP * errR); 
 		err_sumL += errR;
 		dR = KD * derrR;
@@ -123,7 +135,7 @@ void Chassis::move(int targetValue, int timeout, bool use_NewFront){
 	int startMillis = pros::millis();
 
     float KP = 0.8;
-	float KD = 1.2;
+	float KD = 1.8;
 	int errL = 0; //error value init
 	int derrL = 0;//error difference
 	int err_lastL = 0; //last error
@@ -146,35 +158,29 @@ void Chassis::move(int targetValue, int timeout, bool use_NewFront){
     while((pros::millis()-startMillis) < timeout){
 		//Left PID
 		errL = targetValue - driveLF.get_position();
-		err_lastL = errL; 
 		derrL = (errL - err_lastL); 
+		err_lastL = errL; 
 		pL = (KP * errL); 
 		err_sumL += errL;
 		dL = KD * derrL;
 
 		//Right PID
-		errR = targetValue - driveRF.get_position();
-		err_lastR = errR; 
+		errR = targetValue - driveRF.get_position(); 
 		derrR = (errR - err_lastR); 
+		err_lastR = errR;
 		pR = (KP * errR); 
 		err_sumL += errR;
 		dR = KD * derrR;
 
-		if(use_NewFront){
-			dPowL = (pL+dL)*forwardsDrive;
-			dPowR = (pR+dR)*forwardsDrive;
-		}
-		else{
-			dPowL = (pL+dL);
-			dPowR = (pR+dR);			
-		}
+		dPowL = (pL+dL);
+		dPowR = (pR+dR);			
 
 		//dPowL = (dPowL > 100 ? 100 : dPowL < -100 ? -100 : dPowL);
 		//dPowR = (dPowR > 100 ? 100 : dPowR < -100 ? -100 : dPowR);
-		if(dPowL > 200){dPowL=200;};
-		if(dPowL < -200){dPowL=-200;};
-		if(dPowR > 200){dPowR=200;};
-		if(dPowR < -200){dPowR=-200;};
+		if(dPowL > 150){dPowL=150;};
+		if(dPowL < -150){dPowL=-150;};
+		if(dPowR > 150){dPowR=150;};
+		if(dPowR < -150){dPowR=-150;};
 
 		driveRF.move(dPowR);
       	driveLB.move(dPowL);
@@ -277,7 +283,8 @@ void Chassis::drive(int targetValue, int timeout, bool use_NewFront){
 
 		if(use_NewFront){
 			driveReversedMultiplication = forwardsDrive;
-			curLeft, curRight = getDist();
+			curLeft = getDist(Left);
+			curRight = getDist(Right);
 		}
 		else{
 			curLeft = lidarBL.get();
@@ -317,11 +324,12 @@ void Chassis::drive(int targetValue, int timeout, bool use_NewFront){
 }
 
 void Chassis::turn(int targetValue, int timeout){
-	gyro.tare_rotation(); //returns (+) or (-) rotation values in deg
+	//gyro.tare_rotation(); //returns (+) or (-) rotation values in deg
+	giro.reset();
 	int startMillis = pros::millis();
 
-    float KP = 0.7;
-	float KD = 1.2;
+    float KP = 2.1;
+	float KD = 1.1;
 	int err = 0; //error value init
 	int derr = 0;//error difference
 	int err_last = 0; //last error
@@ -332,9 +340,9 @@ void Chassis::turn(int targetValue, int timeout){
 
     while((pros::millis()-startMillis) < timeout){
 
-		err = targetValue - gyro.get_rotation();
-		err_last = err; 
+		err = targetValue - (giro.get_value()/10); 
 		derr = (err - err_last); 
+		err_last = err;
 		p = (KP * err); 
 		err_sum += err;
 		d = KD * derr;

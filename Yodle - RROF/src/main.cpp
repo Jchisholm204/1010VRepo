@@ -27,6 +27,7 @@ Motor liftMotor(LIFT_PORT, E_MOTOR_GEARSET_36, MOBO_1_REVERSED, E_MOTOR_ENCODER_
 Motor dockerMotor(DOCKER_PORT, E_MOTOR_GEARSET_36, MOBO_2_REVERSED, E_MOTOR_ENCODER_DEGREES);
 
 //	Sensors
+pros::ADIGyro giro('h');
 pros::Imu gyro(GYRO_PORT);
 pros::ADIDigitalIn Docker_Endstop_Min(Docker_Endstop_Min_Port);
 pros::ADIAnalogIn Lift_POT(Lift_POT_Port);
@@ -45,11 +46,12 @@ Chassis drivef;
 Display display;
 
 void initialize() {
+	pros::delay(1300);
 
 	display.createScreen(); // Create all of the basic screen elements
 	display.refresh(); // Update battery data to the display for the first time
 	//lv_btn_set_toggle(recording_enabled_btn, false); //make sure recording is OFF
-	display.Msg("Display Initialized", 800);
+	display.Msg("Display Initialized, Giro ON", 800);
 
 	//	Brake Modes - Drive
 	driveLF.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
@@ -115,7 +117,6 @@ void autonomous() {
 	}
 }
 
-
 void opcontrol() {
 	bool recording_enabled = display.recordingSelected(); //true if recording is enabled by display toggle
 	int autoLength; // length to record auto for
@@ -159,7 +160,7 @@ void opcontrol() {
 		while(true){
 			display.refresh(); //update battery capacity
 			//printf("%d\t%d\t%d\t%d\n", VelocityCalc(driveRB, 1), VelocityCalc(driveRF, 1), VelocityCalc(driveLB, 1), VelocityCalc(driveLF, 1));
-			//printf("%d\n", Lift_POT.get_value());
+			//printf("%f\n", giro.get_value()/10);
 			mainDrive();
 			pros::delay(20);
 		}
