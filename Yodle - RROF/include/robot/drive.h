@@ -31,6 +31,8 @@ public:
   void heading(int targHeading, int offset, int timeout);
   //gyro based turning around a fixed point (Drive in a Circle)
   void turnDrive(int turnDeg, int innerPower, int outterPower, int timeout, bool use_NewFront = true);
+  //pid
+  void pid(int targetValue, int maxSpeed, int timeout, float kP, float kD);
   //stops all drivebase movement
   void stop(void);
   //time driven drivebase movement

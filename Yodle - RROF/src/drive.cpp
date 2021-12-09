@@ -470,6 +470,60 @@ void Chassis::turnDrive(int turnDeg, int innerPower, int outterPower, int timeou
 	}
 }
 
+void Chassis::pid(int targetValue, int maxSpeed, int timeout, float kP, float kD){
+	int startMillis = pros::millis();
+
+	//int left side pid
+	int errL = 0; //error value init
+	int derrL = 0;//error difference
+	int err_lastL = 0; //last error
+	int err_sumL = 0; //sum of errors
+	float pL;
+	float dL;
+
+	//int right side pid
+	int errR = 0; //error value init
+	int derrR = 0;//error difference
+	int err_lastR = 0; //last error
+	int err_sumR = 0; //sum of errors
+	float pR;
+	float dR;
+	
+	//int outputs
+	int dPowL;
+	int dPowR;
+
+	while((pros::millis()-startMillis) < timeout){
+
+		errL = targetValue - driveLB.get_position();
+		err_lastL = errL; 
+		derrL = (errL - err_lastL); 
+		pL = (kP * errL); 
+		err_sumL += errL;
+		dL = kD * derrL;
+
+		errR = targetValue - driveRB.get_position();
+		err_lastR = errR; 
+		derrR = (errR - err_lastR); 
+		pR = (kP * errR); 
+		err_sumL += errR;
+		dR = kD * derrR;
+		
+		dPowL = (pL+dL);
+		dPowR = (pR+dR);
+
+		if(dPowL > maxSpeed){dPowL=maxSpeed;};
+		if(dPowL < -maxSpeed){dPowL=-maxSpeed;};
+		if(dPowR > maxSpeed){dPowR=maxSpeed;};
+		if(dPowR < -maxSpeed){dPowR=-maxSpeed;};
+
+		driveRF.move(dPowR);
+      	driveLB.move(dPowL);
+      	driveRB.move(dPowR);
+      	driveLF.move(dPowL);
+	}
+}
+
 void Chassis::stop(void){
 	driveRF.move_velocity(0);
     driveLB.move_velocity(0);
