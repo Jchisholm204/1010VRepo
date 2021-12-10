@@ -46,8 +46,8 @@ void Lift_Task_fn(void*param){
                   targetValue = 57;
                   break;
                case 0:
-                  //pos value when holding holding mogo (half way up)
-                  targetValue = 1300;
+                  //pos value when holding holding mogo (tower)
+                  targetValue = 1220;
                   break;
                case 1:
                   //pos value for grabbing mobo's (when all the way down)
