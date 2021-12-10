@@ -3,6 +3,8 @@
 
 extern void skillsAuto(void);
 
+extern void leftCodedAuto(void);
+
 //exit codes
 #define EXIT_CODE_SUCCESS 2
 #define EXIT_CODE_ERROR 1

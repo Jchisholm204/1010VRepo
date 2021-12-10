@@ -360,6 +360,12 @@ void Chassis::turn(int targetValue, int timeout){
 	}
 }
 
+int headingCalc(pros::ADIGyro gboi){
+	int rawPos = gboi.get_value()/10;
+	int modt = rawPos % 360;
+	int filtered = (modt + 360) % 360;
+	return filtered;
+}
 
 void Chassis::heading(int targHeading, int offset, int timeout){
 	//gyro.get_heading() //gets a (+) value between 0 and 360 deg
@@ -376,7 +382,7 @@ void Chassis::heading(int targHeading, int offset, int timeout){
 
     while((pros::millis()-startMillis) < timeout){
 
-		err = targHeading - (gyro.get_heading() + offset);
+		err = targHeading - (headingCalc(absGyro) + offset);
 		err_last = err; 
 		derr = (err - err_last); 
 		p = (KP * err); 

@@ -1,5 +1,5 @@
-/*  skills.cpp
-* Used for everything to do with skills autos:
+/*  codedAutons.cpp
+* 
 */
 
 #include "main.h"
@@ -9,15 +9,14 @@
 #include "tasking/dock.h"
 #include "robot/helpers.h"
 
-
-void skillsAuto(void){
+void leftCodedAuto(void){
    Dock(DOWN);
    pros::delay(1000);
    drivef.move(-450, 1000, true);
    Dock(UP);
    pros::delay(1000);
    drivef.move(500, 1000, true);
-   drivef.turn(100, 3000);
+   drivef.turn(100, 2000);
    //drivef.time(500, -100);
    drivef.flip(Front);
    //drivef.drive(500, 3000, true);
@@ -28,26 +27,12 @@ void skillsAuto(void){
    //drivef.move(1500, 1500, true);
    drivef.driveTurn(1700, 30, 1700, 30, 8500, true);
    Lift(DOWN);
-   drivef.move(-190, 1200, true);
-   drivef.turn(-92, 2000);
-   //drivef.heading(/*heading*/90, /*offsett 10 deg because it starts slanted*/10, 2000); //turns 100*
+   drivef.move(-200, 900, true);
+   drivef.turn(-90, 2000);
    //drivef.move(300, 1500, true);
-   drivef.time(1500, 120);
-   drivef.stop();
-   pros::delay(100);
-   intake(100);
+   drivef.time(1600, 50);
+   intake(0);
    Lift(UP);
 
-   pros::delay(1000);
-
-   drivef.turn(-50, 3000);
-   //drivef.heading(45, 10, 2000);
-   
-   drivef.move(1600, 4000, true);
-   Dock(DOWN); //drop first ring goal
-   drivef.move(300, 2000);
-   drivef.turn(30, 1500);
-   Lift(DOWN);
-
-
+   drivef.pid(-600, 80, 4000, 1.1, 2.7);
 }

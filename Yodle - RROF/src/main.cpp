@@ -27,7 +27,8 @@ Motor liftMotor(LIFT_PORT, E_MOTOR_GEARSET_36, MOBO_1_REVERSED, E_MOTOR_ENCODER_
 Motor dockerMotor(DOCKER_PORT, E_MOTOR_GEARSET_36, MOBO_2_REVERSED, E_MOTOR_ENCODER_DEGREES);
 
 //	Sensors
-pros::ADIGyro giro('h');
+pros::ADIGyro giro('d');
+pros::ADIGyro absGyro('c');
 pros::Imu gyro(GYRO_PORT);
 pros::ADIDigitalIn Docker_Endstop_Min(Docker_Endstop_Min_Port);
 pros::ADIAnalogIn Lift_POT(Lift_POT_Port);
@@ -97,7 +98,7 @@ void competition_initialize() {
 }
 
 void autonomous() {
-	SelectedAuto = 3;
+	//SelectedAuto = 3;
 	if(SelectedAuto != 3 && pros::usd::is_installed() == 0){
 		printf("NO SD CARD\nCannot Run ReRun Auto\nNot Running Auto");
 		display.createErrorBox("No SD Card Detected\nUnable to Playback Auto");
@@ -160,7 +161,8 @@ void opcontrol() {
 		while(true){
 			display.refresh(); //update battery capacity
 			//printf("%d\t%d\t%d\t%d\n", VelocityCalc(driveRB, 1), VelocityCalc(driveRF, 1), VelocityCalc(driveLB, 1), VelocityCalc(driveLF, 1));
-			//printf("%f\n", giro.get_value()/10);
+			//int yeetus = absGyro.get_value()/10;
+			//printf("%d\n", yeetus % 360);
 			mainDrive();
 			pros::delay(20);
 		}
