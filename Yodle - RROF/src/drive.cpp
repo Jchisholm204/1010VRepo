@@ -361,10 +361,10 @@ void Chassis::turn(int targetValue, int timeout){
 }
 
 int headingCalc(pros::ADIGyro gboi){
-	int rawPos = gboi.get_value()/10;
-	int modt = rawPos % 360;
-	int filtered = (modt + 360) % 360;
-	return filtered;
+	int rawPos = gboi.get_value()/10; //get deg of gyro turn from origin
+	int modt = rawPos % 360; //get remainder when dividing by 360, returns (-360, 360)
+	int filtered = (modt + 360) % 360; // make final value between [0, 360]
+	return filtered; //return final value
 }
 
 void Chassis::heading(int targHeading, int offset, int timeout){

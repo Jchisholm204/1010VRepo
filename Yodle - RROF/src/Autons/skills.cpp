@@ -17,13 +17,13 @@ void skillsAuto(void){
    Dock(UP);
    pros::delay(1000);
    drivef.move(500, 1000, true);
-   drivef.turn(100, 3000);
+   drivef.turn(100, 1200);
    //drivef.time(500, -100);
    drivef.flip(Front);
    //drivef.drive(500, 3000, true);
    Lift(UP);
    intake(600);
-   drivef.move(1150, 3000, true);
+   drivef.move(1165, 3000, true);
    drivef.turn(90, 2000);
    //drivef.move(1500, 1500, true);
    drivef.driveTurn(1700, 30, 1700, 30, 8500, true);
@@ -32,22 +32,31 @@ void skillsAuto(void){
    drivef.turn(-92, 2000);
    //drivef.heading(/*heading*/90, /*offsett 10 deg because it starts slanted*/10, 2000); //turns 100*
    //drivef.move(300, 1500, true);
-   drivef.time(1500, 120);
+   drivef.time(1800, 140);
    drivef.stop();
    pros::delay(100);
-   intake(100);
-   Lift(UP);
+   intake(0);
+   //Lift(UP);
 
    pros::delay(1000);
 
+   //drivef.pid(-50, 50, 2000, 0.7, 0.4);
+   drivef.driveTurn(-220, 120, -220, 120, 1500, true);
    drivef.turn(-50, 3000);
    //drivef.heading(45, 10, 2000);
    
    drivef.move(1600, 4000, true);
+   //drivef.turn(-10, 2000);
    Dock(DOWN); //drop first ring goal
-   drivef.move(300, 2000);
-   drivef.turn(30, 1500);
-   Lift(DOWN);
+   pros::delay(2000);
 
+   drivef.move(400, 2000, true);
+   //drivef.turn(30, 1500);
+   //Lift(DOWN);
+   //pros::delay(2000); //the last thing u tested u removed this
+
+   //drivef.move(-250, 1500, false);
+   drivef.turn(90, 2500);
+//u didnt test this yet
 
 }
