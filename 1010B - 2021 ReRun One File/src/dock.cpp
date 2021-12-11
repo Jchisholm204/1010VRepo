@@ -2,11 +2,11 @@
 #include "dock.h"
 #include "helpers.h"
 
-int dock_state;
+int dock_state = 22;
 
 bool dock_manual_exemption = false;
 
-int dock_state_prev;
+int dock_state_prev = 99;
 
 void Docker_Task_fn(void*param){
    int motorPower;
@@ -23,7 +23,7 @@ void Docker_Task_fn(void*param){
    int targetValue = 0;
    int MAXUP = -127;
    int MAXDOWN = 127;
-   dock_state = 0; //make dock reset upon startup
+   //dock_state = 3; //make dock reset upon startup
    bool Oncelocal = false;
    while(true){
       if(dock_manual_exemption == true){
@@ -47,9 +47,11 @@ void Docker_Task_fn(void*param){
                   //currentValue = home_tare(dockerMotor, Docker_Endstop_Min, -100);
                   //targetValue = currentValue;
                   break;
+               case 3:
+                  targetValue = 0;
                default:
                   //currentValue = home_tare(dockerMotor, Docker_Endstop_Min, -80);
-                  dock_state = 0;
+                  dock_state = 3;
                   break;
             };
          }
