@@ -130,6 +130,9 @@ void opcontrol() {
 	if(SelectedAuto == 4){
 		autoLength = 60*1000; // 60 sec for skills rerun
 	}
+	else if(SelectedAuto == 3){
+		autoLength = 25*1000;
+	}
 	else{
 		autoLength = 15*1000; // 15 sec for match autos
 	}
@@ -137,7 +140,7 @@ void opcontrol() {
 		printf("NO SD CARD");
 		display.createErrorBox("No SD Card Detected\nUnable to Record");
 	}
-	else if(recording_enabled && SelectedAuto/*Do NOT allow recording if no auto selected*/ != 0 && SelectedAuto/*or if norm skills selected*/ != 3){
+	else if(recording_enabled && SelectedAuto/*Do NOT allow recording if no auto selected*/ != 0){// && SelectedAuto/*or if norm skills selected*/ != 3){
 		//run the record program
 		recordAuto(SelectedAuto, false, autoLength);
 		//printf("%d\t", exitStatus);

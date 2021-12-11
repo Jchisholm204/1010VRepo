@@ -523,10 +523,10 @@ void Chassis::pid(int targetValue, int maxSpeed, int timeout, float kP, float kD
 		if(dPowR > maxSpeed){dPowR=maxSpeed;};
 		if(dPowR < -maxSpeed){dPowR=-maxSpeed;};
 
-		driveRF.move(dPowR);
-      	driveLB.move(dPowL);
-      	driveRB.move(dPowR);
-      	driveLF.move(dPowL);
+		driveRF.move_velocity(dPowR);
+      	driveLB.move_velocity(dPowL);
+      	driveRB.move_velocity(dPowR);
+      	driveLF.move_velocity(dPowL);
 	}
 }
 

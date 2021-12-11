@@ -52,6 +52,10 @@ int reRunAuto(int reRunFile){
         case 5:
             runFile = fopen("/usd/testAuto.txt", "r");
             break;
+        
+        case 3:
+            runFile = fopen("/usd/skillsAdditive.txt", "r");
+            break;
 
         default:
             return EXIT_CODE_ERROR;
@@ -117,6 +121,9 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
             recFile = fopen("/usd/testAuto.txt", "w");
             //printf("testAuto Selected\n");
             break;
+
+        case 3:
+            recFile = fopen("/usd/skillsAdditive.txt", "w");
 
         default:
             return EXIT_CODE_ERROR;
