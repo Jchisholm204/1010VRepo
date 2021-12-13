@@ -58,8 +58,8 @@ void skillsAuto(void){
    //drivef.move(-250, 1500, false);
    //drivef.turn(90, 2500);
 
-   reRunAuto(3); //run driveback
-   drivef.pid(500, 100, 5000, 1.4, 6.5); //drive up on platform
+   //reRunAuto(3); //run driveback
+   //drivef.pid(500, 100, 5000, 1.4, 6.5); //drive up on platform
 
    
 //u didnt test this yet
