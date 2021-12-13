@@ -46,12 +46,12 @@ void mainDrive(void){
 	
 	if(master.get_digital(E_CONTROLLER_DIGITAL_Y)){
 		lift_manual_exemption = true;
-		liftMotor.move_velocity(80);
+		liftMotor.move_velocity(100);
 		Once = false;
 	}
 	else if(master.get_digital(E_CONTROLLER_DIGITAL_A) && Lift_POT.get_value() < 3900){
 		lift_manual_exemption = true;
-		liftMotor.move_velocity(-80);
+		liftMotor.move_velocity(-100);
 		Once = false;
 	}/*
 	else if((master.get_digital(E_CONTROLLER_DIGITAL_A) != 1 && master.get_digital(E_CONTROLLER_DIGITAL_Y) != 1) && Once == false){
