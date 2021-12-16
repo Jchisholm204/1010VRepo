@@ -1,10 +1,13 @@
 //Ingenuity - ports.hpp
-#ifndef _PORTS_H_
-#define _PORTS_H_
+#ifndef _PORTS_HPP_
+#define _PORTS_HPP_
 
 
-//pnumatic controller port for lift claw
-#define LIFT_INTAKE_PORT 3
+//pnumatic controllers
+#define LIFT_PISTON_PORT 0
+#define DOCK_PISTON_PORT 0
+#define SIDE_PISTON_PORT 0
+
 
 //#SENSORS#
 
@@ -18,7 +21,7 @@
 
 
 #define GYRO_ABS_PORT 3
-#define GYRO_HEAD_PORT 4
+#define GYRO_POS_PORT 4
 
 //Lidars (Distance Sensors)//
 #define FL_LIDAR_PORT 21

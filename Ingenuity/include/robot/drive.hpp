@@ -1,5 +1,5 @@
-#ifndef _DRIVEBASE_H
-#define _DRIVEBASE_H
+#ifndef _DRIVEBASE_HPP
+#define _DRIVEBASE_HPP
 
 #define Back -1
 #define Front 1
@@ -12,7 +12,7 @@
 class Chassis{
 public:
   //operator drive
-  void operator_Chassis(void);
+  void operator_Chassis(int maxVel);
   //time driven drivebase movement
   void timeDrive(int time, int leftPow, int rightPow, bool use_NewFront = true);
   //encoder based drivebase movement with left and right pid values

@@ -1,29 +1,7 @@
 #include "main.h"
-#include "robot/roboIncludes.hpp"
-using namespace pros;
+#include "robot/drive.hpp"
 
-//what direction is forwards?
-int forwardsDrive = Front;
-int getDist(int side){
-	int out;
-	if(forwardsDrive == Front){
-		if(side == Right){
-			out = lidarBR.get();
-		}
-		if(side == Left){
-			out = lidarBL.get();
-		}
-	}
-	if(forwardsDrive == Back){
-		if(side == Right){
-			out = lidarFL.get();
-		}
-		if(side == Left){
-			out = lidarFR.get();
-		}
-	}
-	return out;
-}
+using namespace pros;
 
 int exponential(int joystickVal, float driveExp, int joydead, int motorMin){
   int joySign;
@@ -36,9 +14,14 @@ int exponential(int joystickVal, float driveExp, int joydead, int motorMin){
   return power;
 }
 
-void Chassis::operator_Chassis(void){
-  int Yval = exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y), 1.5 /*DriveExp*/, 4 /*JoyDead*/, 25 /*MotorMin*/);
-  int Xval = exponential(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X), 1.3, 4, 20);
+int toVelocity(int motorPower, int maxVel){
+	int output = ((motorPower/127) * maxVel);
+	return output;
+}
+
+void Chassis::operator_Chassis(int maxVel){
+  int Yval = toVelocity(exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y), 1.5 /*DriveExp*/, 4 /*JoyDead*/, 25 /*MotorMin*/), maxVel);
+  int Xval = toVelocity(exponential(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X), 1.3, 4, 20), maxVel);
   //remove "= 0" and comment if you wish to use mechanum drive
   int Zval = 0;//(exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_X), 2.2, 20, 15)*0);
 
@@ -48,7 +31,7 @@ void Chassis::operator_Chassis(void){
   driveRF.move(Yval - Xval - Zval);
 }
 
-
+/*
 void Chassis::timeDrive(int time, int leftPow, int rightPow, bool use_NewFront){
 	driveRF.move_velocity(forwardsDrive * rightPow);
     driveLB.move_velocity(forwardsDrive * leftPow);
@@ -238,4 +221,4 @@ void Chassis::time(int time, int velocity){
     driveLB.move(0);
     driveRB.move(0);
     driveLF.move(0);
-}
+}*/
