@@ -1,5 +1,5 @@
-#ifndef _LCD_H_
-#define _LCD_H_
+#ifndef _DISPLAY_H_
+#define _DISPLAY_H_
 #include <stdio.h>
 #include <errno.h>
 #include "display/lvgl.h"
@@ -17,10 +17,10 @@ class Display{
 public:
   void setActiveTab(int tab);
   void createReRunOps(void);
-  //display an error popup on the brain screen (Msg v0.1)
-  void createErrorBox(const char *errorMessage);
-  //display a popup message on the brain screen
-  void Msg(const char *displayMsg, int MsgTimeout);
+  //display an error popup on the brain screen that lasts for 3 seconds
+  void msg(const char *displayMsg);
+  //display a popup message on the brain screen for a given time
+  void msg(const char *displayMsg, int MsgTimeout);
   void createTitle(void);
   void createBatteryMeter(void);
   void createAutoSelector(void);
@@ -30,8 +30,6 @@ public:
   //return "true" if recording enabed by display button
   bool recordingSelected(void);
 };
-
-extern void Display_Task_fn(void*param);
 
 extern Display display;
 

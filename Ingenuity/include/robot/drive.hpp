@@ -13,18 +13,18 @@ class Chassis{
 public:
   //operator drive
   void operator_Chassis(int maxVel);
+  //time driven drivebase movement with different drive powers
+  void time(int time, int leftPow, int rightPow);
   //time driven drivebase movement
-  void timeDrive(int time, int leftPow, int rightPow, bool use_NewFront = true);
+  void time(int time, int velocity);
   //encoder based drivebase movement with left and right pid values
-  void driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRight, int timeout, bool use_NewFront = true);
+  void driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRight, int timeout);
   //gyro based drivebase turning with center origins
   void turn(int targetValue, int timeout);
   //pid
   void pid(int targetValue, int maxSpeed, int timeout, float kP, float kD);
   //stops all drivebase movement
   void stop(void);
-  //time driven drivebase movement
-  void time(int time, int velocity);
 };
 
 #endif

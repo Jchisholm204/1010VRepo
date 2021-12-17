@@ -1,3 +1,8 @@
+/* Ingenuity - drive.cpp
+/* - main.h
+/* - robot/drive.hpp
+* Drive functions and operator control code for the chassis
+*/
 #include "main.h"
 #include "robot/drive.hpp"
 
@@ -25,18 +30,30 @@ void Chassis::operator_Chassis(int maxVel){
   //remove "= 0" and comment if you wish to use mechanum drive
   int Zval = 0;//(exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_X), 2.2, 20, 15)*0);
 
-  driveLB.move(Yval + Xval - Zval);
-  driveLF.move(Yval + Xval + Zval);
-  driveRB.move(Yval - Xval + Zval);
-  driveRF.move(Yval - Xval - Zval);
+  driveLB.move_velocity(Yval + Xval - Zval);
+  driveLF.move_velocity(Yval + Xval + Zval);
+  driveRB.move_velocity(Yval - Xval + Zval);
+  driveRF.move_velocity(Yval - Xval - Zval);
 }
 
-/*
-void Chassis::timeDrive(int time, int leftPow, int rightPow, bool use_NewFront){
-	driveRF.move_velocity(forwardsDrive * rightPow);
-    driveLB.move_velocity(forwardsDrive * leftPow);
-    driveRB.move_velocity(forwardsDrive * rightPow);
-    driveLF.move_velocity(forwardsDrive * leftPow);
+
+void Chassis::time(int time, int leftPow, int rightPow){
+	driveRF.move_velocity(rightPow);
+    driveLB.move_velocity(leftPow);
+    driveRB.move_velocity(rightPow);
+    driveLF.move_velocity(leftPow);
+	pros::delay(time);
+	driveRF.move(0);
+    driveLB.move(0);
+    driveRB.move(0);
+    driveLF.move(0);
+}
+
+void Chassis::time(int time, int velocity){
+	driveRF.move_velocity(velocity);
+    driveLB.move_velocity(velocity);
+    driveRB.move_velocity(velocity);
+    driveLF.move_velocity(velocity);
 	pros::delay(time);
 	driveRF.move(0);
     driveLB.move(0);
@@ -45,7 +62,7 @@ void Chassis::timeDrive(int time, int leftPow, int rightPow, bool use_NewFront){
 }
 
 
-void Chassis::driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRight, int timeout, bool use_NewFront){
+void Chassis::driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRight, int timeout){
 	driveLF.tare_position();
 	driveRF.tare_position();
 	int startMillis = pros::millis();
@@ -88,17 +105,10 @@ void Chassis::driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRig
 		err_sumL += errR;
 		dR = KD * derrR;
 
-		if(use_NewFront){
-			dPowL = (pL+dL)*forwardsDrive;
-			dPowR = (pR+dR)*forwardsDrive;
-		}
-		else{
-			dPowL = (pL+dL);
-			dPowR = (pR+dR);			
-		}
+		dPowL = (pL+dL);
+		dPowR = (pR+dR);			
 
-		//dPowL = (dPowL > 100 ? 100 : dPowL < -100 ? -100 : dPowL);
-		//dPowR = (dPowR > 100 ? 100 : dPowR < -100 ? -100 : dPowR);
+
 		if(dPowL > maxLeft){dPowL=maxLeft;};
 		if(dPowL < -maxLeft){dPowL=-maxLeft;};
 		if(dPowR > maxRight){dPowR=maxRight;};
@@ -113,7 +123,7 @@ void Chassis::driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRig
 
 void Chassis::turn(int targetValue, int timeout){
 	//gyro.tare_rotation(); //returns (+) or (-) rotation values in deg
-	giro.reset();
+	posGyro.reset();
 	int startMillis = pros::millis();
 
     float KP = 2.1;
@@ -128,7 +138,7 @@ void Chassis::turn(int targetValue, int timeout){
 
     while((pros::millis()-startMillis) < timeout){
 
-		err = targetValue - (giro.get_value()/10); 
+		err = targetValue - (posGyro.get_value()/10); 
 		derr = (err - err_last); 
 		err_last = err;
 		p = (KP * err); 
@@ -210,15 +220,3 @@ void Chassis::stop(void){
     driveRB.move_velocity(0);
     driveLF.move_velocity(0);
 }
-
-void Chassis::time(int time, int velocity){
-	driveRF.move_velocity(velocity);
-    driveLB.move_velocity(velocity);
-    driveRB.move_velocity(velocity);
-    driveLF.move_velocity(velocity);
-	pros::delay(time);
-	driveRF.move(0);
-    driveLB.move(0);
-    driveRB.move(0);
-    driveLF.move(0);
-}*/

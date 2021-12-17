@@ -39,8 +39,8 @@
 #define CONVEYER_PORT 13
 #define INTAKE_PORT 12
 
-#define LIFT_PORT 17
-#define DOCKER_PORT 3
+#define LIFT_PORT_L 17
+#define LIFT_PORT_R 3
 
 
 #endif

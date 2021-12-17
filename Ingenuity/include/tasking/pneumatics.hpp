@@ -1,7 +1,9 @@
 /* Ingenuity - pneumatics.hpp
 */
-#ifndef _PNEUMATICS_HPP
-#define _PNEUMATICS_HPP
+#ifndef _PNEUMATICS_HPP_
+#define _PNEUMATICS_HPP_
+
+const bool Piston_Task_Enable = true;
 
 extern bool Lift_Piston_State;
 extern bool Dock_Piston_State;

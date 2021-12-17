@@ -70,8 +70,8 @@ extern pros::Motor driveRF;
 extern pros::Motor driveLB;
 extern pros::Motor driveLF;
 
-extern pros::Motor dockerMotor;
-extern pros::Motor liftMotor;
+extern pros::Motor liftMotorL;
+extern pros::Motor liftMotorR;
 
 extern pros::Motor intakeMotor;
 extern pros::Motor conveyerMotor;
@@ -85,13 +85,12 @@ extern lv_obj_t * bat_meter_label;
 //CONTROLLERS
 
 extern pros::Controller master;
-extern pros::Controller parter;
+extern pros::Controller partner;
 
 
 //SENSORS
 
-extern pros::ADIAnalogIn liftPOT;
-extern pros::ADIDigitalIn dockerLimit;
+extern pros::ADIAnalogIn LiftPOT;
 
 extern pros::ADIGyro absGyro; //resets at beginning of match
 extern pros::ADIGyro posGyro; //resets upon turning

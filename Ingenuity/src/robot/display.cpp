@@ -1,3 +1,9 @@
+/* Ingenuity - display.cpp
+/* - main.h
+/* - robot/display.hpp
+* Everything to do with the display
+*/
+
 /*
 Thanks to Caden H. and 1010A for this display code.
 All of the code here is baised off of his and much of what is here would not be possible without him.
@@ -59,14 +65,14 @@ void Display::createReRunOps(){
   lv_btn_set_state(recording_enabled_btn, false);
 }
 
-void Display::createErrorBox(const char *errorMessage){
+void Display::msg(const char *displayMsg){
   lv_obj_t * errorBox = lv_mbox_create(lv_scr_act(), NULL);
-  lv_mbox_set_text(errorBox, errorMessage);
+  lv_mbox_set_text(errorBox, displayMsg);
   lv_obj_align(errorBox, NULL, LV_ALIGN_CENTER, 0, 0);
   lv_mbox_start_auto_close(errorBox, 3000);
 }
 
-void Display::Msg(const char *displayMsg, int MsgTimeout){
+void Display::msg(const char *displayMsg, int MsgTimeout){
   lv_obj_t * MsgBox = lv_mbox_create(lv_scr_act(), NULL);
   lv_mbox_set_text(MsgBox, displayMsg);
   lv_obj_align(MsgBox, NULL, LV_ALIGN_CENTER, 0, 0);
@@ -123,12 +129,4 @@ void Display::createScreen(void){
 bool Display::recordingSelected(void){
   bool btnState = lv_btn_get_state(recording_enabled_btn);
   return btnState;
-}
-
-void Display_Task_fn(void*param){/*
-  display.createScreen();
-  while(true){
-    display.refresh();
-    pros::delay(DISPLAY_REFRESH_RATE);
-  }*/
 }
