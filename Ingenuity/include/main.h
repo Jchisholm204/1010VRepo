@@ -35,6 +35,8 @@
 #define PROS_USE_LITERALS
 
 #include "api.h"
+#include "tasking/pneumatics.hpp"
+#include "robot/drive.hpp"
 
 /**
  * You should add more #includes here
@@ -54,6 +56,12 @@
 // using namespace pros::literals;
 // using namespace okapi;
 
+extern Chassis drivef;
+
+//PNEUMATICS
+extern pros::ADIDigitalOut LiftPiston;
+extern pros::ADIDigitalOut DockPiston;
+extern pros::ADIDigitalOut SidePiston;
 
 //MOTORS
 
