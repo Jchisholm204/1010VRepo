@@ -18,7 +18,7 @@ Lift::Lift(int maximumVelocity, float kP, float kD){
     lift_state_prev = 5;
 }
 
-int Lift::manual(int velocity, bool enabled){
+void Lift::manual(int velocity, bool enabled){
     lift_manual_exemption = enabled;
     if(lift_manual_exemption == true){
         liftMotorL.move_velocity(velocity);
@@ -26,7 +26,7 @@ int Lift::manual(int velocity, bool enabled){
     }
 }
 
-int Lift::manual(int velocity){
+void Lift::manual(int velocity){
     lift_manual_exemption = true;
     liftMotorL.move_velocity(velocity);
     liftMotorR.move_velocity(velocity);
@@ -38,22 +38,22 @@ void Lift::PID(int maxVelocity, float kP, float kD){
     liftKd=kD;
 }
 
-int Lift::up(){
+void Lift::up(){
     lift_state = LIFT_UP;
     lift_state_prev = 99;
 }
 
-int Lift::down(){
+void Lift::down(){
     lift_state = LIFT_DOWN;
     lift_state_prev = 99;
 }
 
-int Lift::preset(int state){
+void Lift::preset(int state){
     lift_state = state;
     lift_state_prev = 99;
 }
 
-int Lift::targ(int NewtargetValue){
+void Lift::targ(int NewtargetValue){
     lift_state_prev = lift_state; //make sure the lift doesent revert to presets
     targetValue = NewtargetValue; //set new lift targetvalue
 }

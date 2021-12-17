@@ -19,10 +19,10 @@ class Lift{
         Lift(int maximumVeloity, float kP, float kD);
 
         //manual control
-        int manual(int velocity, bool enabled);
+        void manual(int velocity, bool enabled);
 
         //manual control of lift (meant for use with controllers)
-        int manual(int velocity);
+        void manual(int velocity);
 
         //change pid constraints
         void PID(int maxVel, float kP, float kD);
@@ -45,15 +45,15 @@ class Lift{
         int targetValue;
 
         //simple preset
-        int up();
+        void up();
         //simple preset
-        int down();
+        void down();
 
         //move the lift to a preset
-        int preset(int state);
+        void preset(int state);
 
         //move the lift to a custom preset
-        int targ(int targetValue);
+        void targ(int targetValue);
 };
 
 //lift class
