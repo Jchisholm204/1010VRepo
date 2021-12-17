@@ -106,6 +106,7 @@ extern pros::Distance distBL;
 
 extern pros::Vision visBack; //mounted on the back of the robot
 extern pros::Vision visFront; //mounted on the front of the robot
+extern pros::Vision visionSensor;
 
 
 /**

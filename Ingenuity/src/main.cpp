@@ -14,6 +14,7 @@
 #include "tasking/pneumatics.hpp"
 #include "tasking/lift.hpp"
 #include "autos.hpp"
+#include "robot/vision.hpp"
 
 //	CONTROLLERS
 pros::Controller master(pros::E_CONTROLLER_MASTER);
@@ -42,6 +43,8 @@ pros::Distance lidarFL(FL_LIDAR_PORT);
 pros::Distance lidarFR(FR_LIDAR_PORT);
 pros::Distance lidarBL(BL_LIDAR_PORT);
 pros::Distance lidarBR(BR_LIDAR_PORT);
+
+pros::Vision visionSensor(VISION_SENSOR_PORT, pros::E_VISION_ZERO_CENTER);
 
 pros::ADIDigitalOut LiftPiston(LIFT_PISTON_PORT);
 pros::ADIDigitalOut DockPiston(DOCK_PISTON_PORT);
@@ -126,7 +129,7 @@ void autonomous() {
 
 
 void opcontrol() {
-bool recording_enabled = lv_btn_get_state(recording_enabled_btn); //true if recording is enabled by display toggle
+	bool recording_enabled = lv_btn_get_state(recording_enabled_btn); //true if recording is enabled by display toggle
 	int autoLength; // length to record auto for
 
 	display.setActiveTab(TAB_OP); //change display to show operator tab

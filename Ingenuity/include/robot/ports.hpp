@@ -19,6 +19,9 @@
 
 #define Lift_POT_PORT 2
 
+#define VISION_SENSOR_PORT 0
+#define VISION_BACK_PORT 0
+#define VISION_FRONT_PORT 0
 
 #define GYRO_ABS_PORT 3
 #define GYRO_POS_PORT 4
