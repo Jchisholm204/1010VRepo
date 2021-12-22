@@ -15,6 +15,7 @@
 #include "tasking/lift.hpp"
 #include "autos.hpp"
 #include "robot/vision.hpp"
+#include "jlib/piston.hpp"
 
 //	CONTROLLERS
 pros::Controller master(pros::E_CONTROLLER_MASTER);
@@ -49,6 +50,8 @@ pros::Vision visionSensor(VISION_SENSOR_PORT, pros::E_VISION_ZERO_CENTER);
 pros::ADIDigitalOut LiftPiston(LIFT_PISTON_PORT);
 pros::ADIDigitalOut DockPiston(DOCK_PISTON_PORT);
 pros::ADIDigitalOut SidePiston(SIDE_PISTON_PORT);
+
+ADIPiston dockTestPiston('e', HIGH);
 
 Chassis drivef;
 Display display;
@@ -158,6 +161,7 @@ void opcontrol() {
 		while(true){
 			display.refresh(); //update battery capacity
 			operatorControl();
+			printf("%d\n", dockTestPiston.get_state());
 			pros::delay(20);
 		}
 	}

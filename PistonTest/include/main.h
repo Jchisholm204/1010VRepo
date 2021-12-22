@@ -37,6 +37,7 @@
 #include "api.h"
 #include "tasking/pneumatics.hpp"
 #include "robot/drive.hpp"
+#include "jlib/piston.hpp"
 
 /**
  * You should add more #includes here
@@ -107,6 +108,8 @@ extern pros::Distance distBL;
 extern pros::Vision visBack; //mounted on the back of the robot
 extern pros::Vision visFront; //mounted on the front of the robot
 extern pros::Vision visionSensor;
+
+extern ADIPiston dockTestPiston;
 
 
 /**

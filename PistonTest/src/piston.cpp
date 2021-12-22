@@ -15,3 +15,9 @@ std::int32_t ADIPiston::set_state(std::int32_t new_state)  {
 std::int32_t ADIPiston::get_state() const{
     return state;
 }
+
+std::int32_t ADIPiston::toggle() {
+    state = !state;
+    pros::c::ext_adi_port_set_value(_smart_port, adi__port, state);
+    return state;
+};
