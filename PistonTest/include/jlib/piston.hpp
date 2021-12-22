@@ -16,6 +16,7 @@ class ADIPiston : private pros::ADIPort {
 
         std::int32_t set_state(std::int32_t new_state);
         std::int32_t get_state() const;
+        std::int32_t toggle();
     
     protected:
         std::uint8_t adi__port;

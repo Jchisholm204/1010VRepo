@@ -46,8 +46,9 @@ void operatorControl(){
 
 	//Dock//////////////////////////////////////////////
 
-	if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
-		Dock_Piston_State = !Dock_Piston_State; //toggle the dock
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
+		//Dock_Piston_State = !Dock_Piston_State; //toggle the dock
+		dockTestPiston.toggle();
 	}
 
 	//Intakes//////////////////////////////////////////
