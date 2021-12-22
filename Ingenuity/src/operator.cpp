@@ -4,14 +4,13 @@
 */
 
 #include "main.h" //for operatorControl function and controllers
-#include "robot/display.h"
 #include "robot/drive.hpp"
 #include "tasking/pneumatics.hpp"
 #include "tasking/lift.hpp"
 
 using namespace pros;
 
-int maxDriveVelocity = 200;
+int maxDriveVelocity = 200; //The Maxiumum Velocity the Drivebase can move
 
 void operatorControl(){
 

@@ -121,7 +121,9 @@ void autonomous(void);
 void initialize(void);
 void disabled(void);
 void competition_initialize(void);
+//Called by VEX Competition
 void opcontrol(void);
+//Called by User
 void operatorControl(void);
 #ifdef __cplusplus
 }
