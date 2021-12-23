@@ -11,6 +11,8 @@
 
 class Chassis{
 public:
+  //exponential drive function
+  int exponential(int joystickVal, float driveExp, int joydead, int motorMin);
   //operator drive
   void operator_Chassis(int maxVel);
   //time driven drivebase movement with different drive powers

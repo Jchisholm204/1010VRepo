@@ -11,9 +11,9 @@
 // Global Variables for controlling the states of Pneumatics
 // Default Piston States Set Here:
 
-static bool Lift_Piston_State = false; // Lift Pneumatic State
-static bool Dock_Piston_State = false; // Dock Pneumatic State
-static bool Side_Piston_State = false; // Side MOGO Pneumatic State
+bool Lift_Piston_State = false; // Lift Pneumatic State
+bool Dock_Piston_State = false; // Dock Pneumatic State
+bool Side_Piston_State = false; // Side MOGO Pneumatic State
 
 /* Piston Task Function:
     Updates the value applied to the ADI port to reflect that of the live value stored within the Piston_State variables

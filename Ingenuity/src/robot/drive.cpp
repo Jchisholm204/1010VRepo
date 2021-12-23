@@ -8,7 +8,7 @@
 
 using namespace pros;
 
-int exponential(int joystickVal, float driveExp, int joydead, int motorMin){
+int Chassis::exponential(int joystickVal, float driveExp, int joydead, int motorMin){
   int joySign;
   int joyMax = 128 - joydead;
   int joyLive = abs(joystickVal) - joydead;
@@ -19,8 +19,8 @@ int exponential(int joystickVal, float driveExp, int joydead, int motorMin){
   return power;
 }
 
-int toVelocity(int motorPower, int maxVel){
-	int output = ((motorPower/127) * maxVel);
+float toVelocity(int motorPower, int maxVel){
+	float output = ((motorPower/127) * maxVel);
 	return output;
 }
 
