@@ -1,4 +1,10 @@
-#include "jlib/piston.hpp"
+/* Ten Ton Library - adiPiston.cpp
+/* - ttl/adiPiston.hpp
+* Drive functions and operator control code for the chassis
+*/
+
+#include "ttl/adiPiston.hpp"
+using namespace ttl;
 
 ADIPiston::ADIPiston(std::uint8_t adi_port, bool init_state) : ADIPort(adi_port, pros::E_ADI_DIGITAL_OUT){
     state = init_state;

@@ -35,9 +35,7 @@
 #define PROS_USE_LITERALS
 
 #include "api.h"
-#include "tasking/pneumatics.hpp"
-#include "robot/drive.hpp"
-#include "jlib/piston.hpp"
+#include "ttl/adiPiston.hpp"
 
 /**
  * You should add more #includes here
@@ -57,60 +55,6 @@
 // using namespace pros::literals;
 // using namespace okapi;
 
-extern Chassis drivef;
-
-//PNEUMATICS
-extern pros::ADIDigitalOut LiftPiston;
-extern pros::ADIDigitalOut DockPiston;
-extern pros::ADIDigitalOut SidePiston;
-
-//MOTORS
-
-extern pros::Motor driveRB;
-extern pros::Motor driveRF;
-extern pros::Motor driveLB;
-extern pros::Motor driveLF;
-
-extern pros::Motor liftMotorL;
-extern pros::Motor liftMotorR;
-
-extern pros::Motor intakeMotor;
-extern pros::Motor conveyerMotor;
-
-//DISPLAY
-
-extern lv_obj_t * op_tab;
-extern lv_obj_t * sys_battery_meter;
-extern lv_obj_t * bat_meter_label;
-
-//CONTROLLERS
-
-extern pros::Controller master;
-extern pros::Controller partner;
-
-
-//SENSORS
-
-extern pros::ADIAnalogIn LiftPOT;
-
-extern pros::ADIGyro absGyro; //resets at beginning of match
-extern pros::ADIGyro posGyro; //resets upon turning
-
-extern pros::Imu gyro; //imu Gyro
-
-//for driving backwards
-extern pros::Distance distFR;
-extern pros::Distance distFL;
-//for driving forwards
-extern pros::Distance distBR;
-extern pros::Distance distBL;
-
-extern pros::Vision visBack; //mounted on the back of the robot
-extern pros::Vision visFront; //mounted on the front of the robot
-extern pros::Vision visionSensor;
-
-extern ADIPiston dockTestPiston;
-
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure
@@ -125,7 +69,6 @@ void initialize(void);
 void disabled(void);
 void competition_initialize(void);
 void opcontrol(void);
-void operatorControl(void);
 #ifdef __cplusplus
 }
 #endif
