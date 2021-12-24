@@ -15,8 +15,35 @@ const bool Lift_Task_Enable = true;
 class Lift{
     public:
 
-        //initialization of the lift
-        Lift(int maximumVeloity, float kP, float kD);
+        /**
+         * Initialization of the Lift
+         * 
+         * \param maximumVelocity
+         *      The maximum velocity the Lift can move in the PID
+         * \param nkP
+         *      The Lift's kP Value
+         * \param nkD
+         *      The Lift's kD Value
+         * \param iState
+         *      The initial PID state given to the controller at startup
+         * \param wait
+         *      Dont Move the Lift at startup
+         *      
+        */
+        Lift(int maximumVeloity, float nkP, float nkD, int iState, bool wait);
+
+        /**
+         * Initialization of the Lift
+         * 
+         * \param maximumVelocity
+         *      The maximum velocity the Lift can move in the PID
+         * \param nkP
+         *      The Lift's kP Value
+         * \param nkD
+         *      The Lift's kD Value
+         *      
+        */
+        Lift(int maximumVeloity, float nkP, float nkD);
 
         //manual control
         void manual(int velocity, bool enabled);
@@ -25,22 +52,22 @@ class Lift{
         void manual(int velocity);
 
         //change pid constraints
-        void PID(int maxVel, float kP, float kD);
+        void PID(int maxVel, float nkP, float nkD);
 
         int maxVel; //maxuimum velocity of lift motors
 
-        float liftKp; //kP of Lift
+        float kP; //kP of Lift
 
-        float liftKd; //kD of Lift
+        float kD; //kD of Lift
 
         //allows PD controller to be temporary disabled in order for manual adjustment of the Lift
-        bool lift_manual_exemption;
+        bool manual_exemption;
 
         //current lift state
-        int lift_state;
+        int state;
 
         //stores the last state the lift was set to
-        int lift_state_prev;
+        int state_prev;
 
         int targetValue;
 
@@ -50,7 +77,7 @@ class Lift{
         void down();
 
         //move the lift to a preset
-        void preset(int state);
+        void preset(int nstate);
 
         //move the lift to a custom preset
         void targ(int targetValue);

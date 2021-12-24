@@ -1,4 +1,4 @@
-//Ingenuity - ports.hpp
+//Aura - ports.hpp
 #ifndef _PORTS_HPP_
 #define _PORTS_HPP_
 
@@ -39,11 +39,12 @@
 #define driveLB_PORT 16
 #define driveLF_PORT 11
 
-#define CONVEYER_PORT 13
-#define INTAKE_PORT 12
+#define CONVEYER_MOTOR_PORT 13
 
-#define LIFT_PORT_L 17
-#define LIFT_PORT_R 3
+#define LIFT_MOTOR_PORT_L 17
+#define LIFT_MOTOR_PORT_R 33
+
+#define DOCKER_MOTOR_PORT 3
 
 
 #endif

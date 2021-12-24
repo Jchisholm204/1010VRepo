@@ -1,38 +1,73 @@
 #ifndef _DOCK_HPP_
 #define _DOCK_HPP_
 
-//LIFT PRESETS
+//DOCK PRESETS
 #define DOCK_UP 0
 #define DOCK_DOWN 1
 
-//set to disable to disable initialization of lift task
-//Lift will NOT run if set false
-const bool Lift_Task_Enable = true;
+//set to disable to disable initialization of Dock task
+//Dock will NOT run if set false
+const bool Dock_Task_Enable = true;
 
-
-//Lift Class - used to control the front lift on the robot
+//Docker Class - used to control the rear mogo lift (dock)
 class Docker{
+    
     public:
 
-        //initialization of the dock
-        Docker(int maximumVeloity, float kP, float kD);
+        /**
+         * Initialization of the Dock
+         * 
+         * \param maximumVelocity
+         *      The maximum velocity the Dock can move in the PID
+         * \param nkP
+         *      The Dock's kP Value
+         * \param nkD
+         *      The Docks kD Value
+         * \param iState
+         *      The initial PID state given to the controller at startup
+         * \param wait
+         *      Dont Move the Dock at startup
+         *      
+        */
+        Docker(int maximumVeloity, float nkP, float nkD, int iState, bool wait);
+
+        /**
+         * Initialization of the Dock
+         * 
+         * \param maximumVelocity
+         *      The maximum velocity the Dock can move in the PID
+         * \param nkP
+         *      The Dock's kP Value
+         * \param nkD
+         *      The Docks kD Value
+         *      
+        */
+        Docker(int maximumVeloity, float nkP, float nkD);
 
         //manual control
         void manual(int velocity, bool enabled);
 
-        //Engage manual control of dock (meant for use with controllers)
+        //manual control of Dock (meant for use with controllers)
         void manual(int velocity);
 
-        //Change pid constraints
+        //change pid constraints
         void PID(int maxVel, float kP, float kD);
 
-        //Allows PD controller to be temporary disabled in order for manual adjustment of the Lift
-        bool dock_manual_exemption;
+        int maxVel; //maxuimum velocity of Dock motors
 
-        //Current dock state
-        int dock_state;
+        float kP; //kP of Dock
 
-        //Current Dock PID TargetValue
+        float kD; //kD of Dock
+
+        //allows PD controller to be temporary disabled in order for manual adjustment of the Dock
+        bool manual_exemption;
+
+        //current lift state
+        int state;
+
+        //stores the last state the lift was set to
+        int state_prev;
+
         int targetValue;
 
         //simple preset
@@ -46,21 +81,21 @@ class Docker{
         //move the dock to a custom preset
         void targ(int targetValue);
 
-    private:
-        int maxVel; //maxuimum velocity of lift motors
-
-        float liftKp; //kP of Lift
-
-        float liftKd; //kD of Lift
-
-        //stores the last state the lift was set to
-        int lift_state_prev;
+        /**
+         * Docker Home Tare Function
+         * Homes the dock back to its starting position using a limit switch, 
+         * works like a 3D printer..
+         * \param homeSpeed
+         *      The speed to move the dock home
+         * \return the docks homed position (should be 0)
+         */
+        int home_tare(int homeSpeed);
 };
 
-//lift class
-extern Lift lift;
+//Dock class
+extern Docker dock;
 
-//liftTask
-void Lift_Task_fn(void*param);
+//DockTask
+void Dock_Task_fn(void*param);
 
 #endif

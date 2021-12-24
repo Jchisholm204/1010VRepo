@@ -1,4 +1,4 @@
-/* Ingenuity - drive.cpp
+/* Aura - drive.cpp
 /* - main.h
 /* - robot/drive.hpp
 * Drive functions and operator control code for the chassis

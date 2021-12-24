@@ -1,4 +1,4 @@
-/* Ingenuity - display.cpp
+/* Aura - display.cpp
 /* - main.h
 /* - robot/display.hpp
 * Everything to do with the display

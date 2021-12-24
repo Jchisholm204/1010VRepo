@@ -1,4 +1,4 @@
-/* Ingenuity - main.cpp
+/* Aura - main.cpp
 /* - main.h
 * Main File Containing all nessasary calls to operations
 
@@ -12,7 +12,8 @@
 #include "robot/display.h"
 #include "robot/drive.hpp"
 #include "robot/ports.hpp"
-#include "robot/lift.hpp"
+#include "tasking/lift.hpp"
+#include "tasking/dock.hpp"
 #include "autos.hpp"
 #include "robot/vision.hpp"
 
@@ -26,19 +27,21 @@ pros::Motor driveRF(driveRF_PORT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_
 pros::Motor driveLB(driveLB_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor driveLF(driveLF_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 
-//	Define the Motors - Conveyer and Intake
-pros::Motor intakeMotor(INTAKE_PORT, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor conveyerMotor(CONVEYER_PORT, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
+//	Define the Motors - Conveyer
+pros::Motor conveyerMotor(CONVEYER_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
 
 //	Define the Motors - Mobile Goal Pickups (MOBO)
-pros::Motor liftMotorL(LIFT_PORT_L, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor liftMotorR(LIFT_PORT_R, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor liftMotorL(LIFT_MOTOR_PORT_L, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor liftMotorR(LIFT_MOTOR_PORT_R, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
+
+pros::Motor dockerMotor(DOCKER_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
 
 //	Sensors
 pros::ADIGyro posGyro(GYRO_POS_PORT);
 pros::ADIGyro absGyro(GYRO_ABS_PORT);
 pros::Imu gyro(GYRO_PORT);
 pros::ADIAnalogIn LiftPOT(Lift_POT_PORT);
+pros::ADIDigitalIn dock_limit_switch(Docker_Endstop_Min_PORT);
 pros::Distance lidarFL(FL_LIDAR_PORT);
 pros::Distance lidarFR(FR_LIDAR_PORT);
 pros::Distance lidarBL(BL_LIDAR_PORT);
@@ -47,7 +50,6 @@ pros::Distance lidarBR(BR_LIDAR_PORT);
 pros::Vision visionSensor(VISION_SENSOR_PORT, pros::E_VISION_ZERO_CENTER);
 
 ttl::ADIPiston LiftPiston(LIFT_PISTON_PORT, LOW);
-ttl::ADIPiston DockPiston(DOCK_PISTON_PORT, false);
 ttl::ADIPiston SidePiston(SIDE_PISTON_PORT, false);
 
 Chassis drivef;
@@ -78,6 +80,14 @@ void initialize() {
 		);
 	}
 
+	if(Dock_Task_Enable == true){
+		pros::Task Docker_Task(
+			Dock_Task_fn, (void*)"PROS",
+			TASK_PRIORITY_DEFAULT,
+			TASK_STACK_DEPTH_DEFAULT,
+			"Docker Task"
+		);
+	}
 }
 
 //runs while the robot is disabled

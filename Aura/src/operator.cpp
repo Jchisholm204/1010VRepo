@@ -1,4 +1,4 @@
-/* Ingenuity - operator.cpp
+/* Aura - operator.cpp
 /* - main.h
 * All operator control code (drive code) goes here
 */
@@ -6,7 +6,8 @@
 #include "main.h" //for operatorControl function and controllers
 #include "ttl/ttl.hpp"
 #include "robot/drive.hpp"
-#include "robot/lift.hpp"
+#include "tasking/lift.hpp"
+#include "tasking/dock.hpp"
 
 using namespace pros;
 
@@ -45,22 +46,22 @@ void operatorControl(){
 
 	//Dock//////////////////////////////////////////////
 
-	if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
-		DockPiston.toggle(); //toggle the dock
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
+		dock.up();
+	}
+	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
+		dock.down();
 	}
 
 	//Intakes//////////////////////////////////////////
 
 	if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
-		intakeMotor.move_velocity(600);
 		conveyerMotor.move_velocity(600);
 	}
 	else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
-		intakeMotor.move_velocity(-200);
 		conveyerMotor.move_velocity(-400);
 	}
 	else{
-		intakeMotor.move_velocity(0);
 		conveyerMotor.move_velocity(0);
 	};
 
@@ -75,10 +76,10 @@ void operatorControl(){
 	}
 	
 	//manual control of lift
-	if(master.get_digital(E_CONTROLLER_DIGITAL_Y)){
+	if(partner.get_digital(E_CONTROLLER_DIGITAL_R1)){
 		lift.manual(100);
 	}
-	else if(master.get_digital(E_CONTROLLER_DIGITAL_A)){
+	else if(partner.get_digital(E_CONTROLLER_DIGITAL_R2)){
 		lift.manual(-100);
 	}
 

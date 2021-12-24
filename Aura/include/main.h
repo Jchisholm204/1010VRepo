@@ -60,7 +60,6 @@ extern Chassis drivef;
 
 //PNEUMATICS
 extern ttl::ADIPiston LiftPiston;
-extern ttl::ADIPiston DockPiston;
 extern ttl::ADIPiston SidePiston;
 
 //MOTORS
@@ -73,7 +72,8 @@ extern pros::Motor driveLF;
 extern pros::Motor liftMotorL;
 extern pros::Motor liftMotorR;
 
-extern pros::Motor intakeMotor;
+extern pros::Motor dockerMotor;
+
 extern pros::Motor conveyerMotor;
 
 //DISPLAY
@@ -91,6 +91,8 @@ extern pros::Controller partner;
 //SENSORS
 
 extern pros::ADIAnalogIn LiftPOT;
+
+extern pros::ADIDigitalIn dock_limit_switch;
 
 extern pros::ADIGyro absGyro; //resets at beginning of match
 extern pros::ADIGyro posGyro; //resets upon turning

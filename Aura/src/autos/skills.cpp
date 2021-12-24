@@ -1,4 +1,4 @@
-/* Ingenuity - skills.cpp
+/* Aura - skills.cpp
 /* - main.h
 /* - autos.hpp
 * Skills Auto written here
@@ -7,7 +7,8 @@
 #include "robot/display.h"
 #include "robot/drive.hpp"
 #include "ttl/ttl.hpp"
-#include "robot/lift.hpp"
+#include "tasking/lift.hpp"
+#include "tasking/dock.hpp"
 #include "autos.hpp"
 
 void skillsAuto(void){

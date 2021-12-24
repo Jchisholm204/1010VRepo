@@ -1,4 +1,4 @@
-/* Ingenuity - ReRun.cpp
+/* Aura - ReRun.cpp
 /* - main.h
 /* - autons.h
 * ReRun File - Contains all operations nessasary to ReRun
@@ -8,7 +8,8 @@
 #include "robot/display.h"
 #include "robot/drive.hpp"
 #include "ttl/ttl.hpp"
-#include "robot/lift.hpp"
+#include "tasking/lift.hpp"
+#include "tasking/dock.hpp"
 
 //Velocity Calculator Function
 int VelocityCalc(pros::Motor motor, float percent_actual){
@@ -27,12 +28,13 @@ ORDER OF RECORDING:
     -driveRF
     -driveLB
     -driveLF
-    -intake
     -conveyer
     -lift state
     -lift targetvalue
     -lift state override (also known as lift manual exemption)
-    -dock piston state
+    -dock state
+    -dock targetvalue
+    -dock state override (also known as lift manual exemption)
     -lift piston state
     -side piston state
 
@@ -74,31 +76,38 @@ int reRunAuto(int reRunFile){
             break;
     }
 
-    static int drb/*drive right back*/, drf, dlb, dlf, intm/*intake Motor*/, cnvm/*conveyer motor*/;
+    static int drb/*drive right back*/, drf, dlb, dlf, cnvm/*conveyer motor*/;
     static int ls/*lift state*/, ltg/*lift targetvalue*/;
     static bool lso/*lift state override*/;
-    static bool dps/*dock pneumatic state*/, lps/*lift pneumatic state*/, sps/*side pneumatic state*/;
+    static int ds/*dock state*/, dtg/*dock targetvalue*/;
+    static bool dso/*dock state override*/;
+    static bool lps/*lift pneumatic state*/, sps/*side pneumatic state*/;
 
     while(feof(runFile) == false){
 
-        fscanf(runFile, "%d %d %d %d %d %d %d %d %d %d %d %d", &drb, &drf, &dlb, &dlf, &intm, &cnvm, &ls, &ltg, &lso, &dps, &lps, &sps); //read the file and store the values as variables
+        fscanf(runFile, "%d %d %d %d %d %d %d %d %d %d %d %d %d", &drb, &drf, &dlb, &dlf, &cnvm, &ls, &ltg, &lso, &ds, &dtg, &dso, &lps, &sps); //read the file and store the values as variables
 
         driveRB.move_velocity(drb);
         driveRF.move_velocity(drf);
         driveLB.move_velocity(dlb);
         driveLF.move_velocity(dlf);
 
-        intakeMotor.move_velocity(intm);
         conveyerMotor.move_velocity(cnvm);
 
         if (lso == true){
             lift.targetValue = ltg;
         }
         else{
-            lift.lift_state = ls;
+            lift.state = ls;
         }
 
-        DockPiston.set_state(dps);
+        if (dso == true){
+            dock.targetValue = dtg;
+        }
+        else{
+            lift.state = ds;
+        }
+
         LiftPiston.set_state(lps);
         SidePiston.set_state(sps);
 
@@ -154,17 +163,20 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
 		fprintf(recFile, "%d\n", VelocityCalc(driveLB, 0.95));
 		fprintf(recFile, "%d\n", VelocityCalc(driveLF, 0.95));
 
-		fprintf(recFile, "%d\n", VelocityCalc(intakeMotor, 0));
 		fprintf(recFile, "%d\n", VelocityCalc(conveyerMotor, 0));
 
         //Record Lift pid
-		fprintf(recFile, "%d\n", lift.lift_state); //records lift state
-        fprintf(recFile, "%d\n", lift.targetValue); //records lift state
-        fprintf(recFile, "%d\n", lift.lift_manual_exemption); //records lift state
+		fprintf(recFile, "%d\n", lift.state); //records lift state
+        fprintf(recFile, "%d\n", lift.targetValue); //records lift Targetvalue
+        fprintf(recFile, "%d\n", lift.manual_exemption); //records lift manual exemptions
 
-        fprintf(recFile, "%d\n", DockPiston.get_state()); //records lift state
-        fprintf(recFile, "%d\n", DockPiston.get_state()); //records lift state
-        fprintf(recFile, "%d\n", SidePiston.get_state()); //records lift state
+        //Record Dock pid
+		fprintf(recFile, "%d\n", dock.state); //records dock state
+        fprintf(recFile, "%d\n", dock.targetValue); //records dock state
+        fprintf(recFile, "%d\n", dock.manual_exemption); //records dock state
+
+        fprintf(recFile, "%d\n", LiftPiston.get_state()); //records lift Piston state
+        fprintf(recFile, "%d\n", SidePiston.get_state()); //records side Piston state
 
         timer += rec_loop_delay;
         pros::delay(rec_loop_delay);
@@ -177,7 +189,7 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
 
     }
 
-    fprintf(recFile, "0\n0\n0\n0\n0\n0\n0\n0");
+    fprintf(recFile, "0\n0\n0\n0\n0\n0");
     fclose(recFile);
 
     return 0;
