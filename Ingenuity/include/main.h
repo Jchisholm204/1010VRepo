@@ -35,7 +35,7 @@
 #define PROS_USE_LITERALS
 
 #include "api.h"
-#include "tasking/pneumatics.hpp"
+#include "ttl/ttl.hpp"
 #include "robot/drive.hpp"
 
 /**
@@ -59,9 +59,9 @@
 extern Chassis drivef;
 
 //PNEUMATICS
-extern pros::ADIDigitalOut LiftPiston;
-extern pros::ADIDigitalOut DockPiston;
-extern pros::ADIDigitalOut SidePiston;
+extern ttl::ADIPiston LiftPiston;
+extern ttl::ADIPiston DockPiston;
+extern ttl::ADIPiston SidePiston;
 
 //MOTORS
 

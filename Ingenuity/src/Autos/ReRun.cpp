@@ -7,8 +7,8 @@
 #include "main.h"
 #include "robot/display.h"
 #include "robot/drive.hpp"
-#include "tasking/pneumatics.hpp"
-#include "tasking/lift.hpp"
+#include "ttl/ttl.hpp"
+#include "robot/lift.hpp"
 
 //Velocity Calculator Function
 int VelocityCalc(pros::Motor motor, float percent_actual){
@@ -98,9 +98,9 @@ int reRunAuto(int reRunFile){
             lift.lift_state = ls;
         }
 
-        Dock_Piston_State = dps;
-        Lift_Piston_State = lps;
-        Side_Piston_State = sps;
+        DockPiston.set_state(dps);
+        LiftPiston.set_state(lps);
+        SidePiston.set_state(sps);
 
         pros::delay(rec_loop_delay);
     }
@@ -162,9 +162,9 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
         fprintf(recFile, "%d\n", lift.targetValue); //records lift state
         fprintf(recFile, "%d\n", lift.lift_manual_exemption); //records lift state
 
-        fprintf(recFile, "%d\n", Dock_Piston_State); //records lift state
-        fprintf(recFile, "%d\n", Lift_Piston_State); //records lift state
-        fprintf(recFile, "%d\n", Side_Piston_State); //records lift state
+        fprintf(recFile, "%d\n", DockPiston.get_state()); //records lift state
+        fprintf(recFile, "%d\n", DockPiston.get_state()); //records lift state
+        fprintf(recFile, "%d\n", SidePiston.get_state()); //records lift state
 
         timer += rec_loop_delay;
         pros::delay(rec_loop_delay);

@@ -8,11 +8,11 @@
 */
 
 #include "main.h"
+#include "ttl/ttl.hpp"
 #include "robot/display.h"
 #include "robot/drive.hpp"
 #include "robot/ports.hpp"
-#include "tasking/pneumatics.hpp"
-#include "tasking/lift.hpp"
+#include "robot/lift.hpp"
 #include "autos.hpp"
 #include "robot/vision.hpp"
 
@@ -46,9 +46,9 @@ pros::Distance lidarBR(BR_LIDAR_PORT);
 
 pros::Vision visionSensor(VISION_SENSOR_PORT, pros::E_VISION_ZERO_CENTER);
 
-pros::ADIDigitalOut LiftPiston(LIFT_PISTON_PORT);
-pros::ADIDigitalOut DockPiston(DOCK_PISTON_PORT);
-pros::ADIDigitalOut SidePiston(SIDE_PISTON_PORT);
+ttl::ADIPiston LiftPiston(LIFT_PISTON_PORT, LOW);
+ttl::ADIPiston DockPiston(DOCK_PISTON_PORT, false);
+ttl::ADIPiston SidePiston(SIDE_PISTON_PORT, false);
 
 Chassis drivef;
 Display display;
@@ -75,15 +75,6 @@ void initialize() {
 			TASK_PRIORITY_DEFAULT,
 			TASK_STACK_DEPTH_DEFAULT,
 			"Lift Task"
-		);
-	}
-
-	if(Piston_Task_Enable == true){
-		pros::Task Piston_Task(
-			piston_task_fn, (void*)"PROS",
-			TASK_PRIORITY_MIN,
-			TASK_STACK_DEPTH_MIN,
-			"Piston Task"
 		);
 	}
 

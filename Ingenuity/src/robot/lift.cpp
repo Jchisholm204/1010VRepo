@@ -6,8 +6,7 @@
 #include "main.h"
 #include "robot/display.h"
 #include "robot/drive.hpp"
-#include "tasking/pneumatics.hpp"
-#include "tasking/lift.hpp"
+#include "robot/lift.hpp"
 
 Lift::Lift(int maximumVelocity, float kP, float kD){
     maxVel=maximumVelocity;

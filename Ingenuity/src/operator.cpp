@@ -4,9 +4,9 @@
 */
 
 #include "main.h" //for operatorControl function and controllers
+#include "ttl/ttl.hpp"
 #include "robot/drive.hpp"
-#include "tasking/pneumatics.hpp"
-#include "tasking/lift.hpp"
+#include "robot/lift.hpp"
 
 using namespace pros;
 
@@ -46,7 +46,7 @@ void operatorControl(){
 	//Dock//////////////////////////////////////////////
 
 	if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
-		Dock_Piston_State = !Dock_Piston_State; //toggle the dock
+		DockPiston.toggle(); //toggle the dock
 	}
 
 	//Intakes//////////////////////////////////////////
