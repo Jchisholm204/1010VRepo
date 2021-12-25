@@ -59,7 +59,7 @@ void operatorControl(){
 		conveyerMotor.move_velocity(600);
 	}
 	else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
-		conveyerMotor.move_velocity(-400);
+		conveyerMotor.move_velocity(-200);
 	}
 	else{
 		conveyerMotor.move_velocity(0);
@@ -81,6 +81,9 @@ void operatorControl(){
 	}
 	else if(partner.get_digital(E_CONTROLLER_DIGITAL_R2)){
 		lift.manual(-100);
+	}
+	else{
+		lift.manual_exemption = false;
 	}
 
 }

@@ -87,7 +87,7 @@ int Docker::home_tare(int homeSpeed){
 }
 
 //dock interface
-Docker dock(100, 1.8, 0.8, DOCK_UP, false);
+Docker dock(100, 1.5, 1, DOCK_UP, false);
 
 void Dock_Task_fn(void*param){
    int motorPower;
@@ -128,7 +128,7 @@ void Dock_Task_fn(void*param){
         dock.state_prev = dock.state;
 
    ////////PID LOGIC//////////////////////////////////////
-        currentValue = LiftPOT.get_value();
+        currentValue = dockerMotor.get_position();
         err = dock.targetValue - currentValue;
         derr = (err - err_last);
         err_last = err;

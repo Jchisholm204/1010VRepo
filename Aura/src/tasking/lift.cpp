@@ -53,7 +53,7 @@ void Lift::PID(int maxVelocity, float nkP, float nkD){
 }
 
 void Lift::up(){
-    state = LIFT_UP;
+    state = LIFT_HOLD;
     state_prev = 99;
 }
 
@@ -74,7 +74,7 @@ void Lift::targ(int NewtargetValue){
 
 
 //lift interface
-Lift lift(100, 1.8, 0.8, LIFT_UP, true);
+Lift lift(127, 1, 1.55, LIFT_UP, true);
 
 void Lift_Task_fn(void*param){
    int motorPower;
@@ -85,56 +85,65 @@ void Lift_Task_fn(void*param){
    float p;
    float d;
    bool Oncelocal = false;
+   lift.kP = 0.9;
+   lift.kD = 1.6;
+   lift.maxVel = 127;
 
    while(true){
-      if(lift.manual_exemption == true){
-         Oncelocal = false;
-      }
-      else if(lift.manual_exemption == false && Oncelocal == false){
-         lift.targetValue = LiftPOT.get_value();
-         Oncelocal = true;
-      }
-      else{
-         if(lift.state != lift.state_prev){
-            ///////Tower Lift Position Controller/////////////
-            switch(lift.state){
-               case LIFT_UP:
-                  //starting position (all the way up [impacts intakes])
-                  lift.targetValue = 580;
-                  break;
-               case LIFT_HOLD:
-                  lift.targetValue = 3000;
-                  break;
-               case LIFT_DOWN:
-                  lift.targetValue = 3900;
-                  break;
-               default:
-                  //do not move the lift from its current position
-                  lift.manual_exemption = false;
-                  Oncelocal = false;
-                  break;
-            };
-            ///////Arm Position Controller/////////////
+        if(lift.manual_exemption == true){
+            Oncelocal = false;
+            lift.targetValue = LiftPOT.get_value();
         }
-        lift.state_prev = lift.state;
+        else if(lift.manual_exemption == false && Oncelocal == false){
+            //int buttonend = LiftPOT.get_value();
+            liftMotorL.move_velocity(0);
+            liftMotorR.move_velocity(0);
+            pros::delay(100);
+            lift.targetValue = LiftPOT.get_value();
+            Oncelocal = true;
+            //printf("%d\n", (buttonend - LiftPOT.get_value()));
+        }
+        else{
+            if(lift.state != lift.state_prev){
+            ///////Tower Lift Position Controller/////////////
+                switch(lift.state){
+                case LIFT_UP:
+                    //starting position (all the way up [impacts intakes])
+                    lift.targetValue = 580;
+                    break;
+                case LIFT_HOLD:
+                    lift.targetValue = 3000;
+                    break;
+                case LIFT_DOWN:
+                    lift.targetValue = 3780;
+                    break;
+                default:
+                    //do not move the lift from its current position
+                    lift.manual_exemption = false;
+                    Oncelocal = false;
+                    break;
+                };
+                ///////Arm Position Controller/////////////
+            }
+            lift.state_prev = lift.state;
 
-   ////////PID LOGIC//////////////////////////////////////
-        currentValue = LiftPOT.get_value();
-        err = lift.targetValue - currentValue;
-        derr = (err - err_last);
-        err_last = err;
-        p = (lift.kP * err);
-        d = (lift.kD * derr);
+    ////////PID LOGIC//////////////////////////////////////
+            currentValue = LiftPOT.get_value();
+            err = lift.targetValue - currentValue;
+            derr = (err - err_last);
+            err_last = err;
+            p = (lift.kP * err);
+            d = (lift.kD * derr);
 
-        motorPower = p+d;
+            motorPower = p+d;
 
-        if(motorPower < -lift.maxVel){motorPower = -lift.maxVel;}
-        if(motorPower > lift.maxVel){motorPower = lift.maxVel;}
-      //  motorPower = (motorPower > 1 ? 1 : motorPower < -1 ? -1 : motorPower);
-        liftMotorL.move(motorPower);
-        liftMotorR.move(motorPower);
-   /////////PID LOGIC//////////////////////////////////
-      }
-   pros::delay(20);
-   }
+            if(motorPower < -lift.maxVel){motorPower = -lift.maxVel;}
+            if(motorPower > lift.maxVel){motorPower = lift.maxVel;}
+        //  motorPower = (motorPower > 1 ? 1 : motorPower < -1 ? -1 : motorPower);
+            liftMotorL.move(-motorPower);
+            liftMotorR.move(motorPower);
+    /////////PID LOGIC//////////////////////////////////
+        }
+    pros::delay(20);
+    }
 }

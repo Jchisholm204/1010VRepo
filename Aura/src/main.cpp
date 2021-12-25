@@ -34,7 +34,7 @@ pros::Motor conveyerMotor(CONVEYER_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, true, p
 pros::Motor liftMotorL(LIFT_MOTOR_PORT_L, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor liftMotorR(LIFT_MOTOR_PORT_R, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
 
-pros::Motor dockerMotor(DOCKER_MOTOR_PORT, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor dockerMotor(DOCKER_MOTOR_PORT, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
 
 //	Sensors
 pros::ADIGyro posGyro(GYRO_POS_PORT);
@@ -69,6 +69,9 @@ void initialize() {
 	driveLB.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	driveRF.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	driveRB.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+
+	liftMotorL.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+	liftMotorR.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 
 
 	if(Lift_Task_Enable == true){
