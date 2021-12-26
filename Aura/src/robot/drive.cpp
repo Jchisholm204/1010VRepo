@@ -5,6 +5,7 @@
 */
 #include "main.h"
 #include "robot/drive.hpp"
+#include "robot/vision.hpp"
 
 using namespace pros;
 
@@ -275,6 +276,119 @@ void Chassis::distance(int source, int targetValue, int timeout){
 		dL = drive_PID[drive_kD] * derrL;
 
 		errR = targetValue - right_cur_pos;
+		err_lastR = errR; 
+		derrR = (errR - err_lastR); 
+		pR = (drive_PID[drive_kP] * errR); 
+		err_sumL += errR;
+		dR = drive_PID[drive_kD] * derrR;
+		
+		dPowL = (pL+dL);
+		dPowR = (pR+dR);
+
+		if(dPowL > drive_PID[drive_max_power]){dPowL=drive_PID[drive_max_power];};
+		if(dPowL < -drive_PID[drive_max_power]){dPowL=-drive_PID[drive_max_power];};
+		if(dPowR > drive_PID[drive_max_power]){dPowR=drive_PID[drive_max_power];};
+		if(dPowR < -drive_PID[drive_max_power]){dPowR=-drive_PID[drive_max_power];};
+
+		driveRF.move(dPowR);
+      	driveLB.move(dPowL);
+      	driveRB.move(dPowR);
+      	driveLF.move(dPowL);
+	}
+}
+
+void Chassis::vdrive(int vsSig, int targetValue, int confidence, int timeout){
+	int startMillis = pros::millis();
+
+	//int left side pid
+	int errL = 0; //error value init
+	int derrL = 0;//error difference
+	int err_lastL = 0; //last error
+	int err_sumL = 0; //sum of errors
+	float pL;
+	float dL;
+
+	//int right side pid
+	int errR = 0; //error value init
+	int derrR = 0;//error difference
+	int err_lastR = 0; //last error
+	int err_sumR = 0; //sum of errors
+	float pR;
+	float dR;
+	
+	//int outputs
+	int dPowL;
+	int dPowR;
+
+	while((pros::millis()-startMillis) < timeout){
+		pros::vision_object_s_t object = visionSensor.get_by_sig(0, vsSig);
+
+		errL = targetValue - object.width;
+		err_lastL = errL; 
+		derrL = (errL - err_lastL); 
+		pL = (drive_PID[drive_kP] * errL); 
+		err_sumL += errL;
+		dL = drive_PID[drive_kD] * derrL;
+
+		errR = targetValue - object.width;
+		err_lastR = errR; 
+		derrR = (errR - err_lastR); 
+		pR = (drive_PID[drive_kP] * errR); 
+		err_sumL += errR;
+		dR = drive_PID[drive_kD] * derrR;
+		
+		dPowL = ((pL+dL) + (object.x_middle_coord) * confidence);
+		dPowR = ((pR+dR) - (object.x_middle_coord) * confidence);
+
+		if(dPowL > drive_PID[drive_max_power]){dPowL=drive_PID[drive_max_power];};
+		if(dPowL < -drive_PID[drive_max_power]){dPowL=-drive_PID[drive_max_power];};
+		if(dPowR > drive_PID[drive_max_power]){dPowR=drive_PID[drive_max_power];};
+		if(dPowR < -drive_PID[drive_max_power]){dPowR=-drive_PID[drive_max_power];};
+
+		driveRF.move(dPowR);
+      	driveLB.move(dPowL);
+      	driveRB.move(dPowR);
+      	driveLF.move(dPowL);
+	}
+}
+
+void Chassis::vturn(int vsSig, int timeout, int offset, int sensitivity){
+	int startMillis = pros::millis();
+	int targetValue = 0;
+
+	//int left side pid
+	int errL = 0; //error value init
+	int derrL = 0;//error difference
+	int err_lastL = 0; //last error
+	int err_sumL = 0; //sum of errors
+	float pL;
+	float dL;
+
+	//int right side pid
+	int errR = 0; //error value init
+	int derrR = 0;//error difference
+	int err_lastR = 0; //last error
+	int err_sumR = 0; //sum of errors
+	float pR;
+	float dR;
+	
+	//int outputs
+	int dPowL;
+	int dPowR;
+
+	while((pros::millis()-startMillis) < timeout){
+		pros::vision_object_s_t rtn = visionSensor.get_by_sig(0, vsSig);
+
+		std::cout << rtn.x_middle_coord << std::endl;
+
+		errL = targetValue + (rtn.x_middle_coord * sensitivity);
+		err_lastL = errL; 
+		derrL = (errL - err_lastL); 
+		pL = (drive_PID[drive_kP] * errL); 
+		err_sumL += errL;
+		dL = drive_PID[drive_kD] * derrL;
+
+		errR = targetValue - (rtn.x_middle_coord * sensitivity);
 		err_lastR = errR; 
 		derrR = (errR - err_lastR); 
 		pR = (drive_PID[drive_kP] * errR); 

@@ -92,7 +92,42 @@ public:
   //Encoder Movement
   void drive(int targetValue, int maxSpeed, int timeout);
 
+  /**
+   * @brief Drive using a multitude of input sources
+   * 
+   * @param source The PID input source (ENCODERS, Front_Distance, Back_Distance)
+   * 
+   * @param targetValue The PID Target
+   * 
+   * @param timeout The PID Timeout
+    */ 
   void distance(int source, int targetValue, int timeout);
+
+  /**
+   * @brief Vision Sensor Object Alignment (driving towards an object)
+   * 
+   * @param vsSig The Vision Signature to use
+   * 
+   * @param targetValue The Target Width Reading of the Vision Sensor
+   * 
+   * @param confidence The X value Turning Multiplier (0=disabled)
+   * 
+   * @param timeout The PID Timeout
+   */ 
+  void vdrive(int vsSig, int targetValue, int confidence, int timeout);
+
+  /**
+   * @brief Vision Sensor Object Alignment (turning towards an object)
+   * 
+   * @param vsSig The Vision Signature to use
+   * 
+   * @param timeout The PID Timeout
+   * 
+   * @param offset Offset the alignment from the center
+   * 
+   * @param sensitivity Setting this to a value greater then 1 will increase the sensitivity
+   */ 
+  void vturn(int vsSig, int timeout, int offset = 0, int sensitivity = 1);
 
   //stops all drivebase movement
   void stop(void);

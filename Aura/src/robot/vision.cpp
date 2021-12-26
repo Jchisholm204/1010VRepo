@@ -11,7 +11,3 @@
 #include "robot/display.h"
 #include "autos.hpp"
 #include "robot/vision.hpp"
-
-
-void vsProgram(){
-}

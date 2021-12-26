@@ -159,16 +159,12 @@ void opcontrol() {
 
 	else{ // Not trying to record? Run regular operatorControl without recording
 		display.msg("Driver Control Enabled", 1000);
-
 		while(true){
 			display.refresh(); //update battery capacity
 			operatorControl();
 			pros::delay(20);
-			
-			pros::vision_object_s_t rtn = visionSensor.get_by_sig(0, 1);
-			
+			pros::vision_object_s_t rtn = visionSensor.get_by_sig(0, 1);	
 			std::cout << "x: " << rtn.x_middle_coord << " y: " << rtn.y_middle_coord << " w: " << rtn.width << " h: " << rtn.height <<std::endl;
-
 		}
 	}
 }
