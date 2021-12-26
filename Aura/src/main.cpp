@@ -163,6 +163,7 @@ void opcontrol() {
 			display.refresh(); //update battery capacity
 			operatorControl();
 			pros::delay(20);
+			vsProgram();
 		}
 	}
 }

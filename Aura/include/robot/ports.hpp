@@ -19,7 +19,7 @@
 
 #define Lift_POT_PORT 2
 
-#define VISION_SENSOR_PORT 0
+#define VISION_SENSOR_PORT 21
 #define VISION_BACK_PORT 0
 #define VISION_FRONT_PORT 0
 
@@ -27,7 +27,7 @@
 #define GYRO_POS_PORT 4
 
 //Lidars (Distance Sensors)//
-#define FL_LIDAR_PORT 21
+#define FL_LIDAR_PORT 0
 #define FR_LIDAR_PORT 1 
 
 #define BL_LIDAR_PORT 6

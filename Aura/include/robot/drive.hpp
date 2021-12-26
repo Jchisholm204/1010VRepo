@@ -101,7 +101,7 @@ public:
   void reset(void);
 
   //Stores Drive PID Values
-  float drive_PID[2];
+  float drive_PID[3];
 };
 
 #endif
