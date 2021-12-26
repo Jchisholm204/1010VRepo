@@ -9,8 +9,33 @@
 #define ORIGIN_RIGHT 0
 #define ORIGIN_LEFT 1
 
+//Drive_PID List Macros
+
+#define drive_kP 0
+#define drive_kD 1
+#define drive_max_power 2
+
+//Drive Distance Sources
+
+#define ENCODERS 0
+//Distance Sensors on the Front of the Robot
+#define Front_Distance 1
+//Distance Sensors on the Back of the Robot
+#define Back_Distance 2
+
+
 class Chassis{
 public:
+
+  /**
+   * @brief Construct a new Chassis object
+   * 
+   * @param maxVal Maximum Drive Power
+   * @param nkP Drive kP
+   * @param nkD drive kD
+   */
+  Chassis(float maxVal, float nkP, float nkD);
+
   //exponential drive function
   int exponential(int joystickVal, float driveExp, int joydead, int motorMin);
 
@@ -54,10 +79,29 @@ public:
    * @param timeout The PID Timeout in ms
    */
   void turn(int targetValue, int timeout);
-  //pid
-  void pid(int targetValue, int maxSpeed, int timeout, float kP, float kD);
+
+  /**
+   * @brief Adjust DriveBase PID Values
+   * 
+   * @param MaxPower Maximum Power that can be applied to the drivebase
+   * @param kP Drive kP
+   * @param kD Drive kD
+   */
+  void adj_pid(float MaxPower, float nkP, float nkD);
+
+  //Encoder Movement
+  void drive(int targetValue, int maxSpeed, int timeout);
+
+  void distance(int source, int targetValue, int timeout);
+
   //stops all drivebase movement
   void stop(void);
+
+  //resets drive motor encoders
+  void reset(void);
+
+  //Stores Drive PID Values
+  float drive_PID[2];
 };
 
 #endif

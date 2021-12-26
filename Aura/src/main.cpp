@@ -42,17 +42,17 @@ pros::ADIGyro absGyro(GYRO_ABS_PORT);
 pros::Imu gyro(GYRO_PORT);
 pros::ADIAnalogIn LiftPOT(Lift_POT_PORT);
 pros::ADIDigitalIn dock_limit_switch(Docker_Endstop_Min_PORT);
-pros::Distance lidarFL(FL_LIDAR_PORT);
-pros::Distance lidarFR(FR_LIDAR_PORT);
-pros::Distance lidarBL(BL_LIDAR_PORT);
-pros::Distance lidarBR(BR_LIDAR_PORT);
+pros::Distance distFL(FL_LIDAR_PORT);
+pros::Distance distFR(FR_LIDAR_PORT);
+pros::Distance distBL(BL_LIDAR_PORT);
+pros::Distance distBR(BR_LIDAR_PORT);
 
 pros::Vision visionSensor(VISION_SENSOR_PORT, pros::E_VISION_ZERO_CENTER);
 
 ttl::ADIPiston LiftPiston(LIFT_PISTON_PORT, LOW);
 ttl::ADIPiston SidePiston(SIDE_PISTON_PORT, false);
 
-Chassis drivef;
+Chassis drivef(127, 1.2, 1.4);
 Display display;
 
 void initialize() {

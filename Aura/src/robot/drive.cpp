@@ -8,6 +8,12 @@
 
 using namespace pros;
 
+Chassis::Chassis(float maxVal, float nkP, float nkD){
+	drive_PID[drive_max_power] = maxVal;
+	drive_PID[drive_kP] = nkP;
+	drive_PID[drive_kD] = nkD;
+}
+
 int Chassis::exponential(int joystickVal, float driveExp, int joydead, int motorMin){
   int joySign;
   int joyMax = 128 - joydead;
@@ -70,8 +76,8 @@ void Chassis::driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRig
 	driveRF.tare_position();
 	int startMillis = pros::millis();
 
-    float KP = 1.2;
-	float KD = 1.4;
+    //float KP = 1.2;
+	//float KD = 1.4;
 	int errL = 0; //error value init
 	int derrL = 0;//error difference
 	int err_lastL = 0; //last error
@@ -96,17 +102,17 @@ void Chassis::driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRig
 		errL = leftTarget - driveLF.get_position();
 		derrL = (errL - err_lastL); 
 		err_lastL = errL; 
-		pL = (KP * errL); 
+		pL = (drive_PID[drive_kP] * errL); 
 		err_sumL += errL;
-		dL = KD * derrL;
+		dL = drive_PID[drive_kD] * derrL;
 
 		//Right PID
 		errR = rightTarget - driveRF.get_position();
 		derrR = (errR - err_lastR); 
 		err_lastR = errR; 
-		pR = (KP * errR); 
+		pR = (drive_PID[drive_kP] * errR); 
 		err_sumL += errR;
-		dR = KD * derrR;
+		dR = drive_PID[drive_kD] * derrR;
 
 		dPowL = (pL+dL);
 		dPowR = (pR+dR);			
@@ -151,8 +157,8 @@ void Chassis::turn(int targetValue, int timeout){
 		dPow = (p+d);
 
 		//dPow = (dPow > 100 ? 100 : dPow < -100 ? -100 : dPow);
-		if(dPow > 100){dPow=100;};
-		if(dPow < -100){dPow=-100;};
+		if(dPow > drive_PID[drive_max_power]){dPow=drive_PID[drive_max_power];};
+		if(dPow < -drive_PID[drive_max_power]){dPow=-drive_PID[drive_max_power];};
 
 		driveRF.move(-dPow);
       	driveLB.move(dPow);
@@ -161,9 +167,13 @@ void Chassis::turn(int targetValue, int timeout){
 	}
 }
 
+void Chassis::adj_pid(float MaxPower, float nkP, float nkD){
+	drive_PID[drive_max_power] = MaxPower;
+	drive_PID[drive_kP] = nkP;
+	drive_PID[drive_kD] = nkD;	
+}
 
-
-void Chassis::pid(int targetValue, int maxSpeed, int timeout, float kP, float kD){
+void Chassis::drive(int targetValue, int maxSpeed, int timeout){
 	int startMillis = pros::millis();
 
 	//int left side pid
@@ -191,16 +201,16 @@ void Chassis::pid(int targetValue, int maxSpeed, int timeout, float kP, float kD
 		errL = targetValue - driveLB.get_position();
 		err_lastL = errL; 
 		derrL = (errL - err_lastL); 
-		pL = (kP * errL); 
+		pL = (drive_PID[drive_kP] * errL); 
 		err_sumL += errL;
-		dL = kD * derrL;
+		dL = drive_PID[drive_kD] * derrL;
 
 		errR = targetValue - driveRB.get_position();
 		err_lastR = errR; 
 		derrR = (errR - err_lastR); 
-		pR = (kP * errR); 
+		pR = (drive_PID[drive_kP] * errR); 
 		err_sumL += errR;
-		dR = kD * derrR;
+		dR = drive_PID[drive_kD] * derrR;
 		
 		dPowL = (pL+dL);
 		dPowR = (pR+dR);
@@ -217,9 +227,85 @@ void Chassis::pid(int targetValue, int maxSpeed, int timeout, float kP, float kD
 	}
 }
 
+void Chassis::distance(int source, int targetValue, int timeout){
+	int startMillis = pros::millis();
+
+	//int left side pid
+	int left_cur_pos;
+	int errL = 0; //error value init
+	int derrL = 0;//error difference
+	int err_lastL = 0; //last error
+	int err_sumL = 0; //sum of errors
+	float pL;
+	float dL;
+
+	//int right side pid
+	int right_cur_pos;
+	int errR = 0; //error value init
+	int derrR = 0;//error difference
+	int err_lastR = 0; //last error
+	int err_sumR = 0; //sum of errors
+	float pR;
+	float dR;
+	
+	//int outputs
+	int dPowL;
+	int dPowR;
+
+	while((pros::millis()-startMillis) < timeout){
+
+		if(source == ENCODERS){
+			right_cur_pos = driveRB.get_position();
+			left_cur_pos = driveLB.get_position();
+		}
+		else if (source == Front_Distance){
+			right_cur_pos = distFR.get();
+			left_cur_pos = distFL.get();
+		}
+		else if (source == Back_Distance){
+			right_cur_pos = distBR.get();
+			left_cur_pos = distBL.get();
+		}
+
+		errL = targetValue - left_cur_pos;
+		err_lastL = errL; 
+		derrL = (errL - err_lastL); 
+		pL = (drive_PID[drive_kP] * errL); 
+		err_sumL += errL;
+		dL = drive_PID[drive_kD] * derrL;
+
+		errR = targetValue - right_cur_pos;
+		err_lastR = errR; 
+		derrR = (errR - err_lastR); 
+		pR = (drive_PID[drive_kP] * errR); 
+		err_sumL += errR;
+		dR = drive_PID[drive_kD] * derrR;
+		
+		dPowL = (pL+dL);
+		dPowR = (pR+dR);
+
+		if(dPowL > drive_PID[drive_max_power]){dPowL=drive_PID[drive_max_power];};
+		if(dPowL < -drive_PID[drive_max_power]){dPowL=-drive_PID[drive_max_power];};
+		if(dPowR > drive_PID[drive_max_power]){dPowR=drive_PID[drive_max_power];};
+		if(dPowR < -drive_PID[drive_max_power]){dPowR=-drive_PID[drive_max_power];};
+
+		driveRF.move(dPowR);
+      	driveLB.move(dPowL);
+      	driveRB.move(dPowR);
+      	driveLF.move(dPowL);
+	}
+}
+
 void Chassis::stop(void){
 	driveRF.move_velocity(0);
     driveLB.move_velocity(0);
     driveRB.move_velocity(0);
     driveLF.move_velocity(0);
+}
+
+void Chassis::reset(void){
+	driveRB.tare_position();
+	driveRF.tare_position();
+	driveLB.tare_position();
+	driveLF.tare_position();
 }
