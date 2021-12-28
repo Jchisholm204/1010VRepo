@@ -97,7 +97,13 @@ public:
    */
   void adj_pid(float MaxPower, float nkP, float nkD);
 
-  //Encoder Movement
+  /**
+   * @brief Drive Using Encoders
+   * 
+   * @param targetValue The PID Target
+   * @param maxSpeed The Maximum Velocity of the drivebase during the function
+   * @param timeout The PID Timeout in ms
+   */
   void drive(int targetValue, int maxSpeed, int timeout);
 
   /**
