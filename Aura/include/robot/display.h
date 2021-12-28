@@ -1,3 +1,11 @@
+/**
+ * @file robot/display.h
+ * 
+ * Aura  -  display.h
+ * 
+ * Contains Display Code Header Files
+ * 
+ */
 #ifndef _DISPLAY_H_
 #define _DISPLAY_H_
 #include <stdio.h>

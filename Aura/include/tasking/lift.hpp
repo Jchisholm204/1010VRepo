@@ -1,3 +1,10 @@
+/**
+ * @file tasking/lift.hpp
+ * 
+ * Aura  -  lift.hpp
+ * 
+ * Lift Declarations Header File
+ */
 #ifndef _LIFT_HPP_
 #define _LIFT_HPP_
 
@@ -18,15 +25,15 @@ class Lift{
         /**
          * Initialization of the Lift
          * 
-         * \param maximumVelocity
+         * @param maximumVelocity
          *      The maximum velocity the Lift can move in the PID
-         * \param nkP
+         * @param nkP
          *      The Lift's kP Value
-         * \param nkD
+         * @param nkD
          *      The Lift's kD Value
-         * \param iState
+         * @param iState
          *      The initial PID state given to the controller at startup
-         * \param wait
+         * @param wait
          *      Dont Move the Lift at startup
          *      
         */
@@ -35,11 +42,11 @@ class Lift{
         /**
          * Initialization of the Lift
          * 
-         * \param maximumVelocity
+         * @param maximumVelocity
          *      The maximum velocity the Lift can move in the PID
-         * \param nkP
+         * @param nkP
          *      The Lift's kP Value
-         * \param nkD
+         * @param nkD
          *      The Lift's kD Value
          *      
         */

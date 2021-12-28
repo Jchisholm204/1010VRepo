@@ -112,15 +112,17 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	SelectedAuto = 3;
+
+	SelectedAuto = SKILLS_NORM_AUTO;  //force programmed skills to run
+
 	if(SelectedAuto != 3 && pros::usd::is_installed() == 0){
 		display.msg("No SD Card Detected\nUnable to Playback Auto");
 	}
-	else if(SelectedAuto == 3){ // run normal skills if selected
+	else if(SelectedAuto == SKILLS_NORM_AUTO){ // run normal skills if selected
 		skillsAuto();
 		display.msg("Skills Auto", 1000);
 	}
-	else if(SelectedAuto == 0){
+	else if(SelectedAuto == NO_AUTO){
 		display.msg("No Auto Selected", 1000);
 		pros::delay(100); //dont run an auto
 	}
@@ -138,7 +140,7 @@ void opcontrol() {
 
 	display.setActiveTab(TAB_OP); //change display to show operator tab
 
-	if	(SelectedAuto == 4)	{	autoLength = 60*1000;/*60 sec for skills rerun*/	}
+	if	(SelectedAuto == SKILLS_RR_AUTO)	{	autoLength = 60*1000;/*60 sec for skills rerun*/	}
 	else					{	autoLength = 15*1000; /*15 sec for match autos*/	}
 
 	if(pros::usd::is_installed() == 0 && recording_enabled){
@@ -149,11 +151,11 @@ void opcontrol() {
 		display.msg("Auto Recorded");
 	}
 
-	else if(recording_enabled && SelectedAuto == 0){ // error for no auto
+	else if(recording_enabled && SelectedAuto == NO_AUTO){ // error for no auto
 		display.msg("No Auto Has Been Selected, Disable Bot and select auto to Continue");
 	}
 
-	else if(recording_enabled && SelectedAuto == 3){ // error for norm skills selected
+	else if(recording_enabled && SelectedAuto == SKILLS_NORM_AUTO){ // error for norm skills selected
 		display.msg("Non ReRun Auto Selected\nDisable Bot to Continue");
 	}
 

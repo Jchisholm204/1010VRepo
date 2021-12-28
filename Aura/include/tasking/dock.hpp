@@ -1,3 +1,10 @@
+/**
+ * @file tasking/dock.hpp
+ * 
+ * Aura  -  dock.hpp
+ * 
+ * Dock Declarations Header File
+ */
 #ifndef _DOCK_HPP_
 #define _DOCK_HPP_
 
@@ -17,15 +24,15 @@ class Docker{
         /**
          * Initialization of the Dock
          * 
-         * \param maximumVelocity
+         * @param maximumVelocity
          *      The maximum velocity the Dock can move in the PID
-         * \param nkP
+         * @param nkP
          *      The Dock's kP Value
-         * \param nkD
+         * @param nkD
          *      The Docks kD Value
-         * \param iState
+         * @param iState
          *      The initial PID state given to the controller at startup
-         * \param wait
+         * @param wait
          *      Dont Move the Dock at startup
          *      
         */
@@ -34,11 +41,11 @@ class Docker{
         /**
          * Initialization of the Dock
          * 
-         * \param maximumVelocity
+         * @param maximumVelocity
          *      The maximum velocity the Dock can move in the PID
-         * \param nkP
+         * @param nkP
          *      The Dock's kP Value
-         * \param nkD
+         * @param nkD
          *      The Docks kD Value
          *      
         */
@@ -85,9 +92,9 @@ class Docker{
          * Docker Home Tare Function
          * Homes the dock back to its starting position using a limit switch, 
          * works like a 3D printer..
-         * \param homeSpeed
+         * @param homeSpeed
          *      The speed to move the dock home
-         * \return the docks homed position (should be 0)
+         * @return the docks homed position (should be 0)
          */
         int home_tare(int homeSpeed);
 };

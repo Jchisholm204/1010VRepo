@@ -1,6 +1,10 @@
-/* Aura - vision.hpp
-* Contains References to Vision Presets Configured within the Vision Utility
-*/
+/**
+ * @file robot/vision.hpp
+ * 
+ * Aura  -  vision.hpp
+ * 
+ * Contains References to Vision Presets Configured within the Vision Utility
+ */
 #ifndef _VISION_HPP_
 #define _VISION_HPP_
 

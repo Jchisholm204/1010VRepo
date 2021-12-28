@@ -10,6 +10,7 @@
 #include "ttl/ttl.hpp"
 #include "tasking/lift.hpp"
 #include "tasking/dock.hpp"
+#include "autos.hpp"
 
 //Velocity Calculator Function
 int VelocityCalc(pros::Motor motor, float percent_actual){
@@ -43,31 +44,32 @@ ORDER OF RECORDING:
 int rec_loop_delay = 20; // ReRun loop delay in [ms]
 
 //Takes full control of auto - NO OTHER INPUT ALLOWED WHILE RERUN RUNNING
+
 int reRunAuto(int reRunFile){
     FILE * runFile;
     switch(reRunFile){
-        case 0:
+        case NO_AUTO:
             //No auto
             pros::delay(500);
             return 1;
             break;
 
-        case 1:
+        case RIGHT_AUTO:
             //right auto
             runFile = fopen("/usd/right.txt", "r");
             break;
 
-        case 2:
+        case LEFT_AUTO:
             //left auto
             runFile = fopen("/usd/left.txt", "r");
             break;
 
-        case 4:
+        case SKILLS_RR_AUTO:
             //rerun skills auto
             runFile = fopen("/usd/skills.txt", "r");
             break;
 
-        case 5:
+        case TEST_AUTO:
             runFile = fopen("/usd/testAuto.txt", "r");
             break;
 
@@ -128,17 +130,17 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
     FILE * recFile;
 
     switch(reRunFile){
-        case 1:
+        case RIGHT_AUTO:
             //right auto
             recFile = fopen("/usd/right.txt", "w");
             break;
 
-        case 2:
+        case LEFT_AUTO:
             //left auto
             recFile = fopen("/usd/left.txt", "w");
             break;
 
-        case 4:
+        case SKILLS_RR_AUTO:
             //rerun skills auto
             recFile = fopen("/usd/skills.txt", "w");
             break;

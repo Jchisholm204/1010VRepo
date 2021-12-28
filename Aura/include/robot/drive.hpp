@@ -1,3 +1,11 @@
+/**
+ * @file robot/drive.hpp
+ * 
+ * Aura  -  drive.hpp
+ * 
+ * Contains Chassis Header Declarations
+ * 
+ */
 #ifndef _DRIVEBASE_HPP
 #define _DRIVEBASE_HPP
 

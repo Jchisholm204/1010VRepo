@@ -1,4 +1,11 @@
-//Aura - ports.hpp
+/**
+ * @file robot/ports.hpp 
+ * 
+ * Aura  -  ports.hpp
+ * 
+ * Header File Containing Motor and Sensor Ports
+ * 
+ */
 #ifndef _PORTS_HPP_
 #define _PORTS_HPP_
 
