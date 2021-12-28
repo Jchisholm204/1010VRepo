@@ -1,5 +1,5 @@
 /* Aura - vision.hpp
-* Vision Test Files
+* Contains References to Vision Presets Configured within the Vision Utility
 */
 #ifndef _VISION_HPP_
 #define _VISION_HPP_
