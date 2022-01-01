@@ -33,11 +33,11 @@ float toVelocity(int motorPower, int maxVel){
 
 void Chassis::operator_Chassis(int maxVel){
   int Yval = exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y), 1.5 /*DriveExp*/, 4 /*JoyDead*/, 25 /*MotorMin*/);
-  int Xval = exponential(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X), 1.3, 4, 20);
+  int Xval = exponential(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X), 1.6, 6, 15);
   //remove "= 0" and comment if you wish to use mechanum drive
   int Zval = 0;//(exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_X), 2.2, 20, 15)*0);
 
-  Xval = Xval*maxVel/127;
+  Xval = (Xval*maxVel/127)*0.85;
   Yval = Yval*maxVel/127;
 
   driveLB.move_velocity(Yval + Xval - Zval);
