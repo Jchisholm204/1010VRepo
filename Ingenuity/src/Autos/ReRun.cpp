@@ -74,21 +74,22 @@ int reRunAuto(int reRunFile){
             break;
     }
 
-    static int drb/*drive right back*/, drf, dlb, dlf, intm/*intake Motor*/, cnvm/*conveyer motor*/;
+    static int dr/*drive right*/, dl/*Drive Left*/, cnvm/*conveyer motor*/;
     static int ls/*lift state*/, ltg/*lift targetvalue*/;
     static bool lso/*lift state override*/;
     static bool dps/*dock pneumatic state*/, lps/*lift pneumatic state*/, sps/*side pneumatic state*/;
 
     while(feof(runFile) == false){
 
-        fscanf(runFile, "%d %d %d %d %d %d %d %d %d %d %d %d", &drb, &drf, &dlb, &dlf, &intm, &cnvm, &ls, &ltg, &lso, &dps, &lps, &sps); //read the file and store the values as variables
+        fscanf(runFile, "%d %d %d %d %d %d %d %d %d", &dr, &dl, &cnvm, &ls, &ltg, &lso, &dps, &lps, &sps); //read the file and store the values as variables
 
-        driveRB.move_velocity(drb);
-        driveRF.move_velocity(drf);
-        driveLB.move_velocity(dlb);
-        driveLF.move_velocity(dlf);
+        driveRB.move_velocity(dr);
+        driveRM.move_velocity(dr);
+        driveRF.move_velocity(dr);
+        driveLB.move_velocity(dl);
+        driveLM.move_velocity(dl);
+        driveLF.move_velocity(dl);
 
-        intakeMotor.move_velocity(intm);
         conveyerMotor.move_velocity(cnvm);
 
         if (lso == true){
@@ -148,13 +149,10 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
 
         operatorControl();
 
-    	fprintf(recFile, "%d\n", VelocityCalc(driveRB, 0.95));
+    	fprintf(recFile, "%d\n", VelocityCalc(driveRM, 0.95));
         //printf("first line printed");
-		fprintf(recFile, "%d\n", VelocityCalc(driveRF, 0.95));
-		fprintf(recFile, "%d\n", VelocityCalc(driveLB, 0.95));
-		fprintf(recFile, "%d\n", VelocityCalc(driveLF, 0.95));
+		fprintf(recFile, "%d\n", VelocityCalc(driveLM, 0.95));
 
-		fprintf(recFile, "%d\n", VelocityCalc(intakeMotor, 0));
 		fprintf(recFile, "%d\n", VelocityCalc(conveyerMotor, 0));
 
         //Record Lift pid
@@ -177,7 +175,7 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
 
     }
 
-    fprintf(recFile, "0\n0\n0\n0\n0\n0\n0\n0");
+    fprintf(recFile, "0\n0\n0\n");
     fclose(recFile);
 
     return 0;

@@ -12,38 +12,37 @@
 //#SENSORS#
 
 //Gyro should be installed somewhere close to the center of the robot
-#define GYRO_PORT 15 // (1-21)
+#define GYRO_PORT 0 // (1-21)
 
-//Min Limit Switch/Bumper/Endstop should be installed such that the dock/arm clicks it when it comes up
-#define Docker_Endstop_Min_PORT 1
+#define Lift_POT_PORT 0
 
-#define Lift_POT_PORT 2
-
-#define VISION_SENSOR_PORT 0
+//Vision Ports
 #define VISION_BACK_PORT 0
 #define VISION_FRONT_PORT 0
 
-#define GYRO_ABS_PORT 3
-#define GYRO_POS_PORT 4
+//ADI Gyro Ports (redundant / used because PROS broke Inertial Sensors)
+#define GYRO_ABS_PORT 0
+#define GYRO_POS_PORT 0
 
 //Lidars (Distance Sensors)//
-#define FL_LIDAR_PORT 21
-#define FR_LIDAR_PORT 1 
+#define FL_LIDAR_PORT 0
+#define FR_LIDAR_PORT 0
 
-#define BL_LIDAR_PORT 6
-#define BR_LIDAR_PORT 8
+#define BL_LIDAR_PORT 0
+#define BR_LIDAR_PORT 0
 
 //#MOTORS#
-#define driveRB_PORT 10
+#define driveRB_PORT 0
+#define driveRM_PORT 0
 #define driveRF_PORT 9
-#define driveLB_PORT 16
-#define driveLF_PORT 11
 
-#define CONVEYER_PORT 13
-#define INTAKE_PORT 12
+#define driveLB_PORT 0
+#define driveLM_PORT 0
+#define driveLF_PORT 0
 
-#define LIFT_PORT_L 17
-#define LIFT_PORT_R 3
+#define CONVEYER_PORT 0
+
+#define LIFT_PORT 0
 
 
 #endif

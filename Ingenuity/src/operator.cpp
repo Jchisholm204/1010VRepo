@@ -52,15 +52,12 @@ void operatorControl(){
 	//Intakes//////////////////////////////////////////
 
 	if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
-		intakeMotor.move_velocity(600);
 		conveyerMotor.move_velocity(600);
 	}
 	else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
-		intakeMotor.move_velocity(-200);
 		conveyerMotor.move_velocity(-400);
 	}
 	else{
-		intakeMotor.move_velocity(0);
 		conveyerMotor.move_velocity(0);
 	};
 

@@ -22,17 +22,23 @@ pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 
 //	Define the Motors - Drive
 pros::Motor driveRB(driveRB_PORT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor driveRM(driveRM_PORT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor driveRF(driveRF_PORT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
+
 pros::Motor driveLB(driveLB_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor driveLM(driveLM_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor driveLF(driveLF_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 
-//	Define the Motors - Conveyer and Intake
-pros::Motor intakeMotor(INTAKE_PORT, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
+//	Define the Motors - Conveyer
 pros::Motor conveyerMotor(CONVEYER_PORT, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
 
-//	Define the Motors - Mobile Goal Pickups (MOBO)
-pros::Motor liftMotorL(LIFT_PORT_L, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor liftMotorR(LIFT_PORT_R, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
+//	Define the Motors - Lift (Mobile Goal)
+pros::Motor liftMotor(LIFT_PORT, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
+
+//Pistons
+ttl::ADIPiston LiftPiston(LIFT_PISTON_PORT, LOW);
+ttl::ADIPiston DockPiston(DOCK_PISTON_PORT, false);
+ttl::ADIPiston SidePiston(SIDE_PISTON_PORT, false);
 
 //	Sensors
 pros::ADIGyro posGyro(GYRO_POS_PORT);
@@ -44,12 +50,10 @@ pros::Distance lidarFR(FR_LIDAR_PORT);
 pros::Distance lidarBL(BL_LIDAR_PORT);
 pros::Distance lidarBR(BR_LIDAR_PORT);
 
-pros::Vision visionSensor(VISION_SENSOR_PORT, pros::E_VISION_ZERO_CENTER);
+//	Vision Sensors
+//pros::Vision visionSensor(VISION_SENSOR_PORT, pros::E_VISION_ZERO_CENTER);
 
-ttl::ADIPiston LiftPiston(LIFT_PISTON_PORT, LOW);
-ttl::ADIPiston DockPiston(DOCK_PISTON_PORT, false);
-ttl::ADIPiston SidePiston(SIDE_PISTON_PORT, false);
-
+//	Classes
 Chassis drivef;
 Display display;
 

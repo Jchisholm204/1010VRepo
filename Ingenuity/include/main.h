@@ -66,14 +66,14 @@ extern ttl::ADIPiston SidePiston;
 //MOTORS
 
 extern pros::Motor driveRB;
+extern pros::Motor driveRM;
 extern pros::Motor driveRF;
 extern pros::Motor driveLB;
+extern pros::Motor driveLM;
 extern pros::Motor driveLF;
 
-extern pros::Motor liftMotorL;
-extern pros::Motor liftMotorR;
+extern pros::Motor liftMotor;
 
-extern pros::Motor intakeMotor;
 extern pros::Motor conveyerMotor;
 
 //DISPLAY
@@ -106,7 +106,6 @@ extern pros::Distance distBL;
 
 extern pros::Vision visBack; //mounted on the back of the robot
 extern pros::Vision visFront; //mounted on the front of the robot
-extern pros::Vision visionSensor;
 
 
 /**

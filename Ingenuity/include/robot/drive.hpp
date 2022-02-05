@@ -27,6 +27,10 @@ public:
   void pid(int targetValue, int maxSpeed, int timeout, float kP, float kD);
   //stops all drivebase movement
   void stop(void);
+
+private:
+  void setDrive(double iPowR, double iPowL);
+  void setDriveVel(double iVelR, double iVelL);
 };
 
 #endif

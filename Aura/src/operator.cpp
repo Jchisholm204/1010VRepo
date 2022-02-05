@@ -74,6 +74,10 @@ void operatorControl(){
 	else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
 		lift.down();
 	}
+
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
+		LiftPiston.toggle();
+	}
 	
 	//manual control of lift
 	if(partner.get_digital(E_CONTROLLER_DIGITAL_R1)){

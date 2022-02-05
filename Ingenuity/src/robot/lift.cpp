@@ -20,15 +20,13 @@ Lift::Lift(int maximumVelocity, float kP, float kD){
 void Lift::manual(int velocity, bool enabled){
     lift_manual_exemption = enabled;
     if(lift_manual_exemption == true){
-        liftMotorL.move_velocity(velocity);
-        liftMotorR.move_velocity(velocity);
+        liftMotor.move_velocity(velocity);
     }
 }
 
 void Lift::manual(int velocity){
     lift_manual_exemption = true;
-    liftMotorL.move_velocity(velocity);
-    liftMotorR.move_velocity(velocity);
+    liftMotor.move_velocity(velocity);
 }
 
 void Lift::PID(int maxVelocity, float kP, float kD){
@@ -117,8 +115,7 @@ void Lift_Task_fn(void*param){
         if(motorPower < -lift.maxVel){motorPower = -lift.maxVel;}
         if(motorPower > lift.maxVel){motorPower = lift.maxVel;}
       //  motorPower = (motorPower > 1 ? 1 : motorPower < -1 ? -1 : motorPower);
-        liftMotorL.move(motorPower);
-        liftMotorR.move(motorPower);
+        liftMotor.move(motorPower);
    /////////PID LOGIC//////////////////////////////////
       }
    pros::delay(20);

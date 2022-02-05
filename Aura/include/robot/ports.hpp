@@ -11,8 +11,7 @@
 
 
 //pnumatic controllers
-#define LIFT_PISTON_PORT 0
-#define DOCK_PISTON_PORT 0
+#define LIFT_PISTON_PORT 6
 #define SIDE_PISTON_PORT 0
 
 

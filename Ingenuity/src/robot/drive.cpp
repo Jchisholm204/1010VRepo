@@ -24,41 +24,52 @@ float toVelocity(int motorPower, int maxVel){
 	return output;
 }
 
+void Chassis::setDrive(double iPowR, double iPowL){
+	driveRF.move_velocity(iPowR);
+	driveRM.move_velocity(iPowR);
+	driveRB.move_velocity(iPowR);
+
+	driveLF.move_velocity(iPowL);
+	driveLM.move_velocity(iPowL);
+	driveLB.move_velocity(iPowL);
+
+}
+
+void Chassis::setDriveVel(double iVelR, double iVelL){
+	driveRF.move_velocity(iVelR);
+	driveRM.move_velocity(iVelR);
+	driveRB.move_velocity(iVelR);
+
+	driveLF.move_velocity(iVelL);
+	driveLM.move_velocity(iVelL);
+	driveLB.move_velocity(iVelL);
+
+}
+
 void Chassis::operator_Chassis(int maxVel){
   int Yval = toVelocity(exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y), 1.5 /*DriveExp*/, 4 /*JoyDead*/, 25 /*MotorMin*/), maxVel);
   int Xval = toVelocity(exponential(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X), 1.3, 4, 20), maxVel);
-  //remove "= 0" and comment if you wish to use mechanum drive
-  int Zval = 0;//(exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_X), 2.2, 20, 15)*0);
 
-  driveLB.move_velocity(Yval + Xval - Zval);
-  driveLF.move_velocity(Yval + Xval + Zval);
-  driveRB.move_velocity(Yval - Xval + Zval);
-  driveRF.move_velocity(Yval - Xval - Zval);
+  driveLB.move_velocity(Yval + Xval);
+  driveLM.move_velocity(Yval + Xval);
+  driveLF.move_velocity(Yval + Xval);
+
+  driveRB.move_velocity(Yval - Xval);
+  driveRM.move_velocity(Yval - Xval);
+  driveRF.move_velocity(Yval - Xval);
 }
 
 
 void Chassis::time(int time, int leftPow, int rightPow){
-	driveRF.move_velocity(rightPow);
-    driveLB.move_velocity(leftPow);
-    driveRB.move_velocity(rightPow);
-    driveLF.move_velocity(leftPow);
+	setDriveVel(rightPow, leftPow);
 	pros::delay(time);
-	driveRF.move(0);
-    driveLB.move(0);
-    driveRB.move(0);
-    driveLF.move(0);
+	stop();
 }
 
 void Chassis::time(int time, int velocity){
-	driveRF.move_velocity(velocity);
-    driveLB.move_velocity(velocity);
-    driveRB.move_velocity(velocity);
-    driveLF.move_velocity(velocity);
+	setDriveVel(velocity, velocity);
 	pros::delay(time);
-	driveRF.move(0);
-    driveLB.move(0);
-    driveRB.move(0);
-    driveLF.move(0);
+	stop();
 }
 
 
@@ -114,10 +125,7 @@ void Chassis::driveTurn(int leftTarget, int maxLeft, int rightTarget, int maxRig
 		if(dPowR > maxRight){dPowR=maxRight;};
 		if(dPowR < -maxRight){dPowR=-maxRight;};
 
-		driveRF.move(dPowR);
-      	driveLB.move(dPowL);
-      	driveRB.move(dPowR);
-      	driveLF.move(dPowL);
+		setDrive(dPowR, dPowL);
 	}
 }
 
@@ -151,10 +159,7 @@ void Chassis::turn(int targetValue, int timeout){
 		if(dPow > 100){dPow=100;};
 		if(dPow < -100){dPow=-100;};
 
-		driveRF.move(-dPow);
-      	driveLB.move(dPow);
-      	driveRB.move(-dPow);
-      	driveLF.move(dPow);
+		setDrive(-dPow, dPow);
 	}
 }
 
@@ -207,10 +212,7 @@ void Chassis::pid(int targetValue, int maxSpeed, int timeout, float kP, float kD
 		if(dPowR > maxSpeed){dPowR=maxSpeed;};
 		if(dPowR < -maxSpeed){dPowR=-maxSpeed;};
 
-		driveRF.move_velocity(dPowR);
-      	driveLB.move_velocity(dPowL);
-      	driveRB.move_velocity(dPowR);
-      	driveLF.move_velocity(dPowL);
+		setDrive(dPowR, dPowL);
 	}
 }
 
