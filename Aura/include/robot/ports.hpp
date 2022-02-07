@@ -34,23 +34,23 @@
 
 //Lidars (Distance Sensors)//
 #define FL_LIDAR_PORT 0
-#define FR_LIDAR_PORT 1 
+#define FR_LIDAR_PORT 0 
 
 #define BL_LIDAR_PORT 6
 #define BR_LIDAR_PORT 8
 
 //#MOTORS#
-#define driveRB_PORT 10
-#define driveRF_PORT 9
-#define driveLB_PORT 16
-#define driveLF_PORT 11
+#define driveRB_PORT 1
+#define driveRF_PORT 2
+#define driveLB_PORT 11
+#define driveLF_PORT 13
 
-#define CONVEYER_MOTOR_PORT 13
+#define CONVEYER_MOTOR_PORT 10
 
 #define LIFT_MOTOR_PORT_L 17
 #define LIFT_MOTOR_PORT_R 33
 
-#define DOCKER_MOTOR_PORT 3
+#define DOCKER_MOTOR_PORT 0
 
 
 #endif

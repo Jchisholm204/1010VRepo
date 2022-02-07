@@ -52,21 +52,21 @@ int reRunAuto(int reRunFile){
 
         case 1:
             //right auto
-            runFile = fopen("/usd/right.rr", "r");
+            runFile = fopen("/usd/right.txt", "r");
             break;
 
         case 2:
             //left auto
-            runFile = fopen("/usd/left.rr", "r");
+            runFile = fopen("/usd/left.txt", "r");
             break;
 
         case 4:
             //rerun skills auto
-            runFile = fopen("/usd/skills.rr", "r");
+            runFile = fopen("/usd/skills.txt", "r");
             break;
 
         case 5:
-            runFile = fopen("/usd/testAuto.rr", "r");
+            runFile = fopen("/usd/testAuto.txt", "r");
             break;
 
         default:
@@ -122,21 +122,21 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
     switch(reRunFile){
         case 1:
             //right auto
-            recFile = fopen("/usd/right.rr", "w");
+            recFile = fopen("/usd/right.txt", "w");
             break;
 
         case 2:
             //left auto
-            recFile = fopen("/usd/left.rr", "w");
+            recFile = fopen("/usd/left.txt", "w");
             break;
 
         case 4:
             //rerun skills auto
-            recFile = fopen("/usd/skills.rr", "w");
+            recFile = fopen("/usd/skills.txt", "w");
             break;
 
         case 5:
-            recFile = fopen("/usd/testAuto.rr", "w");
+            recFile = fopen("/usd/testAuto.txt", "w");
             break;
 
         default:

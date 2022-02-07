@@ -21,13 +21,13 @@ pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 
 //	Define the Motors - Drive
-pros::Motor driveRB(driveRB_PORT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor driveRB(driveRB_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor driveRM(driveRM_PORT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor driveRF(driveRF_PORT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor driveRF(driveRF_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 
-pros::Motor driveLB(driveLB_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor driveLB(driveLB_PORT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor driveLM(driveLM_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor driveLF(driveLF_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor driveLF(driveLF_PORT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
 
 //	Define the Motors - Conveyer
 pros::Motor conveyerMotor(CONVEYER_PORT, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
@@ -51,7 +51,7 @@ pros::Distance lidarBL(BL_LIDAR_PORT);
 pros::Distance lidarBR(BR_LIDAR_PORT);
 
 //	Vision Sensors
-//pros::Vision visionSensor(VISION_SENSOR_PORT, pros::E_VISION_ZERO_CENTER);
+pros::Vision visionSensor(8, pros::E_VISION_ZERO_CENTER);
 
 //	Classes
 Chassis drivef;
@@ -59,18 +59,20 @@ Display display;
 
 void initialize() {
 
-	pros::delay(1300); //wait 1.3 seconds for the ADIGyros to finish initialization
+	//pros::delay(1300); //wait 1.3 seconds for the ADIGyros to finish initialization
 
 	display.createScreen(); // Create all of the basic screen elements
 	display.refresh(); // Update battery data to the display for the first time
-	//lv_btn_set_toggle(recording_enabled_btn, false); //make sure recording is OFF
-	display.msg("Display Initialized, Giro ON", 800);
+	lv_btn_set_toggle(recording_enabled_btn, false); //make sure recording is OFF
+	//display.msg("Display Initialized, Giro ON", 800);
 
 	//	Brake Modes - Drive
 	driveLF.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	driveLB.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	driveRF.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	driveRB.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+	driveRM.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+	driveLM.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 
 
 	if(Lift_Task_Enable == true){
@@ -103,7 +105,6 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	SelectedAuto = 3;
 	if(SelectedAuto != 3 && pros::usd::is_installed() == 0){
 		display.msg("No SD Card Detected\nUnable to Playback Auto");
 	}

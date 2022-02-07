@@ -8,7 +8,7 @@
 
 //set to disable to disable initialization of lift task
 //Lift will NOT run if set false
-const bool Lift_Task_Enable = true;
+const bool Lift_Task_Enable = false;
 
 
 //Lift Class - used to control the front lift on the robot
