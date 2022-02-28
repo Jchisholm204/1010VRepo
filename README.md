@@ -7,5 +7,6 @@ Code written in C++ and compiled for the Vex V5 microcontroller for use with a m
 This code will work for "most" AMOGO bots
 
 # Members
-## Main Builder --- Jacob Chisholm
-## Main Programer --- Mathias Stiasny
+## Programmer --- Jacob Chisholm
+## Driver --- Mathias Stiasny
+## Builder --- Jack Moscovitch
