@@ -3,6 +3,14 @@
 * All operator control code (drive code) goes here
 */
 
+/** IMPORTANT:
+ * Do NOT assign anything to the master controllers down button
+ * That button is reserved for ending the rerun recording early
+ * 
+ * The Button Can ONLY be assigned to something if it is unassigned from the rerun program,
+ * In which case, you should delete this comment
+ */ 
+
 #include "main.h" //for operatorControl function and controllers
 #include "ttl/ttl.hpp"
 #include "robot/drive.hpp"
