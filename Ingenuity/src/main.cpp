@@ -131,7 +131,7 @@ void opcontrol() {
 
 	else if(recording_enabled && SelectedAuto/*Do NOT allow recording if no auto selected*/ != 0 && SelectedAuto/*or if norm skills selected*/ != 3){
 		recordAuto(SelectedAuto, !recording_enabled, autoLength);
-		display.msg("Auto Recorded");
+		display.msg("Auto Recorded:\n" + SelectedAuto);
 	}
 
 	else if(recording_enabled && SelectedAuto == 0){ // error for no auto
