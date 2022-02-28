@@ -1,9 +1,22 @@
 #ifndef _LIFT_HPP_
 #define _LIFT_HPP_
 
+/** Ingenuity - lift.hpp
+ * 
+ * @author Jchisholm
+ * #Team 1010V
+ * 
+ * Lift File:
+ *      Contains anything and everything associated with the lift apparatus:
+ *        * Lift Class
+ *        * #defines
+ *        * Tasking Function
+ *        * Global Access Initialization Header
+ */
+
 //LIFT PRESETS
 #define LIFT_UP 2
-#define LIFT_HOLD 1
+#define LIFT_MID 1
 #define LIFT_DOWN 0
 
 //set to disable to disable initialization of lift task

@@ -7,14 +7,15 @@
 #include "robot/display.h"
 #include "robot/drive.hpp"
 #include "robot/lift.hpp"
+#include "Constants.hpp"
 
 Lift::Lift(int maximumVelocity, float kP, float kD){
     maxVel=maximumVelocity;
     liftKp=kP;
     liftKd=kD;
     lift_manual_exemption = false;
-    lift_state = 5;
-    lift_state_prev = 5;
+    lift_state = 0;
+    lift_state_prev = 0;
 }
 
 void Lift::manual(int velocity, bool enabled){
@@ -56,7 +57,7 @@ void Lift::targ(int NewtargetValue){
 }
 
 //lift interface
-Lift lift(100, 1.8, 0.8);
+Lift lift(kLift::Maximum_Velocity, kLift::kP, kLift::kD);
 
 void Lift_Task_fn(void*param){
    int motorPower;
@@ -80,17 +81,14 @@ void Lift_Task_fn(void*param){
          if(lift.lift_state != lift.lift_state_prev){
             ///////Tower Lift Position Controller/////////////
             switch(lift.lift_state){
-               case 5:
-                  //starting position (all the way up [impacts intakes])
-                  lift.targetValue = 580;
-                  break;
                case 0:
-                  //pos value when holding holding mogo (half way up)
-                  lift.targetValue = 3000;
+                  lift.targetValue = kLift::TargetValue_Down;
                   break;
                case 1:
-                  //pos value for grabbing mobo's (when all the way down)
-                  lift.targetValue = 3900;
+                  lift.targetValue = kLift::TargetValue_MidWay;
+                  break;
+                case 2:
+                  lift.targetValue = kLift::TargetValue_Up;
                   break;
                default:
                   //do not move the lift from its current position

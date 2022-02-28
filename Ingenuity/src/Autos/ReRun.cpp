@@ -9,6 +9,7 @@
 #include "robot/drive.hpp"
 #include "ttl/ttl.hpp"
 #include "robot/lift.hpp"
+#include "autos/rerun.hpp"
 
 //Velocity Calculator Function
 int VelocityCalc(pros::Motor motor, float percent_actual){
@@ -23,11 +24,8 @@ int VelocityCalc(pros::Motor motor, float percent_actual){
 
 /*
 ORDER OF RECORDING:
-    -driveRB
-    -driveRF
-    -driveLB
-    -driveLF
-    -intake
+    -driveR
+    -driveL
     -conveyer
     -lift state
     -lift targetvalue
@@ -77,11 +75,11 @@ int reRunAuto(int reRunFile){
     static int dr/*drive right*/, dl/*Drive Left*/, cnvm/*conveyer motor*/;
     static int ls/*lift state*/, ltg/*lift targetvalue*/;
     static bool lso/*lift state override*/;
-    static bool dps/*dock pneumatic state*/, lps/*lift pneumatic state*/, sps/*side pneumatic state*/;
+    static bool dps/*dock pneumatic state*/, lps/*lift pneumatic state*/;
 
     while(feof(runFile) == false){
 
-        fscanf(runFile, "%d %d %d %d %d %d %d %d %d", &dr, &dl, &cnvm, &ls, &ltg, &lso, &dps, &lps, &sps); //read the file and store the values as variables
+        fscanf(runFile, "%d %d %d %d %d %d %d %d", &dr, &dl, &cnvm, &ls, &ltg, &lso, &dps, &lps); //read the file and store the values as variables
 
         driveRB.move_velocity(dr);
         driveRM.move_velocity(dr);
@@ -101,7 +99,6 @@ int reRunAuto(int reRunFile){
 
         DockPiston.set_state(dps);
         LiftPiston.set_state(lps);
-        SidePiston.set_state(sps);
 
         pros::delay(rec_loop_delay);
     }
@@ -160,9 +157,8 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
         fprintf(recFile, "%d\n", lift.targetValue); //records lift state
         fprintf(recFile, "%d\n", lift.lift_manual_exemption); //records lift state
 
-        fprintf(recFile, "%d\n", DockPiston.get_state()); //records lift state
-        fprintf(recFile, "%d\n", DockPiston.get_state()); //records lift state
-        fprintf(recFile, "%d\n", SidePiston.get_state()); //records lift state
+        fprintf(recFile, "%d\n", DockPiston.get_state()); //records state
+        fprintf(recFile, "%d\n", LiftPiston.get_state()); //records state
 
         timer += rec_loop_delay;
         pros::delay(rec_loop_delay);

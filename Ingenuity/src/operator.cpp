@@ -14,14 +14,24 @@ int maxDriveVelocity = 200; //The Maxiumum Velocity the Drivebase can move
 
 void operatorControl(){
 
-	//DriveBase/////////////////////////////////////////
+	/**
+	 * Drive Base Maximum Speed Control:
+	 * 
+	 * Used in order to slow robot when balancing on Platform,
+	 * Used In addition to Expo Controller for additional accuracy
+	 * 
+	 * IMPORTANT:
+	 * This Code was set up using a Closed Loop Velocity Limiter,
+	 * This was done to allow the full power (torque) of the motor to be enabled,
+	 * while still limiting the maximum speed of the motor.
+	 * 
+	 * The same results can be acheived with the use of a voltage limiter,
+	 * However, if a vlimiter is used, the motors will have reduced torque as well.
+	 * (The torque reduction will be mostly porportional to the speed reduction)
+	 */
 
-	//adjust the drive speed based on the joystick position (good for platfom)
-	if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)){
-		maxDriveVelocity += partner.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y);
-	}
 	//set drive to max speed (good for normal drive)
-	else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_UP)){
+	if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_UP)){
 		maxDriveVelocity = 200;
 	}
 	//set the drive to really slow (1/4 max - good for platform)
@@ -33,7 +43,7 @@ void operatorControl(){
 		maxDriveVelocity = 100;
 	}
 
-	//dont let the drive speed go below 1/8 of Max or Max
+	//dont let the drive speed go below 1/8 of Max or above Max
 	if(maxDriveVelocity>200){
 		maxDriveVelocity = 200;
 	}
@@ -49,13 +59,13 @@ void operatorControl(){
 		DockPiston.toggle(); //toggle the dock
 	}
 
-	//Intakes//////////////////////////////////////////
+	//Conveyor//////////////////////////////////////////
 
 	if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
 		conveyerMotor.move_velocity(600);
 	}
 	else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
-		conveyerMotor.move_velocity(-400);
+		conveyerMotor.move_velocity(-200);
 	}
 	else{
 		conveyerMotor.move_velocity(0);
@@ -72,11 +82,19 @@ void operatorControl(){
 	}
 	
 	//manual control of lift
-	if(master.get_digital(E_CONTROLLER_DIGITAL_Y)){
+	if(partner.get_digital(E_CONTROLLER_DIGITAL_Y)){
 		lift.manual(100);
 	}
-	else if(master.get_digital(E_CONTROLLER_DIGITAL_A)){
+	else if(partner.get_digital(E_CONTROLLER_DIGITAL_A)){
 		lift.manual(-100);
+	}
+
+	//Control of Lift Pneumatic
+	if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_R1)){
+		DockPiston.set_state(LOW);
+	}
+	else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_R2)){
+		DockPiston.set_state(HIGH);
 	}
 
 }

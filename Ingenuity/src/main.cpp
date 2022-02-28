@@ -11,44 +11,37 @@
 #include "ttl/ttl.hpp"
 #include "robot/display.h"
 #include "robot/drive.hpp"
-#include "robot/ports.hpp"
+#include "Constants.hpp"
 #include "robot/lift.hpp"
-#include "autos.hpp"
-#include "robot/vision.hpp"
+#include "autos/rerun.hpp"
+#include "Autos/skills.hpp"
 
 //	CONTROLLERS
 pros::Controller master(pros::E_CONTROLLER_MASTER);
 pros::Controller partner(pros::E_CONTROLLER_PARTNER);
 
 //	Define the Motors - Drive
-pros::Motor driveRB(driveRB_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor driveRM(driveRM_PORT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor driveRF(driveRF_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor driveRB(kPorts::driveRB, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor driveRM(kPorts::driveRM, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor driveRF(kPorts::driveRF, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
 
-pros::Motor driveLB(driveLB_PORT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor driveLM(driveLM_PORT, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
-pros::Motor driveLF(driveLF_PORT, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor driveLB(kPorts::driveLB, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor driveLM(kPorts::driveLM, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor driveLF(kPorts::driveLF, pros::E_MOTOR_GEARSET_18, false, pros::E_MOTOR_ENCODER_DEGREES);
 
 //	Define the Motors - Conveyer
-pros::Motor conveyerMotor(CONVEYER_PORT, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor conveyerMotor(kPorts::CONVEYER, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
 
 //	Define the Motors - Lift (Mobile Goal)
-pros::Motor liftMotor(LIFT_PORT, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
+pros::Motor liftMotor(kPorts::LIFT, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
 
 //Pistons
-ttl::ADIPiston LiftPiston(LIFT_PISTON_PORT, LOW);
-ttl::ADIPiston DockPiston(DOCK_PISTON_PORT, false);
-ttl::ADIPiston SidePiston(SIDE_PISTON_PORT, false);
+ttl::ADIPiston LiftPiston(kPorts::LIFT_PISTON, LOW);
+ttl::ADIPiston DockPiston(kPorts::DOCK_PISTON, false);
 
 //	Sensors
-pros::ADIGyro posGyro(GYRO_POS_PORT);
-pros::ADIGyro absGyro(GYRO_ABS_PORT);
-pros::Imu gyro(GYRO_PORT);
-pros::ADIAnalogIn LiftPOT(Lift_POT_PORT);
-pros::Distance lidarFL(FL_LIDAR_PORT);
-pros::Distance lidarFR(FR_LIDAR_PORT);
-pros::Distance lidarBL(BL_LIDAR_PORT);
-pros::Distance lidarBR(BR_LIDAR_PORT);
+pros::Imu gyro(kPorts::Gyro);
+pros::ADIAnalogIn LiftPOT(kPorts::Lift_Potentiometer);
 
 //	Vision Sensors
 pros::Vision visionSensor(8, pros::E_VISION_ZERO_CENTER);
@@ -58,9 +51,6 @@ Chassis drivef;
 Display display;
 
 void initialize() {
-
-	//pros::delay(1300); //wait 1.3 seconds for the ADIGyros to finish initialization
-
 	display.createScreen(); // Create all of the basic screen elements
 	display.refresh(); // Update battery data to the display for the first time
 	lv_btn_set_toggle(recording_enabled_btn, false); //make sure recording is OFF
@@ -68,8 +58,10 @@ void initialize() {
 
 	//	Brake Modes - Drive
 	driveLF.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+	driveLM.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	driveLB.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	driveRF.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+	driveRM.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	driveRB.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	driveRM.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	driveLM.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);

@@ -8,7 +8,6 @@
 #include "robot/drive.hpp"
 #include "ttl/ttl.hpp"
 #include "robot/lift.hpp"
-#include "autos.hpp"
 
 void skillsAuto(void){
 

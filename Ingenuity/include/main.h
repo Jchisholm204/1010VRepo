@@ -61,7 +61,6 @@ extern Chassis drivef;
 //PNEUMATICS
 extern ttl::ADIPiston LiftPiston;
 extern ttl::ADIPiston DockPiston;
-extern ttl::ADIPiston SidePiston;
 
 //MOTORS
 
@@ -104,9 +103,6 @@ extern pros::Distance distFL;
 //for driving forwards
 extern pros::Distance distBR;
 extern pros::Distance distBL;
-
-extern pros::Vision visBack; //mounted on the back of the robot
-extern pros::Vision visFront; //mounted on the front of the robot
 
 
 /**
