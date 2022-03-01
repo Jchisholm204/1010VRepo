@@ -39,32 +39,30 @@ void operatorControl(){
 	 */
 
 	//set drive to max speed (good for normal drive)
-	if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_UP)){
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X) && maxDriveVelocity == 75){
 		maxDriveVelocity = 200;
 	}
-	//set the drive to really slow (1/4 max - good for platform)
-	else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)){
-		maxDriveVelocity = 50;
+	//set the drive to really slow (3/8 max - good for platform)
+	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X) && maxDriveVelocity == 200){
+		maxDriveVelocity = 75;
 	}
-	//half the max drive speed (good for climbing)
-	else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_LEFT)){
-		maxDriveVelocity = 100;
-	}
-
-	//dont let the drive speed go below 1/8 of Max or above Max
-	if(maxDriveVelocity>200){
+	
+	if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
 		maxDriveVelocity = 200;
 	}
-	if(maxDriveVelocity < 25){
-		maxDriveVelocity = 25;			
+	else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
+		maxDriveVelocity = 75;
 	}
 
 	drivef.operator_Chassis(maxDriveVelocity); //run the operator drive program
 
 	//Dock//////////////////////////////////////////////
 
-	if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_B)){
 		DockPiston.toggle(); //toggle the dock
+	}
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)){
+		LiftPiston.toggle();
 	}
 
 	//Conveyor//////////////////////////////////////////
@@ -82,30 +80,22 @@ void operatorControl(){
 	//Lift//////////////////////////////////////////////////////
 
 	//preset control of lift
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_UP)){
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
 		lift.up();
 	}
-	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)){
+	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
 		lift.down();
 	}
-	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)){
+	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_UP)){
 		lift.preset(LIFT_MID);
 	}
 	
 	//manual control of lift
-	if(partner.get_digital(E_CONTROLLER_DIGITAL_Y)){
+	if(partner.get_digital(E_CONTROLLER_DIGITAL_R1)){
 		lift.manual(100);
 	}
-	else if(partner.get_digital(E_CONTROLLER_DIGITAL_A)){
+	else if(partner.get_digital(E_CONTROLLER_DIGITAL_R2)){
 		lift.manual(-100);
-	}
-
-	//Control of Lift Pneumatic
-	if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_R1)){
-		DockPiston.set_state(LOW);
-	}
-	else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_R2)){
-		DockPiston.set_state(HIGH);
 	}
 
 }
