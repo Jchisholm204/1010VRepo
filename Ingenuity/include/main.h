@@ -90,7 +90,8 @@ extern pros::Controller partner;
 
 //SENSORS
 
-extern pros::ADIAnalogIn LiftPOT;
+//extern pros::ADIAnalogIn LiftPOT;
+extern pros::Rotation LiftRotation;
 
 extern pros::ADIGyro absGyro; //resets at beginning of match
 extern pros::ADIGyro posGyro; //resets upon turning

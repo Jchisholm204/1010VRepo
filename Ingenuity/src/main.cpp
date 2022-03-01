@@ -41,7 +41,9 @@ ttl::ADIPiston DockPiston(kPorts::DOCK_PISTON, false);
 
 //	Sensors
 pros::Imu gyro(kPorts::Gyro);
-pros::ADIAnalogIn LiftPOT(kPorts::Lift_Potentiometer);
+//pros::ADIAnalogIn LiftPOT(kPorts::Lift_Potentiometer);
+
+pros::Rotation LiftRotation(kPorts::Lift_Potentiometer);
 
 //	Vision Sensors
 pros::Vision visionSensor(8, pros::E_VISION_ZERO_CENTER);

@@ -70,11 +70,12 @@ void Lift_Task_fn(void*param){
    bool Oncelocal = false;
 
    while(true){
+       printf("%d\n",LiftRotation.get_angle());
       if(lift.lift_manual_exemption == true){
          Oncelocal = false;
       }
       else if(lift.lift_manual_exemption == false && Oncelocal == false){
-         lift.targetValue = LiftPOT.get_value();
+         lift.targetValue = LiftRotation.get_angle()/100;
          Oncelocal = true;
       }
       else{
@@ -101,7 +102,7 @@ void Lift_Task_fn(void*param){
         lift.lift_state_prev = lift.lift_state;
 
    ////////PID LOGIC//////////////////////////////////////
-        currentValue = LiftPOT.get_value();
+        currentValue = LiftRotation.get_angle()/100;
         err = lift.targetValue - currentValue;
         derr = (err - err_last);
         err_last = err;

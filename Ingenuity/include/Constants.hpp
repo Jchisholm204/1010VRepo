@@ -31,7 +31,7 @@ namespace kPorts {
     //#SENSORS#
 
     // Lift Potentiometer; Used to get Absolute Positioning control on the Lift Appratus
-    constexpr int Lift_Potentiometer = 0;
+    constexpr int Lift_Potentiometer = 21;
 
     // Gyro should be installed somewhere close to the center of the robot
     constexpr int Gyro = 0; // (1-21)
@@ -55,7 +55,7 @@ namespace kPorts {
     constexpr int CONVEYER = 0;
 
     // Lift Motor Port
-    constexpr int LIFT = 0;
+    constexpr int LIFT = 20;
 } // namespace kPorts
 
 
@@ -69,14 +69,14 @@ namespace kPorts {
 namespace kLift {
     
     // When the Lift is At the Very Bottom
-    constexpr int TargetValue_Down = 3900;
+    constexpr int TargetValue_Down = 4;
     // Slightly lower than all the way up (useful for putting mogos on platform)
-    constexpr int TargetValue_MidWay = 3000;
+    constexpr int TargetValue_MidWay = 55;
     // All the Way Up (clears platform)
-    constexpr int TargetValue_Up = 580;
+    constexpr int TargetValue_Up = 105;
 
     // Lift Porportional Gain
-    constexpr float kP = 1.8;
+    constexpr float kP = 6.3;
     // Lift Derivitive Gain
     constexpr float kD = 0.8;
 

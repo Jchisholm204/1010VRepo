@@ -82,11 +82,14 @@ void operatorControl(){
 	//Lift//////////////////////////////////////////////////////
 
 	//preset control of lift
-	if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_UP)){
 		lift.up();
 	}
-	else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
+	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_DOWN)){
 		lift.down();
+	}
+	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_RIGHT)){
+		lift.preset(LIFT_MID);
 	}
 	
 	//manual control of lift
