@@ -15,10 +15,12 @@
 #include "ttl/ttl.hpp"
 #include "robot/drive.hpp"
 #include "robot/lift.hpp"
+#include "Constants.hpp"
 
 using namespace pros;
 
 int maxDriveVelocity = 200; //The Maxiumum Velocity the Drivebase can move
+bool conveyerON = false;
 
 void operatorControl(){
 
@@ -39,19 +41,19 @@ void operatorControl(){
 	 */
 
 	//set drive to max speed (good for normal drive)
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X) && maxDriveVelocity == 75){
-		maxDriveVelocity = 200;
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X) && maxDriveVelocity == kOperator::SlowDrive_Velocity){
+		maxDriveVelocity = kOperator::MaximumDrive_Velocity;
 	}
 	//set the drive to really slow (3/8 max - good for platform)
-	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X) && maxDriveVelocity == 200){
-		maxDriveVelocity = 75;
+	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X) && maxDriveVelocity == kOperator::MaximumDrive_Velocity){
+		maxDriveVelocity = kOperator::SlowDrive_Velocity;
 	}
 	
 	if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
-		maxDriveVelocity = 200;
+		maxDriveVelocity = kOperator::MaximumDrive_Velocity;
 	}
 	else if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
-		maxDriveVelocity = 75;
+		maxDriveVelocity = kOperator::SlowDrive_Velocity;
 	}
 
 	drivef.operator_Chassis(maxDriveVelocity); //run the operator drive program
@@ -67,35 +69,35 @@ void operatorControl(){
 
 	//Conveyor//////////////////////////////////////////
 
-	if(master.get_digital(E_CONTROLLER_DIGITAL_R1)){
-		conveyerMotor.move_velocity(600);
-	}
-	else if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
+	if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
+		conveyerON = false;
 		conveyerMotor.move_velocity(-200);
+	}
+	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R1) && conveyerON == true){
+		conveyerON = false;
+	}
+	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R1) && conveyerON == false){
+		conveyerON = true;
+	}
+	else if(conveyerON == true){
+		conveyerMotor.move_velocity(600);
 	}
 	else{
 		conveyerMotor.move_velocity(0);
-	};
+	}
 
 	//Lift//////////////////////////////////////////////////////
 
-	//preset control of lift
+	//Manual Control Of Lift
 	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
-		lift.up();
+		lift.manual(kOperator::Lift_Velocity);
 	}
 	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
-		lift.down();
+		lift.manual(-kOperator::Lift_Velocity);
 	}
+	// Left Trigger Scuff Out Button
 	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_UP)){
-		lift.preset(LIFT_MID);
-	}
-	
-	//manual control of lift
-	if(partner.get_digital(E_CONTROLLER_DIGITAL_R1)){
-		lift.manual(100);
-	}
-	else if(partner.get_digital(E_CONTROLLER_DIGITAL_R2)){
-		lift.manual(-100);
+		lift.down();
 	}
 
 }

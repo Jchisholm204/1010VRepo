@@ -86,5 +86,18 @@ namespace kLift {
 
 } // namespace kLift
 
+/** kOperator
+ * Operator Control Constants
+ */
+namespace kOperator {
+    // The Maximum DriveBase Velocity for Operator Control (out of 200)
+    constexpr int MaximumDrive_Velocity = 200;
+    // The Slow Drive Velocity (used for climbing, also out of 200)
+    constexpr int SlowDrive_Velocity = 70;
+
+    // The Manual Lift Velocity (maximum of 100)
+    constexpr int Lift_Velocity = 100;
+}
+
 
 #endif
