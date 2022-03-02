@@ -24,8 +24,8 @@
 namespace kPorts {
 
     //pnumatic controllers
-    constexpr int LIFT_PISTON = 0; // ( 1 - 8 )  (A - H)
-    constexpr int DOCK_PISTON = 0; // ( 1 - 8 )  (A - H)
+    constexpr int LIFT_PISTON = 0; // ( 1 - 8 ) NOT (A - H)
+    constexpr int DOCK_PISTON = 0; // ( 1 - 8 ) NOT (A - H)
 
 
     //#SENSORS#
@@ -38,24 +38,25 @@ namespace kPorts {
 
     //#MOTORS#
     // Drive Right Back
-    constexpr int driveRB = 0;
+    constexpr int driveRB = 0; // (1-21)
     // Drive Right Middle
-    constexpr int driveRM = 0;
+    constexpr int driveRM = 0; // (1-21)
     // Drive Right Front
-    constexpr int driveRF = 9;
+    constexpr int driveRF = 9; // (1-21)
 
     // Drive Left Back
-    constexpr int driveLB = 0;
+    constexpr int driveLB = 0; // (1-21)
     // Drive Left Middle
-    constexpr int driveLM = 0;
+    constexpr int driveLM = 0; // (1-21)
     // Drive Left Front
-    constexpr int driveLF = 0;
+    constexpr int driveLF = 0; // (1-21)
 
     // Conveyor Motor Port
-    constexpr int CONVEYER = 0;
+    constexpr int CONVEYER = 0; // (1-21)
 
     // Lift Motor Port
-    constexpr int LIFT = 20;
+    constexpr int LIFT = 20; // (1-21)
+    
 } // namespace kPorts
 
 
