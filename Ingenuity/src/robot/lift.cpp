@@ -70,6 +70,19 @@ void Lift_Task_fn(void*param){
    bool Oncelocal = false;
 
    while(true){
+
+       // Logic For Swapping P/D with High Motor Power Draw
+       if(liftMotor.get_power() > kLift::W_Threshold){
+           // Use High Power Values if Power Draw > Threshold
+           lift.liftKp = kLift::kP;
+           lift.liftKd = kLift::kD;
+        }
+        else{
+            // Use Low Power Values if Power Draw < Threshold
+           lift.liftKp = kLift::klP;
+           lift.liftKd = kLift::klD;
+        }
+    
        printf("%d\n",LiftRotation.get_angle());
       if(lift.lift_manual_exemption == true){
          Oncelocal = false;

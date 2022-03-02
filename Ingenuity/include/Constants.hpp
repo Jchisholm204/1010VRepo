@@ -76,13 +76,22 @@ namespace kLift {
     // All the Way Up (clears platform)
     constexpr int TargetValue_Up = 105;
 
-    // Lift Porportional Gain
+    // Lift Porportional Gain (High Draw)
     constexpr float kP = 6.3;
-    // Lift Derivitive Gain
+    // Lift Derivitive Gain (High Draw)
     constexpr float kD = 0.8;
+
+    // Lift Porportional Gain (Low Draw)
+    constexpr float klP = 2.2;
+    // Lift Derivitive Gain (Low Draw)
+    constexpr float klD = 0.4;
+    
 
     // Lift PD Maximum Velocity
     constexpr int Maximum_Velocity = 100;
+
+    // Lift Motor Wattage Threshold for Switching P and D constants
+    constexpr double W_Threshold = 3.6;
 
 } // namespace kLift
 
