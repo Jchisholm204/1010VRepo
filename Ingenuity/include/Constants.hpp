@@ -24,8 +24,8 @@
 namespace kPorts {
 
     //pnumatic controllers
-    constexpr int LIFT_PISTON = 0;
-    constexpr int DOCK_PISTON = 0;
+    constexpr int LIFT_PISTON = 0; // ( 1 - 8 )  (A - H)
+    constexpr int DOCK_PISTON = 0; // ( 1 - 8 )  (A - H)
 
 
     //#SENSORS#
