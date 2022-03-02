@@ -9,4 +9,5 @@ This code will work for "most" AMOGO bots
 # Members
 ## Programmer --- Jacob Chisholm
 ## Driver --- Mathias Stiasny
-## Builder --- Jack Moscovitch
+## Coach --- Jack Moscovitch
+## Builders --- Jack Moscovitch, Mathias Stiasny
