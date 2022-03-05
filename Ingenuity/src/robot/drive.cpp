@@ -47,8 +47,8 @@ void Chassis::setDriveVel(double iVelR, double iVelL){
 }
 
 void Chassis::operator_Chassis(int maxVel){
-	int Yval = exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y), 1.6 /*DriveExp*/, 4 /*JoyDead*/, 15 /*MotorMin*/);
-	int Xval = exponential(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X), 1.4, 4, 10);
+	int Yval = exponential(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y), 3.8 /*DriveExp*/, 4 /*JoyDead*/, 15 /*MotorMin*/);
+	int Xval = exponential(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X), 4.5, 4, 10);
 
 	Xval = (Xval*maxVel/127)*0.85;
 	Yval = Yval*maxVel/127;
