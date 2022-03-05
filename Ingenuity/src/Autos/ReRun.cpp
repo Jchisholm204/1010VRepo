@@ -165,7 +165,7 @@ int recordAuto(int reRunFile, bool recording_disabled, int allottedTime){
 
         //EndEarly Function - allows auto to be cut short of the allotted time
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)){
-            endEarly = true;
+            //endEarly = true;
         }
         //Ends while loop and immediately closes file
 
