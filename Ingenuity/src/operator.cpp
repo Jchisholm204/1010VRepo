@@ -69,17 +69,16 @@ void operatorControl(){
 
 	//Conveyor//////////////////////////////////////////
 
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R1)){
+		conveyerON = !conveyerON;
+	}
+
+
 	if(master.get_digital(E_CONTROLLER_DIGITAL_R2)){
 		conveyerON = false;
 		conveyerMotor.move_velocity(-200);
 	}
-	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R1) && conveyerON == true){
-		conveyerON = false;
-	}
-	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_R1) && conveyerON == false){
-		conveyerON = true;
-	}
-	else if(conveyerON == true){
+	else if(conveyerON){
 		conveyerMotor.move_velocity(600);
 	}
 	else{
@@ -89,14 +88,14 @@ void operatorControl(){
 	//Lift//////////////////////////////////////////////////////
 
 	//Manual Control Of Lift
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){
+	if(master.get_digital(E_CONTROLLER_DIGITAL_L1)){
 		lift.manual(kOperator::Lift_Velocity);
 	}
-	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_L2)){
+	else if(master.get_digital(E_CONTROLLER_DIGITAL_L2)){
 		lift.manual(-kOperator::Lift_Velocity);
 	}
 	// Left Trigger Scuff Out Button
-	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_UP)){
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_UP)){
 		lift.down();
 	}
 
