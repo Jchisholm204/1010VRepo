@@ -21,6 +21,7 @@ using namespace pros;
 
 int maxDriveVelocity = 200; //The Maxiumum Velocity the Drivebase can move
 bool conveyerON = false;
+bool slowDriveON = false;
 
 void operatorControl(){
 
@@ -41,12 +42,16 @@ void operatorControl(){
 	 */
 
 	//set drive to max speed (good for normal drive)
-	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X) && maxDriveVelocity == kOperator::SlowDrive_Velocity){
-		maxDriveVelocity = kOperator::MaximumDrive_Velocity;
+	if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X)){
+		slowDriveON = !slowDriveON;
 	}
+
 	//set the drive to really slow (3/8 max - good for platform)
-	else if(master.get_digital_new_press(E_CONTROLLER_DIGITAL_X) && maxDriveVelocity == kOperator::MaximumDrive_Velocity){
+	if(slowDriveON){
 		maxDriveVelocity = kOperator::SlowDrive_Velocity;
+	}
+	else{
+		maxDriveVelocity = kOperator::MaximumDrive_Velocity;
 	}
 	
 	if(partner.get_digital_new_press(E_CONTROLLER_DIGITAL_L1)){

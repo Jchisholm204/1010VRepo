@@ -55,7 +55,7 @@ Display display;
 void initialize() {
 	display.createScreen(); // Create all of the basic screen elements
 	display.refresh(); // Update battery data to the display for the first time
-	lv_btn_set_toggle(recording_enabled_btn, false); //make sure recording is OFF
+	//lv_btn_set_toggle(recording_enabled_btn, false); //make sure recording is OFF
 	//display.msg("Display Initialized, Giro ON", 800);
 
 	//	Brake Modes - Drive
@@ -132,7 +132,7 @@ void opcontrol() {
 	}
 
 	else if(recording_enabled && SelectedAuto/*Do NOT allow recording if no auto selected*/ != 0 && SelectedAuto/*or if norm skills selected*/ != 3){
-		recordAuto(SelectedAuto, !recording_enabled, autoLength);
+		recordAuto(SelectedAuto, false, autoLength);
 		display.msg("Auto Recorded:\n" + SelectedAuto);
 	}
 
