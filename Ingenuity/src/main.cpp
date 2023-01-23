@@ -1,11 +1,17 @@
-/* Ingenuity - main.cpp
-/* - main.h
-* Main File Containing all nessasary calls to operations
-
-# Written By: Jacob Chisholm
-# Written For: Ten Ton Vex Robotics Team 1010V
-
-*/
+/**
+ * @file main.cpp
+ * @author Jacob Chisholm (jchisholm204.github.io)
+ * @brief Ingenuity - main.cpp
+ * @version 0.1
+ * @date 2022-03-07
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ * Ingenuity
+ * Main file containing all necessary calls to operations
+ * Written for Ten Ton Vex Robotics Team 1010V
+ * 
+ */
 
 #include "main.h"
 #include "ttl/ttl.hpp"
